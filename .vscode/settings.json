@@ -1,0 +1,9 @@
+{
+  typescript.tsdk: node_modules/typescript/lib,
+  editor.formatOnSave: true,
+  files.exclude: {
+    **/.git: true,
+    **/.next: false,
+    **/node_modules: false
+  }
+}
