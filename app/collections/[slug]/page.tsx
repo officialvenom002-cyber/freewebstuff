@@ -10,6 +10,11 @@ interface CollectionPageProps {
   params: { slug: string };
 }
 
+export async function generateStaticParams() {
+  const { getAllCollections } = await import("@/lib/db/store");
+  return getAllCollections().map((c) => ({ slug: c.slug }));
+}
+
 const iconMap: Record<string, React.ElementType> = {
   Bot,
   Code2,

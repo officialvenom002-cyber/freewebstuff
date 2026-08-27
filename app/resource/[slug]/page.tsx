@@ -28,6 +28,11 @@ interface ResourcePageProps {
   params: { slug: string };
 }
 
+export async function generateStaticParams() {
+  const { getAllResources } = await import("@/lib/db/store");
+  return getAllResources().map((r) => ({ slug: r.slug }));
+}
+
 export async function generateMetadata({ params }: ResourcePageProps) {
   const resource = getResourceBySlug(params.slug);
   if (!resource) return { title: "Resource Not Found" };

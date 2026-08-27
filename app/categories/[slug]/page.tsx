@@ -41,6 +41,11 @@ interface CategoryPageProps {
   searchParams?: { sub?: string; sort?: string };
 }
 
+export async function generateStaticParams() {
+  const { getAllCategories } = await import("@/lib/db/store");
+  return getAllCategories().map((c) => ({ slug: c.slug }));
+}
+
 const iconMap: Record<string, React.ElementType> = {
   Bot,
   ShieldCheck,
