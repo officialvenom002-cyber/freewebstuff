@@ -3,7 +3,16 @@ import { CATEGORIES } from "./categories";
 import { SEED_RESOURCES, SEED_COLLECTIONS, SEED_CHANGELOG } from "./seedData";
 
 // In-memory persistent state (simulating database layer with realistic initial state)
-let resources: Resource[] = [...SEED_RESOURCES];
+let resources: Resource[] = SEED_RESOURCES.map((r: any) => ({
+  ...r,
+  communityRating: typeof r.communityRating === "number" ? r.communityRating : parseFloat(r.communityRating) || 4.5,
+  reviewCount: typeof r.reviewCount === "number" ? r.reviewCount : parseInt(r.reviewCount, 10) || 0,
+  helpfulCount: typeof r.helpfulCount === "number" ? r.helpfulCount : parseInt(r.helpfulCount, 10) || 0,
+  unhelpfulCount: typeof r.unhelpfulCount === "number" ? r.unhelpfulCount : parseInt(r.unhelpfulCount, 10) || 0,
+  viewCount: typeof r.viewCount === "number" ? r.viewCount : parseInt(r.viewCount, 10) || 0,
+  clickCount: typeof r.clickCount === "number" ? r.clickCount : parseInt(r.clickCount, 10) || 0,
+  bookmarkCount: typeof r.bookmarkCount === "number" ? r.bookmarkCount : parseInt(r.bookmarkCount, 10) || 0,
+}));
 let collections: Collection[] = [...SEED_COLLECTIONS];
 let changelog: ChangelogItem[] = [...SEED_CHANGELOG];
 let submissions: Submission[] = [

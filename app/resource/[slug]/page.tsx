@@ -118,7 +118,7 @@ export default function ResourceDetailPage({ params }: ResourcePageProps) {
               <div className="flex items-center gap-3 text-xs text-content-muted flex-wrap pt-1">
                 <span className="flex items-center gap-1 text-amber-400 font-bold">
                   <Star className="w-3.5 h-3.5 fill-amber-400" />
-                  {resource.communityRating.toFixed(1)} / 5.0
+                  {Number(resource.communityRating || 4.5).toFixed(1)} / 5.0
                 </span>
                 <span>&bull;</span>
                 <span className="flex items-center gap-1">

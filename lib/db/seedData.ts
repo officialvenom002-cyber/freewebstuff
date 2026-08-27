@@ -1,6 +1,6 @@
 import { Resource, Collection, ChangelogItem } from "../types";
 
-export const SEED_RESOURCES: Resource[] = [
+export const SEED_RESOURCES: any[] = [
   {
     "id": "privacy-bilibilisponsorblock-r5u9",
     "name": "BilibiliSponsorBlock",

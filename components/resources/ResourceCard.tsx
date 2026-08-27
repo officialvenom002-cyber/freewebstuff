@@ -77,7 +77,7 @@ export default function ResourceCard({ resource, compact = false }: ResourceCard
         <div className="flex items-center gap-2 shrink-0">
           <div className="hidden sm:flex items-center gap-1 text-xs text-amber-400 font-medium">
             <Star className="w-3.5 h-3.5 fill-amber-400" />
-            <span>{resource.communityRating.toFixed(1)}</span>
+            <span>{Number(resource.communityRating || 4.5).toFixed(1)}</span>
           </div>
           <BookmarkButton resource={resource} />
           <a
@@ -118,7 +118,7 @@ export default function ResourceCard({ resource, compact = false }: ResourceCard
                 <span>&bull;</span>
                 <span className="flex items-center gap-1 text-amber-400 font-semibold">
                   <Star className="w-3 h-3 fill-amber-400" />
-                  {resource.communityRating.toFixed(1)}
+                  {Number(resource.communityRating || 4.5).toFixed(1)}
                 </span>
               </div>
             </div>

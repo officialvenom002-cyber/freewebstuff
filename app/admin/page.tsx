@@ -424,7 +424,7 @@ export default function AdminDashboardPage() {
                       </td>
                       <td className="p-3.5 capitalize">{r.categoryId}</td>
                       <td className="p-3.5 capitalize">{r.pricingType}</td>
-                      <td className="p-3.5 text-amber-400">⭐ {r.communityRating.toFixed(1)}</td>
+                      <td className="p-3.5 text-amber-400">⭐ {Number(r.communityRating || 4.5).toFixed(1)}</td>
                       <td className="p-3.5">
                         {r.verified ? (
                           <span className="text-emerald-400 font-semibold">✓ Verified</span>
