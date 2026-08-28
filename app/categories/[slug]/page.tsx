@@ -36,7 +36,6 @@ import {
   HardDrive
 } from "lucide-react";
 
-export const runtime = "edge";
 
 interface CategoryPageProps {
   params: { slug: string };

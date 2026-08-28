@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getResourceBySlug, updateResource, deleteResource } from "@/lib/db/store";
 
-export const runtime = "edge";
 
 export async function GET(
   request: NextRequest,

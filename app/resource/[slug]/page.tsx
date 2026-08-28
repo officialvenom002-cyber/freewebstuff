@@ -24,7 +24,6 @@ import {
   MousePointerClick
 } from "lucide-react";
 
-export const runtime = "edge";
 export const dynamicParams = true;
 
 interface ResourcePageProps {
