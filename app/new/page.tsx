@@ -5,7 +5,7 @@ import { Clock, PlusCircle, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Recently Added Resources | FreeInternetStuff",
+  title: "Recently Added Resources | FreeWebStuff",
   description: "Freshly approved and indexed websites, software, and tools submitted by the community.",
 };
 
@@ -24,7 +24,7 @@ export default function RecentlyAddedPage() {
             Recently Added to the Index
           </h1>
           <p className="text-xs sm:text-sm text-content-muted">
-            The newest verified entries added to FreeInternetStuff through the community submission queue.
+            The newest verified entries added to FreeWebStuff through the community submission queue.
           </p>
         </div>
 

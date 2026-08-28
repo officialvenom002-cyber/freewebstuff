@@ -44,13 +44,13 @@ export async function generateMetadata({ params }: ResourcePageProps) {
     title: `${resource.name} - ${resource.tagline}`,
     description: resource.description,
     openGraph: {
-      title: `${resource.name} | FreeInternetStuff Directory`,
+      title: `${resource.name} | FreeWebStuff Directory`,
       description: resource.description,
-      url: `https://freeinternetstuff.net/resource/${resource.slug}`,
+      url: `https://freewebstuff.net/resource/${resource.slug}`,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${resource.name} | FreeInternetStuff Directory`,
+      title: `${resource.name} | FreeWebStuff Directory`,
       description: resource.description,
     },
   };

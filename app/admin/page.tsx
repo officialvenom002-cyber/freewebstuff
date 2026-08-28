@@ -161,7 +161,7 @@ export default function AdminDashboardPage() {
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/25">
             <Shield className="w-3.5 h-3.5" />
-            FreeInternetStuff Admin Console
+            FreeWebStuff Admin Console
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-content-primary">
             Platform Operations &amp; Moderation

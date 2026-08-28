@@ -1,6 +1,6 @@
 import { Resource, Category, Collection } from "../types";
 
-export function generateResourceSchema(resource: Resource, baseUrl = "https://freeinternetstuff.net") {
+export function generateResourceSchema(resource: Resource, baseUrl = "https://freewebstuff.net") {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -27,7 +27,7 @@ export function generateResourceSchema(resource: Resource, baseUrl = "https://fr
   };
 }
 
-export function generateCollectionSchema(collection: Collection, resources: Resource[], baseUrl = "https://freeinternetstuff.net") {
+export function generateCollectionSchema(collection: Collection, resources: Resource[], baseUrl = "https://freewebstuff.net") {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -44,7 +44,7 @@ export function generateCollectionSchema(collection: Collection, resources: Reso
   };
 }
 
-export function generateCategorySchema(category: Category, resourceCount: number, baseUrl = "https://freeinternetstuff.net") {
+export function generateCategorySchema(category: Category, resourceCount: number, baseUrl = "https://freewebstuff.net") {
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -58,11 +58,11 @@ export function generateCategorySchema(category: Category, resourceCount: number
   };
 }
 
-export function generateWebSiteSchema(baseUrl = "https://freeinternetstuff.net") {
+export function generateWebSiteSchema(baseUrl = "https://freewebstuff.net") {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "FreeInternetStuff",
+    name: "FreeWebStuff",
     url: baseUrl,
     potentialAction: {
       "@type": "SearchAction",

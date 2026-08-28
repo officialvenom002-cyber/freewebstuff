@@ -240,10 +240,10 @@ export default function HomePage() {
       <header className="navbar">
         <div className="nav-inner">
 
-          <Link href="/" className="brand group" title="FINS">
+          <Link href="/" className="brand group" title="FWSF">
             <Logo className="w-8 h-8 sm:w-9 sm:h-9" />
             <span className="brand-name font-extrabold tracking-wider text-white text-base sm:text-lg">
-              FINS
+              FWSF
             </span>
           </Link>
 
@@ -367,7 +367,7 @@ export default function HomePage() {
           <div className="hero-content">
 
             <h1 className="hero-title">
-              freeinternetstuff
+              freewebstuff
             </h1>
 
             <p className="hero-description">

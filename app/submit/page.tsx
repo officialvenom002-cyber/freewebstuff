@@ -117,7 +117,7 @@ function SubmitResourceContent() {
           Resource Submitted for Review!
         </h1>
         <p className="text-sm text-content-muted leading-relaxed">
-          Thank you for contributing to FreeInternetStuff. Our moderation team will verify the link integrity, safety status, and categorization before publishing it to the live directory.
+          Thank you for contributing to FreeWebStuff. Our moderation team will verify the link integrity, safety status, and categorization before publishing it to the live directory.
         </p>
         <div className="pt-4 flex items-center justify-center gap-3">
           <button

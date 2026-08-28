@@ -26,8 +26,8 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "FreeInternetStuff | Modern Curated Directory & Search Engine for Web Tools",
-    template: "%s | FreeInternetStuff",
+    default: "FreeWebStuff | Modern Curated Directory & Search Engine for Web Tools",
+    template: "%s | FreeWebStuff",
   },
   description:
     "Discover the internet's best resources, software, developer tools, AI models, and privacy utilities. A lightning-fast, community-curated index without clutter.",
@@ -41,20 +41,20 @@ export const metadata: Metadata = {
     "AI models",
     "productive tools",
   ],
-  authors: [{ name: "FreeInternetStuff Community" }],
-  creator: "FreeInternetStuff",
-  metadataBase: new URL("https://freeinternetstuff.net"),
+  authors: [{ name: "FreeWebStuff Community" }],
+  creator: "FreeWebStuff",
+  metadataBase: new URL("https://freewebstuff.net"),
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://freeinternetstuff.net",
-    siteName: "FreeInternetStuff",
-    title: "FreeInternetStuff | Discover Curated Web Resources & Software",
+    url: "https://freewebstuff.net",
+    siteName: "FreeWebStuff",
+    title: "FreeWebStuff | Discover Curated Web Resources & Software",
     description: "Search and explore 12,000+ curated tools, open-source software, and AI assistants across 24 categories.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "FreeInternetStuff | Discover Curated Web Resources & Software",
+    title: "FreeWebStuff | Discover Curated Web Resources & Software",
     description: "Search and explore 12,000+ curated tools, open-source software, and AI assistants.",
   },
   robots: {
@@ -80,7 +80,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/logo.png" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("fins-theme")||"matte-sepia";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem("fwsf-theme")||localStorage.getItem("fins-theme")||"matte-sepia";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`,
           }}
         />
         <script

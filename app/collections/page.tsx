@@ -4,7 +4,7 @@ import { getAllCollections, getAllResources } from "@/lib/db/store";
 import { Layers, Sparkles, ArrowRight, Bot, Code2, ShieldCheck, CheckSquare } from "lucide-react";
 
 export const metadata = {
-  title: "Curated Collections | FreeInternetStuff Directory",
+  title: "Curated Collections | FreeWebStuff Directory",
   description: "Thematic collections of the best free software, AI assistants, developer utilities, and privacy tools.",
 };
 

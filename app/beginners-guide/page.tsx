@@ -3,15 +3,15 @@ import Link from "next/link";
 import { BookOpen, Shield, Search, Star, AlertTriangle, CheckCircle2, Lock, Zap, Globe, Users } from "lucide-react";
 
 export const metadata = {
-  title: "Beginner's Guide — FreeInternetStuff",
-  description: "New here? Learn how to use FreeInternetStuff safely, discover the best tools, and set up your privacy toolkit.",
+  title: "Beginner's Guide — FreeWebStuff",
+  description: "New here? Learn how to use FreeWebStuff safely, discover the best tools, and set up your privacy toolkit.",
 };
 
 const faqs = [
   {
     section: "Getting Started", icon: Zap, color: "#7C5CFF",
     items: [
-      { q: "What is FreeInternetStuff?", a: "FreeInternetStuff is a modern, curated directory of the internet's best tools, websites, software, and resources. Every entry is manually reviewed, verified, and categorized." },
+      { q: "What is FreeWebStuff?", a: "FreeWebStuff is a modern, curated directory of the internet's best tools, websites, software, and resources. Every entry is manually reviewed, verified, and categorized." },
       { q: "How do I find something?", a: "Use the search bar at the top — it searches names, descriptions, and tags. Press Ctrl+K anywhere for instant spotlight search. You can also browse Categories, check Trending, or explore curated Collections." },
       { q: "What do the badges mean?", a: "Verified = manually checked and live. Safe = clean safety record. Free / Open Source = costs nothing. Editor's Choice = top-tier pick. Freemium = free tier with paid upgrades." },
     ]
@@ -49,7 +49,7 @@ export default function BeginnersGuidePage() {
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">
           <BookOpen className="w-3.5 h-3.5" /> Beginner&apos;s Guide
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-content-primary tracking-tight">Welcome to FreeInternetStuff</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-content-primary tracking-tight">Welcome to FreeWebStuff</h1>
         <p className="text-sm text-content-muted max-w-xl mx-auto leading-relaxed">
           New here? This guide covers everything you need — how to search, stay safe, protect your privacy, and get the most out of the directory.
         </p>

@@ -62,11 +62,11 @@ export default function Header() {
           {/* Left: Cosmic Ring Logo + Pill Search Bar */}
           <div className="flex items-center gap-3 sm:gap-4">
             
-            {/* Glowing Planet Emblem Logo + FINS Brand */}
-            <Link href="/" className="flex items-center gap-2.5 group shrink-0" title="FINS">
+            {/* Glowing Planet Emblem Logo + FWSF Brand */}
+            <Link href="/" className="flex items-center gap-2.5 group shrink-0" title="FWSF">
               <Logo className="w-8 h-8 sm:w-9 sm:h-9" />
               <span className="brand-name font-extrabold tracking-wider text-white text-base sm:text-lg">
-                FINS
+                FWSF
               </span>
             </Link>
 

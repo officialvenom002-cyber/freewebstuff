@@ -106,7 +106,7 @@ export default function ThemeSelector({
 
   // Read stored theme on mount
   useEffect(() => {
-    const saved = localStorage.getItem("fins-theme") || "matte-sepia";
+    const saved = localStorage.getItem("fwsf-theme") || localStorage.getItem("fins-theme") || "matte-sepia";
     const exists = MATTE_THEMES.some((t) => t.id === saved);
     const resolvedTheme = exists ? saved : "matte-sepia";
     
@@ -127,7 +127,7 @@ export default function ThemeSelector({
 
   const handleSelectTheme = (themeId: string) => {
     setCurrentTheme(themeId);
-    localStorage.setItem("fins-theme", themeId);
+    localStorage.setItem("fwsf-theme", themeId);
     document.documentElement.setAttribute("data-theme", themeId);
     setIsOpen(false);
   };

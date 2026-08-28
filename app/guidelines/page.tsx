@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ShieldCheck, Check, X, AlertTriangle } from "lucide-react";
 
 export const metadata = {
-  title: "Inclusion Guidelines & Safety Standards | FreeInternetStuff",
+  title: "Inclusion Guidelines & Safety Standards | FreeWebStuff",
   description: "Standards and policies for verifying, indexing, and moderating external software and website links.",
 };
 
@@ -19,7 +19,7 @@ export default function GuidelinesPage() {
           Directory Inclusion Guidelines
         </h1>
         <p className="text-sm text-content-muted">
-          How we review, verify, categorize, and moderate external tools before inclusion in FreeInternetStuff.
+          How we review, verify, categorize, and moderate external tools before inclusion in FreeWebStuff.
         </p>
       </div>
 
@@ -29,7 +29,7 @@ export default function GuidelinesPage() {
         <section className="p-6 rounded-2xl bg-surface border border-surface-border space-y-4">
           <h2 className="text-lg font-bold text-content-primary">1. Core Inclusion Criteria</h2>
           <p>
-            To be considered for indexing on FreeInternetStuff, a website, tool, or software application must meet our baseline criteria:
+            To be considered for indexing on FreeWebStuff, a website, tool, or software application must meet our baseline criteria:
           </p>
           <ul className="space-y-2.5">
             <li className="flex items-start gap-2.5">

@@ -4,7 +4,7 @@ import ResourceCard from "@/components/resources/ResourceCard";
 import { Flame, Sparkles, TrendingUp, Info } from "lucide-react";
 
 export const metadata = {
-  title: "Trending Resources & Popular Software | FreeInternetStuff",
+  title: "Trending Resources & Popular Software | FreeWebStuff",
   description: "Discover what the developer and privacy community is discovering, bookmarking, and rating highest this week.",
 };
 

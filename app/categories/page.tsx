@@ -77,7 +77,7 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export const metadata = {
-  title: "All Categories | FreeInternetStuff Directory",
+  title: "All Categories | FreeWebStuff Directory",
   description: "Browse 23 curated categories indexing over 15,000 verified free resources, software, media, tools, and community picks.",
 };
 

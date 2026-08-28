@@ -74,7 +74,7 @@ function ReportContent() {
         </div>
         <h1 className="text-2xl font-bold text-content-primary">Report Received</h1>
         <p className="text-sm text-content-muted leading-relaxed">
-          Thank you for keeping FreeInternetStuff clean and safe. Our moderation team has queued this item for investigation.
+          Thank you for keeping FreeWebStuff clean and safe. Our moderation team has queued this item for investigation.
         </p>
       </div>
     );

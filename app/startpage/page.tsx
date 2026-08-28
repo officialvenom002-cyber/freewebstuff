@@ -59,7 +59,7 @@ export default function StartpagePage() {
         <div className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-surface border border-surface-border text-xs text-content-muted">
           <div className="flex items-center gap-2">
             <Home className="w-3.5 h-3.5 text-brand-400" />
-            Set FreeInternetStuff as your browser&apos;s new tab for instant access
+            Set FreeWebStuff as your browser&apos;s new tab for instant access
           </div>
           <Link href="/beginners-guide" className="text-brand-400 hover:underline shrink-0 ml-2">How? →</Link>
         </div>
@@ -74,7 +74,7 @@ export default function StartpagePage() {
           <div className="pl-4 shrink-0">
             <Search className="w-5 h-5 text-brand-400" />
           </div>
-          <input type="text" value={q} onChange={e => setQ(e.target.value)} placeholder="Search FreeInternetStuff..." autoFocus
+          <input type="text" value={q} onChange={e => setQ(e.target.value)} placeholder="Search FreeWebStuff..." autoFocus
             className="w-full py-4 px-3 bg-transparent text-content-primary placeholder-content-subtle text-base outline-none font-medium" />
           <button type="submit" className="m-2 px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 active:scale-95 text-white font-semibold text-sm transition-all shrink-0">
             Search

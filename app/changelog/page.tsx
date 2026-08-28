@@ -477,7 +477,7 @@ export default function ChangelogTrackerPage() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(filteredChanges, null, 2));
     const downloadAnchor = document.createElement("a");
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `fins-tracker-changes-${new Date().toISOString().slice(0, 10)}.json`);
+    downloadAnchor.setAttribute("download", `fwsf-tracker-changes-${new Date().toISOString().slice(0, 10)}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -610,7 +610,7 @@ export default function ChangelogTrackerPage() {
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-          FINS Tracker
+          FWSF Tracker
         </h1>
 
         <p className="text-xs sm:text-sm text-slate-200 max-w-2xl mx-auto leading-relaxed">

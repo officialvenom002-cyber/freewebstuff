@@ -84,7 +84,7 @@ export async function generateMetadata({ params }: CategoryPageProps) {
     title: `${category.name} Tools & Resources`,
     description: category.description,
     openGraph: {
-      title: `${category.name} Tools & Resources | FreeInternetStuff`,
+      title: `${category.name} Tools & Resources | FreeWebStuff`,
       description: category.description,
     },
   };

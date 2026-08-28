@@ -1,7 +1,7 @@
 import React from "react";
 
 export const metadata = {
-  title: "Terms of Service & Indexing Disclaimer | FreeInternetStuff",
+  title: "Terms of Service & Indexing Disclaimer | FreeWebStuff",
   description: "Terms of service, directory indexing disclaimer, and copyright notices.",
 };
 
@@ -18,17 +18,17 @@ export default function TermsPage() {
       <section id="indexing-disclaimer" className="p-6 rounded-2xl bg-surface border border-surface-border space-y-3">
         <h2 className="text-lg font-bold text-content-primary">1. Search Directory &amp; Indexing Disclaimer</h2>
         <p>
-          FreeInternetStuff functions exclusively as an informational search engine, discovery directory, and bookmarking aggregator for public third-party websites, software utilities, and digital tools.
+          FreeWebStuff functions exclusively as an informational search engine, discovery directory, and bookmarking aggregator for public third-party websites, software utilities, and digital tools.
         </p>
         <p>
-          FreeInternetStuff <strong>does not host, store, mirror, or directly distribute</strong> any third-party software binaries, installer files, or media files. Outbound hyperlinks direct users directly to original developer and publisher domains.
+          FreeWebStuff <strong>does not host, store, mirror, or directly distribute</strong> any third-party software binaries, installer files, or media files. Outbound hyperlinks direct users directly to original developer and publisher domains.
         </p>
       </section>
 
       <section className="p-6 rounded-2xl bg-surface border border-surface-border space-y-3">
         <h2 className="text-lg font-bold text-content-primary">2. External Links &amp; User Discretion</h2>
         <p>
-          While FreeInternetStuff implements regular automated and community verification reviews, we do not control external third-party sites and assume no liability for content, software changes, or privacy practices on third-party domains.
+          While FreeWebStuff implements regular automated and community verification reviews, we do not control external third-party sites and assume no liability for content, software changes, or privacy practices on third-party domains.
         </p>
       </section>
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 export const metadata = {
-  title: "Privacy Policy | FreeInternetStuff",
+  title: "Privacy Policy | FreeWebStuff",
   description: "Privacy-first architecture, zero tracking policies, and local data storage details.",
 };
 
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       <section className="p-6 rounded-2xl bg-surface border border-surface-border space-y-3">
         <h2 className="text-lg font-bold text-content-primary">1. Our Commitment to Zero Telemetry</h2>
         <p>
-          FreeInternetStuff was built with a strict privacy-first architecture. We do not sell user data, utilize invasive cross-site tracking cookies, or fingerprint user browser configurations.
+          FreeWebStuff was built with a strict privacy-first architecture. We do not sell user data, utilize invasive cross-site tracking cookies, or fingerprint user browser configurations.
         </p>
       </section>
 

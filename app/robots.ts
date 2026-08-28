@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin/", "/api/admin/"],
     },
-    sitemap: "https://freeinternetstuff.net/sitemap.xml",
+    sitemap: "https://freewebstuff.net/sitemap.xml",
   };
 }

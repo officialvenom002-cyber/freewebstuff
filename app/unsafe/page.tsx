@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ShieldOff, AlertTriangle, Shield } from "lucide-react";
 
 export const metadata = {
-  title: "Unsafe Sites — FreeInternetStuff SafeGuard",
+  title: "Unsafe Sites — FreeWebStuff SafeGuard",
   description: "Sites flagged for malware, trackers, deceptive practices, or security issues.",
 };
 

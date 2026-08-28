@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Trash2, AlertTriangle, ExternalLink, Search } from "lucide-react";
 
 export const metadata = {
-  title: "Recently Removed — FreeInternetStuff",
-  description: "Transparent log of resources removed from FreeInternetStuff with reasons and alternatives.",
+  title: "Recently Removed — FreeWebStuff",
+  description: "Transparent log of resources removed from FreeWebStuff with reasons and alternatives.",
 };
 
 const removedResources = [
@@ -34,7 +34,7 @@ export default function RecentlyRemovedPage() {
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-content-primary tracking-tight">Removed from Index</h1>
         <p className="text-sm text-content-muted leading-relaxed">
-          Full transparent log of resources removed from FreeInternetStuff, with reasons and alternatives. Useful for finding what replaced them.
+          Full transparent log of resources removed from FreeWebStuff, with reasons and alternatives. Useful for finding what replaced them.
         </p>
       </div>
 

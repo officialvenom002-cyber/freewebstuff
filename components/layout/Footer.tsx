@@ -15,10 +15,10 @@ export default function Footer() {
               <Logo className="w-8 h-8" />
               <div className="flex items-baseline gap-1.5">
                 <span className="font-extrabold text-lg tracking-wider text-white group-hover:text-sky-300 transition-colors">
-                  FINS
+                  FWSF
                 </span>
                 <span className="text-xs text-slate-400 font-medium">
-                  (FreeInternetStuff)
+                  (FreeWebStuff)
                 </span>
               </div>
             </Link>
@@ -75,13 +75,13 @@ export default function Footer() {
 
         {/* Disclaimer Notice */}
         <div className="py-6 text-xs text-content-muted/80 border-b border-surface-border/40 leading-relaxed">
-          <strong className="text-content-secondary">Notice & Indexing Policy:</strong> FreeInternetStuff operates solely as an index and discovery directory of publicly available web resources, open-source software, and developer tools. FreeInternetStuff does not host third-party files, binaries, or streams on its servers. All product names, logos, and brands are property of their respective owners.
+          <strong className="text-content-secondary">Notice & Indexing Policy:</strong> FreeWebStuff operates solely as an index and discovery directory of publicly available web resources, open-source software, and developer tools. FreeWebStuff does not host third-party files, binaries, or streams on its servers. All product names, logos, and brands are property of their respective owners.
         </div>
 
         {/* Bottom Bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-content-muted">
           <div>
-            &copy; {new Date().getFullYear()} FreeInternetStuff. Free and community curated.
+            &copy; {new Date().getFullYear()} FreeWebStuff. Free and community curated.
           </div>
           <div className="flex items-center gap-4">
             <Link href="/sitemap.xml" className="hover:text-brand-400 transition-colors">
