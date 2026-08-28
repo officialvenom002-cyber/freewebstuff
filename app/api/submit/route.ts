@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSubmission, getAllResources } from "@/lib/db/store";
 import { validateAndParseUrl } from "@/lib/validation/urlChecker";
 
+export const runtime = "edge";
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

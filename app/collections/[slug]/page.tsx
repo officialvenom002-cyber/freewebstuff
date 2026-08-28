@@ -6,6 +6,8 @@ import { generateCollectionSchema } from "@/lib/seo/schema";
 import ResourceCard from "@/components/resources/ResourceCard";
 import { ArrowLeft, Layers, Sparkles, Bot, Code2, ShieldCheck, CheckSquare } from "lucide-react";
 
+export const runtime = "edge";
+
 interface CollectionPageProps {
   params: { slug: string };
 }

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAllResources, filterResources, createResource } from "@/lib/db/store";
 import { FilterOptions } from "@/lib/types";
 
+export const runtime = "edge";
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get("category") || undefined;

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { recordResourceClick } from "@/lib/db/store";
 
+export const runtime = "edge";
+
 export async function POST(
   request: NextRequest,
   { params }: { params: { slug: string } }

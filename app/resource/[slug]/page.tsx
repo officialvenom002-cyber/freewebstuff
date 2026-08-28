@@ -24,13 +24,17 @@ import {
   MousePointerClick
 } from "lucide-react";
 
+export const runtime = "edge";
+export const dynamicParams = true;
+
 interface ResourcePageProps {
   params: { slug: string };
 }
 
 export async function generateStaticParams() {
   const { getAllResources } = await import("@/lib/db/store");
-  return getAllResources().map((r) => ({ slug: r.slug }));
+  // Only pre-render top 30 featured resources to keep build times under 30s
+  return getAllResources().slice(0, 30).map((r) => ({ slug: r.slug }));
 }
 
 export async function generateMetadata({ params }: ResourcePageProps) {
