@@ -120,7 +120,7 @@ export default function CategoriesPage() {
                   </span>
                 </div>
 
-                <Link href={`/categories/${cat.slug}`}>
+                <Link href={`/categories/${cat.slug}`} prefetch={true}>
                   <h2 className="text-lg font-bold text-content-primary group-hover:text-brand-400 transition-colors duration-200">
                     {cat.name}
                   </h2>
@@ -136,6 +136,7 @@ export default function CategoriesPage() {
                       <Link
                         key={sub.id}
                         href={`/categories/${cat.slug}?sub=${sub.id}`}
+                        prefetch={true}
                         className="text-[11px] px-2 py-0.5 rounded-md bg-surface-secondary text-content-muted hover:text-content-primary hover:border-brand-500/30 border border-surface-border/60 transition-all duration-150 hover:bg-surface-hover"
                       >
                         {sub.name}
@@ -148,6 +149,7 @@ export default function CategoriesPage() {
               <div className="pt-6 mt-4 border-t border-surface-border/50 flex items-center justify-between">
                 <Link
                   href={`/categories/${cat.slug}`}
+                  prefetch={true}
                   className="text-xs font-semibold text-brand-400 hover:text-brand-300 transition-colors duration-150 flex items-center gap-1 group/link"
                 >
                   <span>Explore {cat.name}</span>

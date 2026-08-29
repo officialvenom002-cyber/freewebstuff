@@ -437,6 +437,7 @@ export default function HomePage() {
                 <Link 
                   key={cat.id} 
                   href={`/categories/${cat.slug}`} 
+                  prefetch={true}
                   className="category-card group"
                 >
                   <div>

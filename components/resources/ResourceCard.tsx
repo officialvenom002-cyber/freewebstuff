@@ -185,7 +185,7 @@ export default function ResourceCard({ resource, compact = false }: ResourceCard
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleOutboundClick}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-secondary hover:bg-brand-600 text-content-primary hover:text-white border border-surface-border hover:border-transparent text-xs font-semibold transition-all shadow-sm"
+          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-secondary hover:bg-brand-600 text-content-primary hover:text-white border border-surface-border hover:border-transparent text-[11px] font-semibold transition-all shadow-sm"
         >
           <span>Visit Website</span>
           <ExternalLink className="w-3 h-3" />

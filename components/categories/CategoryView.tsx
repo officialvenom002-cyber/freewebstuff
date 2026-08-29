@@ -9,7 +9,6 @@ import {
   Info,
 } from "lucide-react";
 import { Category, Resource } from "@/lib/types";
-import allCategorySectionsData from "@/lib/db/allCategorySections.json";
 
 // FMHY exact Wiki & Tools Category Structure for the Left Column
 const FMHY_SIDEBAR_WIKI = [
@@ -42,7 +41,7 @@ const FMHY_SIDEBAR_TOOLS = [
   { slug: "storage",            name: "Storage",             emoji: "☁️", href: "/categories/storage" },
 ];
 
-interface PrivacySectionItem {
+export interface PrivacySectionItem {
   id: string;
   raw: string;
   isStarred: boolean;
@@ -50,7 +49,7 @@ interface PrivacySectionItem {
   isCrossLink: boolean;
 }
 
-interface PrivacySection {
+export interface PrivacySection {
   id: string;
   slug: string;
   title: string;
@@ -63,11 +62,12 @@ interface PrivacySection {
 interface CategoryViewProps {
   category: Category;
   allResources: Resource[];
+  initialSectionsProp?: PrivacySection[];
   initialSub?: string;
   initialSort?: string;
 }
 
-// Parse markdown text with comfortable larger typography matching FMHY density
+// Parse markdown text with refined, compact and readable typography
 function parseMarkdownInline(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
   let remaining = text;
@@ -99,7 +99,7 @@ function parseMarkdownInline(text: string): React.ReactNode[] {
             href={href}
             target={isExternal ? "_blank" : undefined}
             rel={isExternal ? "noopener noreferrer" : undefined}
-            className="text-sky-400 hover:text-sky-300 underline underline-offset-2 decoration-sky-500/50 hover:decoration-sky-300 font-bold transition-colors duration-150 text-[16px] sm:text-[17.5px]"
+            className="text-sky-400 hover:text-sky-300 underline underline-offset-2 decoration-sky-500/40 hover:decoration-sky-300 font-bold transition-colors duration-150 text-[13.5px] sm:text-[14.5px]"
           >
             {match[2]}
           </a>
@@ -115,7 +115,7 @@ function parseMarkdownInline(text: string): React.ReactNode[] {
           href={href}
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
-          className="text-sky-400 hover:text-sky-300 underline underline-offset-2 decoration-sky-500/50 hover:decoration-sky-300 font-medium transition-colors duration-150 text-[16px] sm:text-[17.5px]"
+          className="text-sky-400 hover:text-sky-300 underline underline-offset-2 decoration-sky-500/40 hover:decoration-sky-300 font-medium transition-colors duration-150 text-[13.5px] sm:text-[14.5px]"
         >
           {match[4]}
         </a>
@@ -125,7 +125,7 @@ function parseMarkdownInline(text: string): React.ReactNode[] {
       parts.push(
         <code
           key={keyIdx++}
-          className="px-2.5 py-0.5 rounded bg-surface-secondary text-sky-300 font-mono text-sm sm:text-[14px] border border-white/10 select-all"
+          className="px-2 py-0.5 rounded bg-surface-secondary text-sky-300 font-mono text-xs sm:text-[12.5px] border border-white/10 select-all"
         >
           {match[6]}
         </code>
@@ -133,7 +133,7 @@ function parseMarkdownInline(text: string): React.ReactNode[] {
     } else if (match[7]) {
       // **Bold Text**
       parts.push(
-        <strong key={keyIdx++} className="font-bold text-white">
+        <strong key={keyIdx++} className="font-bold text-white text-[13.5px] sm:text-[14.5px]">
           {match[7]}
         </strong>
       );
@@ -148,23 +148,13 @@ function parseMarkdownInline(text: string): React.ReactNode[] {
 export default function CategoryView({
   category,
   allResources,
+  initialSectionsProp,
 }: CategoryViewProps) {
   const mainRef = useRef<HTMLDivElement>(null);
 
   const initialSections: PrivacySection[] = useMemo(() => {
-    const slug = category.slug || category.id;
-    const categoryDict = allCategorySectionsData as Record<string, PrivacySection[]>;
-
-    if (categoryDict[slug] && categoryDict[slug].length > 0) {
-      return categoryDict[slug];
-    }
-
-    // Fallback matching
-    const slugKey = Object.keys(categoryDict).find(
-      (k) => slug.toLowerCase().includes(k) || k.includes(slug.toLowerCase())
-    );
-    if (slugKey && categoryDict[slugKey] && categoryDict[slugKey].length > 0) {
-      return categoryDict[slugKey];
+    if (initialSectionsProp && initialSectionsProp.length > 0) {
+      return initialSectionsProp;
     }
 
     // Dynamic generation fallback
@@ -188,7 +178,7 @@ export default function CategoryView({
         items: subItems,
       };
     });
-  }, [category, allResources]);
+  }, [category, allResources, initialSectionsProp]);
 
   const [sections, setSections] = useState<PrivacySection[]>(initialSections);
   const [activeSectionId, setActiveSectionId] = useState<string>("");
@@ -316,6 +306,7 @@ export default function CategoryView({
                   <Link
                     key={item.slug}
                     href={item.href}
+                    prefetch={true}
                     className={`w-full text-left py-1.5 px-2 rounded-lg flex items-center gap-2 transition-all duration-200 truncate ${
                       isActive
                         ? "bg-sky-500/15 text-sky-300 font-semibold border-l-2 border-sky-400 pl-1.5"
@@ -342,6 +333,7 @@ export default function CategoryView({
                   <Link
                     key={item.slug}
                     href={item.href}
+                    prefetch={true}
                     className={`w-full text-left py-1.5 px-2 rounded-lg flex items-center gap-2 transition-all duration-200 truncate ${
                       isActive
                         ? "bg-sky-500/15 text-sky-300 font-semibold border-l-2 border-sky-400 pl-1.5"
@@ -399,6 +391,7 @@ export default function CategoryView({
             <div className="flex items-center gap-2 text-sm sm:text-base">
               <Link
                 href="/"
+                prefetch={true}
                 className="text-content-muted hover:text-content-primary transition-colors duration-150 flex items-center gap-1 font-medium group"
               >
                 <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
@@ -411,10 +404,10 @@ export default function CategoryView({
             <div className="flex items-center gap-2">
               <button
                 onClick={handleReshuffle}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-surface-secondary hover:bg-surface-hover text-content-primary border border-surface-border text-sm font-semibold transition-all duration-200 ease-out hover:border-brand-500/50 cursor-pointer active:scale-95 shadow-sm group"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-surface-secondary hover:bg-surface-hover text-content-primary border border-surface-border text-xs sm:text-sm font-semibold transition-all duration-200 ease-out hover:border-brand-500/50 cursor-pointer active:scale-95 shadow-sm group"
                 title="Shuffle order of all items"
               >
-                <Shuffle className="w-4 h-4 text-brand-400 transition-transform duration-300 group-hover:rotate-180" />
+                <Shuffle className="w-3.5 h-3.5 text-brand-400 transition-transform duration-300 group-hover:rotate-180" />
                 <span>Reshuffle</span>
               </button>
             </div>
@@ -425,39 +418,43 @@ export default function CategoryView({
             <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight underline decoration-sky-400/60 underline-offset-8">
               {category.name}
             </h1>
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl">
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl">
               {category.description || "Curated tools, directories, downloads, and resources"}
             </p>
           </div>
 
           {/* Section-by-Section Document List */}
-          <div className="space-y-8 pt-1">
+          <div className="space-y-7 pt-1">
             {filteredSections.map((sec, secIdx) => (
               <section
                 key={sec.id}
                 id={sec.slug}
                 data-section-anim="true"
-                className="scroll-mt-24 space-y-3.5"
-                style={{ animationDelay: `${secIdx * 40}ms` }}
+                className="scroll-mt-24 space-y-3"
+                style={{ 
+                  contentVisibility: "auto", 
+                  containIntrinsicSize: "0 140px", 
+                  animationDelay: `${secIdx * 30}ms` 
+                }}
               >
                 {/* Section Title Heading */}
                 {sec.level === 2 ? (
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-white pt-5 border-b border-surface-border pb-2.5 flex items-center gap-2 group">
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-white pt-4 border-b border-surface-border pb-2 flex items-center gap-2 group">
                     <span>{sec.title}</span>
                     <a
                       href={`#${sec.slug}`}
-                      className="opacity-0 group-hover:opacity-60 hover:!opacity-100 text-sky-400 text-base font-mono transition-all duration-200 ml-1"
+                      className="opacity-0 group-hover:opacity-60 hover:!opacity-100 text-sky-400 text-sm font-mono transition-all duration-200 ml-1"
                       title="Direct anchor link"
                     >
                       #
                     </a>
                   </h2>
                 ) : (
-                  <h3 className="text-lg sm:text-xl font-bold text-slate-100 pt-2.5 flex items-center gap-2 group">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-100 pt-2 flex items-center gap-2 group">
                     <span>{sec.title}</span>
                     <a
                       href={`#${sec.slug}`}
-                      className="opacity-0 group-hover:opacity-60 hover:!opacity-100 text-sky-400 text-sm font-mono transition-all duration-200 ml-1"
+                      className="opacity-0 group-hover:opacity-60 hover:!opacity-100 text-sky-400 text-xs font-mono transition-all duration-200 ml-1"
                       title="Direct anchor link"
                     >
                       #
@@ -467,9 +464,9 @@ export default function CategoryView({
 
                 {/* Custom Note Block */}
                 {sec.tip && (
-                  <div className="p-4 rounded-xl bg-sky-950/25 border-l-4 border-sky-400 text-sm sm:text-[15.5px] text-slate-200 space-y-1.5 my-3 shadow-sm transition-all duration-200">
-                    <div className="font-bold text-sky-300 uppercase tracking-wider flex items-center gap-1.5 text-xs sm:text-sm">
-                      <Info className="w-4 h-4 text-sky-400" />
+                  <div className="p-3.5 rounded-xl bg-sky-950/25 border-l-4 border-sky-400 text-xs sm:text-[13.5px] text-slate-200 space-y-1 my-2.5 shadow-sm transition-all duration-200">
+                    <div className="font-bold text-sky-300 uppercase tracking-wider flex items-center gap-1.5 text-xs">
+                      <Info className="w-3.5 h-3.5 text-sky-400" />
                       <span>NOTE</span>
                     </div>
                     <p className="leading-relaxed">
@@ -479,14 +476,14 @@ export default function CategoryView({
                 )}
 
                 {/* Resource Items List */}
-                <ul className="space-y-2.5 pl-1.5 list-none">
+                <ul className="space-y-2 pl-1 list-none">
                   {sec.items.map((item) => (
                     <li
                       key={item.id}
-                      className="resource-item flex items-start gap-3 text-[15px] sm:text-[16.5px] leading-[1.75] text-slate-200 group hover:text-white transition-colors duration-150"
+                      className="resource-item flex items-start gap-2.5 text-[13.5px] sm:text-[14px] leading-[1.65] text-slate-300 group hover:text-white transition-colors duration-150"
                     >
                       {/* Status / Emoji Indicator */}
-                      <span className="shrink-0 mt-0.5 select-none text-lg transition-transform duration-200 group-hover:scale-110">
+                      <span className="shrink-0 mt-0.5 select-none text-base transition-transform duration-200 group-hover:scale-110">
                         {item.isStarred ? (
                           <span className="text-amber-400 font-bold" title="Recommended Tool">⭐</span>
                         ) : item.isIndex ? (
