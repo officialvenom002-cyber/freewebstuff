@@ -53,6 +53,7 @@ export default function Footer() {
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary">Community</h4>
             <ul className="space-y-2 text-sm text-content-muted">
+              <li><a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Telegram</a></li>
               <li><a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Discord</a></li>
               <li><Link href="/submit" className="hover:text-brand-400 transition-colors">Submit a Resource</Link></li>
               <li><Link href="/report" className="hover:text-brand-400 transition-colors">Report Broken Link</Link></li>

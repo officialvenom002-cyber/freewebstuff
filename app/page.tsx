@@ -351,6 +351,12 @@ export default function HomePage() {
                 </svg>
               </a>
 
+              <a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="nav-icon" aria-label="Telegram" title="Telegram Channel">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/>
+                </svg>
+              </a>
+
               <a href="#" className="nav-icon" aria-label="Community">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <circle cx="12" cy="12" r="9"></circle>
@@ -394,8 +400,12 @@ export default function HomePage() {
                 Contribute
               </Link>
 
-              <a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
-                Join Discord
+              <a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="btn btn-secondary flex items-center gap-1.5 border-[#229ED9]/40 hover:border-[#229ED9] hover:bg-[#229ED9]/10">
+                <span className="text-[#229ED9]">✈</span> Join Telegram
+              </a>
+
+              <a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="btn btn-secondary flex items-center gap-1.5 border-[#5865F2]/40 hover:border-[#5865F2] hover:bg-[#5865F2]/10">
+                <span className="text-[#5865F2]">🎮</span> Join Discord
               </a>
             </div>
 

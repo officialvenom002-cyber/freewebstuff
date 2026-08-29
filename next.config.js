@@ -23,6 +23,11 @@ const nextConfig = {
         destination: "https://discord.gg/mHpBcYJHM",
         permanent: false,
       },
+      {
+        source: "/telegram",
+        destination: "https://t.me/+N7tYaUKT2q44NGU1",
+        permanent: false,
+      },
     ];
   },
 };
