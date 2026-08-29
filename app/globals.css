@@ -939,6 +939,143 @@ button {
   }
 }
 
+/* ── NEW: Page & element entry animations ── */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shimmerBar {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulseRing {
+  0%   { transform: scale(1);    opacity: 0.5; }
+  80%  { transform: scale(2.2);  opacity: 0; }
+  100% { transform: scale(2.2);  opacity: 0; }
+}
+
+/* ── Animation utility classes ── */
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease both;
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-down {
+  animation: fadeDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Stagger delay helpers */
+.anim-delay-0   { animation-delay: 0ms;   }
+.anim-delay-50  { animation-delay: 50ms;  }
+.anim-delay-100 { animation-delay: 100ms; }
+.anim-delay-150 { animation-delay: 150ms; }
+.anim-delay-200 { animation-delay: 200ms; }
+.anim-delay-250 { animation-delay: 250ms; }
+.anim-delay-300 { animation-delay: 300ms; }
+.anim-delay-350 { animation-delay: 350ms; }
+.anim-delay-400 { animation-delay: 400ms; }
+.anim-delay-450 { animation-delay: 450ms; }
+.anim-delay-500 { animation-delay: 500ms; }
+.anim-delay-600 { animation-delay: 600ms; }
+.anim-delay-700 { animation-delay: 700ms; }
+.anim-delay-800 { animation-delay: 800ms; }
+
+/* ── Hero section entrance animations ── */
+.hero-badge-anim  { animation: fadeDown 0.55s cubic-bezier(0.16,1,0.3,1) 0.05s both; }
+.hero-title-anim  { animation: fadeUp   0.65s cubic-bezier(0.16,1,0.3,1) 0.12s both; }
+.hero-desc-anim   { animation: fadeUp   0.65s cubic-bezier(0.16,1,0.3,1) 0.22s both; }
+.hero-action-anim { animation: fadeUp   0.65s cubic-bezier(0.16,1,0.3,1) 0.32s both; }
+.hero-visual-anim { animation: fadeIn   0.85s ease                       0.10s both; }
+
+/* ── Category card stagger entrance (applied via JS IntersectionObserver) ── */
+.card-enter {
+  animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Page-level content fade ── */
+.page-enter {
+  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Section enter used in CategoryView ── */
+.section-enter {
+  animation: fadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* Fluid Hover Physics on Interactive Elements */
 .interactive-card {
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
@@ -996,6 +1133,72 @@ button, .btn {
 
 button:active, .btn:active {
   transform: scale(0.97) !important;
+}
+
+/* ── Shimmer skeleton loader ── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.10) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerBar 1.6s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+/* ── TOC active indicator pulse ── */
+.toc-active-pulse::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 100%;
+  background: #38bdf8;
+  border-radius: 2px;
+  animation: fadeIn 0.2s ease both;
+}
+
+/* ── Navbar scroll shadow ── */
+.navbar-scrolled {
+  box-shadow: 0 2px 24px -4px rgba(0,0,0,0.6);
+}
+
+/* ── Smooth link underline hover ── */
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.25s ease;
+}
+.hover-underline:hover::after {
+  width: 100%;
+}
+
+/* ── Resource item hover glow ── */
+.resource-item {
+  transition: color 0.15s ease, background 0.15s ease;
+  border-radius: 6px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+.resource-item:hover {
+  background: rgba(56, 189, 248, 0.06);
+}
+
+/* ── Back to top button entrance ── */
+.back-to-top-enter {
+  animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 /* Smooth Custom Scrollbar */

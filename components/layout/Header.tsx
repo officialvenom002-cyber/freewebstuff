@@ -19,6 +19,7 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [ecosystemOpen, setEcosystemOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const ecosystemRef = useRef<HTMLDivElement>(null);
 
   // Global hotkey Ctrl+K / Cmd+K
@@ -44,6 +45,13 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // Scroll shadow
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const ecosystemItems = [
     { name: "Beginner's Guide", href: "/beginners-guide", desc: "New? Start here" },
     { name: "Startpage", href: "/startpage", desc: "Set as your new tab" },
@@ -56,7 +64,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full bg-[#030712]/90 backdrop-blur-md border-b border-[#1A2030]/60">
+      <header className={`sticky top-0 z-40 w-full bg-[#030712]/90 backdrop-blur-md border-b border-[#1A2030]/60 transition-shadow duration-300 ${scrolled ? "shadow-[0_2px_24px_-4px_rgba(0,0,0,0.7)]" : ""}`}>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           
           {/* Left: Cosmic Ring Logo + Pill Search Bar */}

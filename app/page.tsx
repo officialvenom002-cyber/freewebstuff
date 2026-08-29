@@ -202,32 +202,41 @@ export default function HomePage() {
     };
     document.addEventListener("mousedown", handleClickOutside);
 
-    /* Entrance animation for cards */
+    /* Staggered card entrance via IntersectionObserver + CSS class */
     const cards = document.querySelectorAll<HTMLElement>(".category-card");
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        entries.forEach((entry, idx) => {
           if (entry.isIntersecting) {
             const el = entry.target as HTMLElement;
-            el.style.opacity = "1";
-            el.style.transform = "translateY(0)";
+            const delay = parseInt(el.dataset.cardIndex || "0", 10) * 55;
+            el.style.animationDelay = `${delay}ms`;
+            el.classList.add("card-enter");
+            observer.unobserve(el);
           }
         });
       },
       { threshold: 0.05 }
     );
 
-    cards.forEach((card) => {
+    cards.forEach((card, i) => {
+      card.dataset.cardIndex = String(i);
       card.style.opacity = "0";
-      card.style.transform = "translateY(12px)";
-      card.style.transition =
-        "opacity .45s ease, transform .45s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease";
       observer.observe(card);
     });
+
+    /* Navbar scroll shadow */
+    const navbar = document.querySelector<HTMLElement>(".navbar");
+    const handleScroll = () => {
+      if (!navbar) return;
+      navbar.classList.toggle("navbar-scrolled", window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
   }, []);
@@ -366,16 +375,16 @@ export default function HomePage() {
 
           <div className="hero-content">
 
-            <h1 className="hero-title">
+            <h1 className="hero-title hero-title-anim">
               freewebstuff
             </h1>
 
-            <p className="hero-description">
+            <p className="hero-description hero-desc-anim">
               Your ultimate hub for the best free resources
               across the internet.
             </p>
 
-            <div className="hero-actions">
+            <div className="hero-actions hero-action-anim">
               <Link href="/beginners-guide" className="btn btn-primary">
                 Beginner&apos;s Guide
                 <span>→</span>
@@ -393,7 +402,7 @@ export default function HomePage() {
           </div>
 
           {/* CUSTOM GRAPHICAL HERO LOGO */}
-          <div className="hero-visual">
+          <div className="hero-visual hero-visual-anim">
 
             <div className="space-glow"></div>
 
