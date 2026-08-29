@@ -16,6 +16,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/discord",
+        destination: "https://discord.gg/mHpBcYJHM",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

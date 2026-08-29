@@ -160,7 +160,7 @@ export default function Header() {
 
               {/* Discord with online counter */}
               <a
-                href="https://discord.gg/ZEMSvP2HX"
+                href="https://discord.gg/mHpBcYJHM"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors group"
