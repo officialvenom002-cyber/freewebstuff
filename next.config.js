@@ -29,6 +29,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/admin",
+        destination: "/adminshobhit",
+        permanent: false,
+      },
+      {
         source: "/discord",
         destination: "https://discord.gg/mHpBcYJHM",
         permanent: true, // 308 — browser + CDN cache forever
