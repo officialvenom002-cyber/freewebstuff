@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: ResourcePageProps) {
     openGraph: {
       title: `${resource.name} | FreeWebStuff Directory`,
       description: resource.description,
-      url: `https://freewebstuff.net/resource/${resource.slug}`,
+      url: `https://freewebstuff.site/resource/${resource.slug}`,
     },
     twitter: {
       card: "summary_large_image",

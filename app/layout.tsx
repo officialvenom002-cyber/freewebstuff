@@ -43,11 +43,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "FreeWebStuff Community" }],
   creator: "FreeWebStuff",
-  metadataBase: new URL("https://freewebstuff.net"),
+  metadataBase: new URL("https://freewebstuff.site"),
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://freewebstuff.net",
+    url: "https://freewebstuff.site",
     siteName: "FreeWebStuff",
     title: "FreeWebStuff | Discover Curated Web Resources & Software",
     description: "Search and explore 12,000+ curated tools, open-source software, and AI assistants across 24 categories.",

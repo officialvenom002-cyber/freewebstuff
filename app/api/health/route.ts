@@ -6,7 +6,7 @@ const START_TIME = Date.now();
 /**
  * Health check endpoint — used by uptime monitors (UptimeRobot, BetterStack, etc.)
  * Returns 200 as long as the app is alive and the data store is responding.
- * Connect to: https://freewebstuff.net/api/health
+ * Connect to: https://freewebstuff.site/api/health
  */
 export async function GET() {
   try {
