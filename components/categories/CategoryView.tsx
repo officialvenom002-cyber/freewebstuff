@@ -763,38 +763,6 @@ export default function CategoryView({
           </div>
         </main>
 
-        {/* ══════ 3. STICKY RIGHT "ON THIS PAGE" TOC ══════ */}
-        <aside className="w-56 xl:w-64 shrink-0 hidden xl:block sticky top-20 z-20 self-start max-h-[calc(100vh-5rem)] animate-slide-in-right">
-          <div className="bg-[#0b0e14] border border-[#1d222e] rounded-2xl p-4 shadow-[0_4px_16px_rgba(0,0,0,0.5)] overflow-y-auto no-scrollbar space-y-2.5">
-            <div className="text-xs font-bold text-zinc-400 uppercase tracking-widest px-1 pb-1.5 border-b border-[#1b212f] font-mono flex items-center justify-between">
-              <span>ON THIS PAGE</span>
-              <span className="text-[10px] text-zinc-500">{sections.length}</span>
-            </div>
-            <nav className="space-y-0.5 text-xs">
-              {sections.map((sec) => {
-                const isActive = activeSectionId === sec.slug;
-                return (
-                  <button
-                    key={sec.id}
-                    type="button"
-                    onClick={() => scrollToAnchor(sec.slug)}
-                    className={`relative w-full text-left py-1.5 px-2.5 rounded-xl transition-all duration-150 truncate flex items-center justify-between cursor-pointer ${
-                      isActive
-                        ? "text-sky-300 font-bold bg-sky-500/15 border border-sky-500/30 shadow-sm"
-                        : "text-zinc-400 hover:text-zinc-100 hover:bg-[#121622]"
-                    }`}
-                  >
-                    <span className="truncate">{sec.title}</span>
-                    <span className="text-[10px] font-mono text-zinc-500 opacity-70 ml-1 shrink-0">
-                      {sec.items.length}
-                    </span>
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
-        </aside>
-
       </div>
 
       {/* Floating Back to Top Button */}
