@@ -463,7 +463,7 @@ export default function CategoryView({
         {/* ══════ 2. MAIN DOCUMENT CONTENT AREA ══════ */}
         <main className="flex-1 min-w-0 space-y-6" ref={mainRef}>
           
-          {/* Top Breadcrumb & Action Controls */}
+          {/* Clean Top Bar with Search & Action Controls */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#1a202c]">
             <div className="flex items-center gap-2 text-sm sm:text-base">
               <Link
@@ -476,16 +476,39 @@ export default function CategoryView({
               </Link>
               <span className="text-zinc-600">/</span>
               <span className="text-zinc-100 font-semibold">{category.name}</span>
+              <span className="ml-1 px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#141923] text-zinc-400 border border-[#222a3a]">
+                {totalItemCount} resources
+              </span>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
+              {/* Compact Search Bar */}
+              <div className="relative w-48 sm:w-64">
+                <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Filter resources..."
+                  className="w-full pl-8 pr-7 py-1.5 rounded-xl bg-[#10141e] border border-[#20283a] text-xs text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-sky-400 transition-colors"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-200"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+
               <button
                 onClick={handleReshuffle}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#10141e] hover:bg-[#161d2c] text-zinc-300 border border-[#20283a] text-xs font-semibold transition-all cursor-pointer shadow-sm group"
                 title="Shuffle order of all items"
               >
                 <Shuffle className="w-3.5 h-3.5 text-sky-400 transition-transform duration-300 group-hover:rotate-180" />
-                <span>Reshuffle</span>
+                <span className="hidden sm:inline">Reshuffle</span>
               </button>
 
               {/* View Layout Switcher */}
@@ -510,47 +533,6 @@ export default function CategoryView({
                 >
                   <LayoutGrid className="w-3.5 h-3.5" />
                 </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Document Header with Count Badge */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-[#0c0f16] border border-[#1b212f] shadow-[0_8px_24px_rgba(0,0,0,0.6)] space-y-3">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/25">
-                {sections.length} Categorized Types
-              </span>
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-[#141923] text-zinc-400 border border-[#222a3a]">
-                {totalItemCount} Total Verified Resources
-              </span>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-heading">
-              {category.name}
-            </h1>
-            <p className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-3xl">
-              {category.description || "Stream, download, explore, and find all verified software and tools."}
-            </p>
-
-            {/* In-Category Search Bar */}
-            <div className="pt-3">
-              <div className="relative max-w-xl">
-                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={`Search ${totalItemCount} tools inside ${category.name}...`}
-                  className="w-full pl-10 pr-10 py-3 rounded-2xl bg-[#10141e] border border-[#20283a] text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-sky-400 transition-colors shadow-inner"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-200"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
               </div>
             </div>
           </div>
