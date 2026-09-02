@@ -36,9 +36,9 @@ interface ResourcePageProps {
 
 export async function generateStaticParams() {
   const { getAllResources } = await import("@/lib/db/store");
-  // Pre-render ALL resources at build time so no page ever hits a cold serverless start.
-  // dynamicParams=true above handles any future resources added after the build via ISR.
-  return getAllResources().map((r) => ({ slug: r.slug }));
+  // Pre-render top 50 resources at build time for instant deployment.
+  // dynamicParams=true generates all other 15,000+ resources on-demand with ISR cache.
+  return getAllResources().slice(0, 50).map((r) => ({ slug: r.slug }));
 }
 
 export async function generateMetadata({ params }: ResourcePageProps) {
