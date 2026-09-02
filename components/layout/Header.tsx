@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { 
   Search, 
   Menu, 
@@ -16,18 +17,28 @@ import Logo from "../ui/Logo";
 import ThemeSelector from "../ui/ThemeSelector";
 
 export default function Header() {
+  const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [ecosystemOpen, setEcosystemOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const ecosystemRef = useRef<HTMLDivElement>(null);
 
-  // Global hotkey Ctrl+K / Cmd+K
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setEcosystemOpen(false);
+  }, [pathname]);
+
+  // Global hotkeys
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setIsSearchOpen(prev => !prev);
+      } else if (e.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        setEcosystemOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -194,9 +205,11 @@ export default function Header() {
 
               {/* Mobile Menu Button */}
               <button
+                type="button"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] ml-1"
-                aria-label="Toggle menu"
+                className="md:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 border border-white/10 active:scale-95 transition-all ml-1 cursor-pointer"
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                title={isMobileMenuOpen ? "Close menu" : "Open menu"}
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>

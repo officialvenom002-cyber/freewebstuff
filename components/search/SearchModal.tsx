@@ -140,22 +140,28 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
           {query && (
             <button
+              type="button"
               onClick={() => {
                 setQuery("");
                 inputRef.current?.focus();
               }}
               aria-label="Clear search"
-              className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              title="Clear search"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
           )}
 
           <button
+            type="button"
             onClick={onClose}
-            className="hidden sm:inline-flex items-center px-2 py-0.5 text-[11px] font-mono font-medium rounded-md bg-white/[0.06] border border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
+            aria-label="Close search"
+            title="Close (Esc)"
+            className="flex items-center gap-1.5 p-1.5 sm:px-2.5 sm:py-1 rounded-lg bg-white/[0.06] border border-white/10 text-slate-400 hover:text-white hover:border-white/25 hover:bg-white/10 active:scale-95 transition-all cursor-pointer"
           >
-            ESC
+            <X className="w-4 h-4" />
+            <span className="hidden sm:inline text-[10px] font-mono font-medium">ESC</span>
           </button>
         </div>
 

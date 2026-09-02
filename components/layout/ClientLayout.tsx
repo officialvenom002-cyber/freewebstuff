@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
 import AnnouncementBanner from "../ui/AnnouncementBanner";
-import CommunityPopup from "../ui/CommunityPopup";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -28,7 +27,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   return (
     <>
-      <CommunityPopup />
       {!isHome && (
         <Header />
       )}

@@ -9,38 +9,52 @@ export default function CommunityPopup() {
 
   useEffect(() => {
     try {
-      const dismissed = localStorage.getItem("fwsf_community_modal_dismissed");
-      if (!dismissed) {
-        // Show after a brief 1.2s delay for seamless appearance
-        const timer = setTimeout(() => {
-          setIsOpen(true);
-        }, 1200);
-        return () => clearTimeout(timer);
+      const localDismissed = localStorage.getItem("fwsf_community_modal_dismissed");
+      const sessionDismissed = sessionStorage.getItem("fwsf_community_modal_session_dismissed");
+      if (localDismissed || sessionDismissed) {
+        return;
       }
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+      }, 1200);
+      return () => clearTimeout(timer);
     } catch {
       // Fallback
     }
   }, []);
 
-  const handleClose = () => {
+  const handleClose = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     try {
-      if (dontShowAgain) {
-        localStorage.setItem("fwsf_community_modal_dismissed", "true");
-      } else {
-        sessionStorage.setItem("fwsf_community_modal_session_dismissed", "true");
-      }
+      localStorage.setItem("fwsf_community_modal_dismissed", "true");
+      sessionStorage.setItem("fwsf_community_modal_session_dismissed", "true");
     } catch {
       // Ignore storage errors
     }
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#090b10]/85 backdrop-blur-xl animate-fade-in">
+    <div 
+      onClick={() => handleClose()}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#090b10]/85 backdrop-blur-xl animate-fade-in cursor-pointer"
+    >
       <div 
-        className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-[#0e121a] border border-white/[0.12] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] p-6 sm:p-7 space-y-5 animate-scale-up"
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-[#0e121a] border border-white/[0.12] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] p-6 sm:p-7 space-y-5 animate-scale-up cursor-default"
         role="dialog"
         aria-modal="true"
       >
@@ -60,8 +74,9 @@ export default function CommunityPopup() {
 
         {/* Close Button */}
         <button
-          onClick={handleClose}
-          className="absolute top-4 right-4 p-1.5 rounded-lg bg-[rgba(20,26,38,0.85)] border border-white/[0.08] text-slate-400 hover:text-white hover:border-white/20 transition-all duration-150 cursor-pointer z-10"
+          type="button"
+          onClick={(e) => handleClose(e)}
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-xl bg-[rgba(20,26,38,0.85)] border border-white/[0.12] text-slate-400 hover:text-white hover:bg-white/10 hover:border-white/30 active:scale-95 transition-all duration-150 cursor-pointer z-50 shadow-md"
           aria-label="Close popup"
         >
           <X className="w-4 h-4" />
