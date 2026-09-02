@@ -2,7 +2,6 @@ import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getCategoryBySlug, filterResources, getAllCategories } from "@/lib/db/store";
-import { generateCategorySchema } from "@/lib/seo/schema";
 import ResourceCard from "@/components/resources/ResourceCard";
 import ResourceGrid from "@/components/resources/ResourceGrid";
 import { 
@@ -76,22 +75,67 @@ const iconMap: Record<string, React.ElementType> = {
   Sparkles
 };
 
+import { CATEGORY_KEYWORDS_MAP, generateCategorySchema } from "@/lib/seo/schema";
+import CategoryView, { PrivacySection } from "@/components/categories/CategoryView";
+import allCategorySectionsData from "@/lib/db/allCategorySections.json";
+
 export async function generateMetadata({ params }: CategoryPageProps) {
   const category = getCategoryBySlug(params.slug);
-  if (!category) return { title: "Category Not Found" };
+  if (!category) return { title: "Category Not Found | FreeWebStuff" };
+
+  const keywords = CATEGORY_KEYWORDS_MAP[category.slug] || [
+    `${category.name.toLowerCase()} free tools`,
+    `best free ${category.name.toLowerCase()} websites`,
+    `${category.name.toLowerCase()} directory`,
+    "free internet stuff",
+    "open source software",
+    "freewebstuff"
+  ];
+
+  const title = `${category.name} Directory 2026 — Best Free Tools, Websites & Software`;
+  const description = `Explore the best free ${category.name.toLowerCase()} websites, open-source software, and verified online resources. Clean, direct links without paywalls or ads.`;
+  const canonicalUrl = `https://freewebstuff.site/categories/${category.slug}`;
 
   return {
-    title: `${category.name} Tools & Resources`,
-    description: category.description,
+    title,
+    description,
+    keywords,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
-      title: `${category.name} Tools & Resources | FreeWebStuff`,
-      description: category.description,
+      title: `${title} | FreeWebStuff`,
+      description,
+      url: canonicalUrl,
+      siteName: "FreeWebStuff",
+      type: "website",
+      images: [
+        {
+          url: "https://freewebstuff.site/favicon.png",
+          width: 512,
+          height: 512,
+          alt: `${category.name} FreeWebStuff Directory`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | FreeWebStuff`,
+      description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
-
-import CategoryView, { PrivacySection } from "@/components/categories/CategoryView";
-import allCategorySectionsData from "@/lib/db/allCategorySections.json";
 
 export default function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const category = getCategoryBySlug(params.slug);
@@ -117,7 +161,20 @@ export default function CategoryPage({ params, searchParams }: CategoryPageProps
     }
   }
 
-  const jsonLd = generateCategorySchema(category, allCategoryResources.length);
+  // Generate top-tier Google SERP Schemas (CollectionPage + BreadcrumbList + FAQPage)
+  const structuredBoxes = initialSections.map((sec) => ({
+    id: sec.id,
+    title: sec.title,
+    websites: sec.items.map((item) => {
+      const match = /(?:\*\*\[([^\]]+)\]\((https?:\/\/[^\)]+)\)\*\*|\[([^\]]+)\]\((https?:\/\/[^\)]+)\))/.exec(item.raw);
+      return {
+        name: match ? (match[1] || match[3] || "").trim() : "",
+        url: match ? (match[2] || match[4] || "").trim() : "",
+      };
+    }).filter((w) => w.name && w.url),
+  }));
+
+  const jsonLd = generateCategorySchema(category, structuredBoxes);
 
   return (
     <>
