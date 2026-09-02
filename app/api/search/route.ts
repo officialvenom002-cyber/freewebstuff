@@ -19,8 +19,17 @@ export async function GET(request: NextRequest) {
     resources = searchResources(resources, q);
   }
 
-  return NextResponse.json({
-    total: resources.length,
-    resources: resources.slice(0, limit),
-  });
+  return NextResponse.json(
+    {
+      total: resources.length,
+      resources: resources.slice(0, limit),
+    },
+    {
+      headers: {
+        // Short CDN edge cache — Cloudflare caches per unique ?q= string.
+        // 60s freshness window prevents serverless spam on repeated identical searches.
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      },
+    }
+  );
 }

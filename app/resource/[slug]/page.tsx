@@ -24,6 +24,10 @@ import {
   MousePointerClick
 } from "lucide-react";
 
+// ISR: revalidate all resource pages every hour — no full rebuild needed
+export const revalidate = 3600;
+
+// Allow on-demand ISR for any slug not in generateStaticParams
 export const dynamicParams = true;
 
 interface ResourcePageProps {
@@ -32,8 +36,9 @@ interface ResourcePageProps {
 
 export async function generateStaticParams() {
   const { getAllResources } = await import("@/lib/db/store");
-  // Only pre-render top 30 featured resources to keep build times under 30s
-  return getAllResources().slice(0, 30).map((r) => ({ slug: r.slug }));
+  // Pre-render ALL resources at build time so no page ever hits a cold serverless start.
+  // dynamicParams=true above handles any future resources added after the build via ISR.
+  return getAllResources().map((r) => ({ slug: r.slug }));
 }
 
 export async function generateMetadata({ params }: ResourcePageProps) {

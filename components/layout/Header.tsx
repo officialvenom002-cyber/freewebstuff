@@ -59,7 +59,7 @@ export default function Header() {
     { name: "Recently Removed", href: "/recently-removed", desc: "Transparency log" },
     { name: "Submit a Resource", href: "/submit", desc: "Add to the index" },
     { name: "Saved Bookmarks", href: "/bookmarks", desc: "Locally saved items" },
-    { name: "Admin Panel", href: "/admin", desc: "Site moderation" },
+    { name: "Admin Panel", href: "/adminshobhit", desc: "Site moderation" },
   ];
 
   return (

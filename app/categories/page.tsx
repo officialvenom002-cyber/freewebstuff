@@ -76,6 +76,9 @@ const iconMap: Record<string, React.ElementType> = {
   Sparkles
 };
 
+// ISR: revalidate category list + counts every hour
+export const revalidate = 3600;
+
 export const metadata = {
   title: "All Categories | FreeWebStuff Directory",
   description: "Browse 23 curated categories indexing over 15,000 verified free resources, software, media, tools, and community picks.",

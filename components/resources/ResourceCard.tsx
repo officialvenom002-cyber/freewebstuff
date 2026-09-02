@@ -23,9 +23,16 @@ interface ResourceCardProps {
 export default function ResourceCard({ resource, compact = false }: ResourceCardProps) {
   const handleOutboundClick = () => {
     try {
+      // Guard: only track a click once per resource per browser session to prevent
+      // serverless spam when users browse many cards or revisit the same resource.
+      const sessionKey = `fwsf_click_${resource.id}`;
+      if (typeof sessionStorage !== "undefined" && sessionStorage.getItem(sessionKey)) {
+        return;
+      }
+      sessionStorage.setItem(sessionKey, "1");
       fetch(`/api/resources/${resource.id}/click`, { method: "POST" });
     } catch {
-      // Non-blocking
+      // Non-blocking — sessionStorage may be unavailable in private/restricted contexts
     }
   };
 

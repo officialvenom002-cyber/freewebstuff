@@ -22,7 +22,16 @@ export async function GET(request: NextRequest) {
   };
 
   const resources = filterResources(options);
-  return NextResponse.json({ total: resources.length, resources });
+  return NextResponse.json(
+    { total: resources.length, resources },
+    {
+      headers: {
+        // Cloudflare CDN edge cache for 5 min; serve stale for 10 min.
+        // Results are query-string-scoped so Cloudflare caches per unique param combination.
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+      },
+    }
+  );
 }
 
 export async function POST(request: NextRequest) {

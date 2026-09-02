@@ -10,7 +10,16 @@ export async function GET(
   if (!resource) {
     return NextResponse.json({ error: "Resource not found" }, { status: 404 });
   }
-  return NextResponse.json({ resource });
+  return NextResponse.json(
+    { resource },
+    {
+      headers: {
+        // Individual resource detail is semi-static — cache for 1 hour at CDN edge.
+        // Stale-while-revalidate gives 24h grace window before a fresh fetch is forced.
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      },
+    }
+  );
 }
 
 export async function PUT(

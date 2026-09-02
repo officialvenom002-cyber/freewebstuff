@@ -58,7 +58,7 @@ export default function Footer() {
               <li><Link href="/submit" className="hover:text-brand-400 transition-colors">Submit a Resource</Link></li>
               <li><Link href="/report" className="hover:text-brand-400 transition-colors">Report Broken Link</Link></li>
               <li><Link href="/guidelines" className="hover:text-brand-400 transition-colors">Inclusion Guidelines</Link></li>
-              <li><Link href="/admin" className="hover:text-brand-400 transition-colors flex items-center gap-1">Admin Panel</Link></li>
+              <li><Link href="/adminshobhit" className="hover:text-brand-400 transition-colors flex items-center gap-1">Admin Panel</Link></li>
             </ul>
           </div>
 

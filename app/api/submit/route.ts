@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSubmission, getAllResources } from "@/lib/db/store";
 import { validateAndParseUrl } from "@/lib/validation/urlChecker";
+import { rateLimit, getClientIp, rateLimitResponse } from "@/lib/rateLimit";
 
+// Rate limit: max 3 submissions per IP per 10 minutes
+const LIMIT = 3;
+const WINDOW_MS = 10 * 60 * 1000;
 
 export async function POST(request: NextRequest) {
+  // ── Rate Limit ──────────────────────────────────────────────────────────────
+  const ip = getClientIp(request);
+  const rl = rateLimit(`submit:${ip}`, LIMIT, WINDOW_MS);
+  if (!rl.allowed) return rateLimitResponse(rl.resetAt);
+
   try {
     const body = await request.json();
     const { name, url, description, categoryId, subcategoryId, pricingType, platforms, tags, reason, submitterEmail } = body;
