@@ -82,7 +82,7 @@ export default function Header() {
           <div className="flex items-center gap-3 sm:gap-4">
             
             {/* Glowing Planet Emblem Logo + FWSF Brand */}
-            <Link href="/" className="flex items-center gap-2.5 group shrink-0" title="FWSF">
+            <Link prefetch={false} href="/" className="flex items-center gap-2.5 group shrink-0" title="FWSF">
               <Logo className="w-8 h-8 sm:w-9 sm:h-9" />
               <span className="brand-name font-extrabold tracking-wider text-white text-base sm:text-lg">
                 FWSF
@@ -104,7 +104,7 @@ export default function Header() {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-2 text-sm font-medium text-slate-300">
               
-              <Link
+              <Link prefetch={false}
                 href="/beginners-guide"
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors"
               >
@@ -112,7 +112,7 @@ export default function Header() {
                 <span>Glossary</span>
               </Link>
 
-              <Link
+              <Link prefetch={false}
                 href="/startpage"
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors"
               >
@@ -134,7 +134,7 @@ export default function Header() {
                 {ecosystemOpen && (
                   <div className="absolute top-full right-0 mt-2 w-60 rounded-2xl bg-[#101420] border border-[#22293C] shadow-2xl py-2 z-50 animate-fade-in">
                     {ecosystemItems.map((item) => (
-                      <Link
+                      <Link prefetch={false}
                         key={item.name}
                         href={item.href}
                         onClick={() => setEcosystemOpen(false)}
@@ -223,19 +223,19 @@ export default function Header() {
         {/* Mobile Dropdown */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-[#1A2030] bg-[#0C0F18] px-4 py-3 space-y-1">
-            <Link href="/changelog" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
+            <Link prefetch={false} href="/changelog" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
               📑 Changelog
             </Link>
-            <Link href="/beginners-guide" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
+            <Link prefetch={false} href="/beginners-guide" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
               📖 Glossary / Guide
             </Link>
-            <Link href="/startpage" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
+            <Link prefetch={false} href="/startpage" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
               💾 Backups &amp; Startpage
             </Link>
-            <Link href="/unsafe" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
+            <Link prefetch={false} href="/unsafe" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
               🛡 SafeGuard
             </Link>
-            <Link href="/submit" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
+            <Link prefetch={false} href="/submit" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
               ➕ Submit a Resource
             </Link>
           </div>

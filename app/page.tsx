@@ -249,7 +249,7 @@ export default function HomePage() {
       <header className="navbar">
         <div className="nav-inner">
 
-          <Link href="/" className="brand group" title="FWSF">
+          <Link prefetch={false} href="/" className="brand group" title="FWSF">
             <Logo className="w-8 h-8 sm:w-9 sm:h-9" />
             <span className="brand-name font-extrabold tracking-wider text-white text-base sm:text-lg">
               FWSF
@@ -265,8 +265,8 @@ export default function HomePage() {
           <div className="nav-right">
 
             <nav className="nav-links">
-              <Link href="/beginners-guide" className="nav-link">📖 Glossary ↗</Link>
-              <Link href="/startpage" className="nav-link">💾 Backups</Link>
+              <Link prefetch={false} href="/beginners-guide" className="nav-link">📖 Glossary ↗</Link>
+              <Link prefetch={false} href="/startpage" className="nav-link">💾 Backups</Link>
 
               {/* Ecosystem Interactive Dropdown Toggle */}
               <div ref={ecosystemRef} className="relative">
@@ -281,7 +281,7 @@ export default function HomePage() {
 
                 {ecosystemOpen && (
                   <div className="absolute top-full right-0 mt-2.5 w-60 rounded-2xl bg-[#090e1c] border border-white/10 shadow-2xl py-2 z-50 backdrop-blur-xl animate-fade-in">
-                    <Link
+                    <Link prefetch={false}
                       href="/search"
                       onClick={() => setEcosystemOpen(false)}
                       className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
@@ -289,7 +289,7 @@ export default function HomePage() {
                       <span className="text-xs font-semibold text-white">🌐 Search Directory</span>
                       <span className="text-[11px] text-slate-400">Search all 15,000+ verified tools</span>
                     </Link>
-                    <Link
+                    <Link prefetch={false}
                       href="/categories"
                       onClick={() => setEcosystemOpen(false)}
                       className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
@@ -297,7 +297,7 @@ export default function HomePage() {
                       <span className="text-xs font-semibold text-white">📂 All 23 Categories</span>
                       <span className="text-[11px] text-slate-400">Browse complete category hub</span>
                     </Link>
-                    <Link
+                    <Link prefetch={false}
                       href="/bookmarks"
                       onClick={() => setEcosystemOpen(false)}
                       className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
@@ -305,7 +305,7 @@ export default function HomePage() {
                       <span className="text-xs font-semibold text-white">🔖 Saved Bookmarks</span>
                       <span className="text-[11px] text-slate-400">Your personalized saved collection</span>
                     </Link>
-                    <Link
+                    <Link prefetch={false}
                       href="/trending"
                       onClick={() => setEcosystemOpen(false)}
                       className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
@@ -313,7 +313,7 @@ export default function HomePage() {
                       <span className="text-xs font-semibold text-white">🔥 Trending & Popular</span>
                       <span className="text-[11px] text-slate-400">Top community favorites</span>
                     </Link>
-                    <Link
+                    <Link prefetch={false}
                       href="/startpage"
                       onClick={() => setEcosystemOpen(false)}
                       className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
@@ -321,7 +321,7 @@ export default function HomePage() {
                       <span className="text-xs font-semibold text-white">🚀 Minimal Startpage</span>
                       <span className="text-[11px] text-slate-400">Custom browser new tab hub</span>
                     </Link>
-                    <Link
+                    <Link prefetch={false}
                       href="/beginners-guide"
                       onClick={() => setEcosystemOpen(false)}
                       className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
@@ -391,12 +391,12 @@ export default function HomePage() {
             </p>
 
             <div className="hero-actions hero-action-anim">
-              <Link href="/beginners-guide" className="btn btn-primary">
+              <Link prefetch={false} href="/beginners-guide" className="btn btn-primary">
                 Beginner&apos;s Guide
                 <span>→</span>
               </Link>
 
-              <Link href="/submit" className="btn btn-secondary">
+              <Link prefetch={false} href="/submit" className="btn btn-secondary">
                 Contribute
               </Link>
 
@@ -509,7 +509,7 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0">
-              <Link
+              <Link prefetch={false}
                 href="/beginners-guide"
                 className="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 shadow-[0_0_20px_rgba(56,189,248,0.3)]"
               >
@@ -518,7 +518,7 @@ export default function HomePage() {
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               
-              <Link
+              <Link prefetch={false}
                 href="/categories/privacy"
                 className="px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/10 hover:border-sky-400/30 text-white font-medium text-xs sm:text-sm transition-all duration-200 flex items-center gap-2"
               >

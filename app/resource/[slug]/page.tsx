@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 
 // ISR: revalidate all resource pages every hour — no full rebuild needed
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 // Allow on-demand ISR for any slug not in generateStaticParams
 export const dynamicParams = true;

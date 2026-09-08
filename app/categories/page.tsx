@@ -77,7 +77,7 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 // ISR: revalidate category list + counts every hour
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export const metadata = {
   title: "All Categories | FreeWebStuff Directory",
