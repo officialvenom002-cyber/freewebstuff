@@ -206,6 +206,8 @@ export function generateWebSiteSchema(baseUrl = "https://freewebstuff.site") {
         url: baseUrl,
         name: "FreeWebStuff",
         alternateName: [
+          "freewebstuff",
+          "freewebstuff.site",
           "Free Web Stuff",
           "FreeWebStuff.site",
           "FMHY Curated Directory",

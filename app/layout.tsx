@@ -26,12 +26,17 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "FreeWebStuff — Curated Directory of 20,000+ Best Free Tools, Movies, AI & Software",
+    default: "FreeWebStuff (freewebstuff.site) — Curated Directory of 20,000+ Best Free Tools & Software",
     template: "%s | FreeWebStuff",
   },
   description:
     "Explore the internet's definitive directory of 20,000+ verified free websites, open-source software, streaming sites, AI assistants, developer tools, ebooks, and privacy utilities.",
   keywords: [
+    "freewebstuff",
+    "freewebstuff.site",
+    "freewebstuff site",
+    "FreeWebStuff",
+    "free web stuff",
     "free internet stuff",
     "freewebstuff",
     "free web stuff",
