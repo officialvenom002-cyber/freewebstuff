@@ -1,248 +1,200 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  Search, 
-  Menu, 
-  X, 
-  Moon,
-  ChevronDown,
-  Globe
-} from "lucide-react";
-import SearchModal from "../search/SearchModal";
-import SearchToggle from "../search/SearchToggle";
 import Logo from "../ui/Logo";
-import ThemeSelector from "../ui/ThemeSelector";
+import SearchModal from "../search/SearchModal";
+import { Menu, X, Search } from "lucide-react";
+
+const NAV_LINKS = [
+  { label: "Explore", href: "/search" },
+  { label: "Categories", href: "/categories" },
+  { label: "Trending", href: "/trending" },
+  { label: "Collections", href: "/collections" },
+];
 
 export default function Header() {
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [ecosystemOpen, setEcosystemOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const ecosystemRef = useRef<HTMLDivElement>(null);
 
   // Close mobile menu on route change
   useEffect(() => {
-    setIsMobileMenuOpen(false);
-    setEcosystemOpen(false);
+    setMobileMenuOpen(false);
   }, [pathname]);
 
-  // Global hotkeys
+  // Keyboard shortcuts + custom event
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setIsSearchOpen(prev => !prev);
+        setIsSearchOpen((p) => !p);
       } else if (e.key === "Escape") {
-        setIsMobileMenuOpen(false);
-        setEcosystemOpen(false);
+        setMobileMenuOpen(false);
       }
     };
+    const handleOpen = () => setIsSearchOpen(true);
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  // Close dropdown on click outside
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ecosystemRef.current && !ecosystemRef.current.contains(e.target as Node)) {
-        setEcosystemOpen(false);
-      }
+    window.addEventListener("open-search-modal", handleOpen);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("open-search-modal", handleOpen);
     };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   // Scroll shadow
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const ecosystemItems = [
-    { name: "Beginner's Guide", href: "/beginners-guide", desc: "New? Start here" },
-    { name: "Startpage", href: "/startpage", desc: "Set as your new tab" },
-    { name: "SafeGuard (Unsafe Sites)", href: "/unsafe", desc: "Security advisory" },
-    { name: "Recently Removed", href: "/recently-removed", desc: "Transparency log" },
-    { name: "Submit a Resource", href: "/submit", desc: "Add to the index" },
-    { name: "Saved Bookmarks", href: "/bookmarks", desc: "Locally saved items" },
-    { name: "Admin Panel", href: "/adminshobhit", desc: "Site moderation" },
-  ];
 
   return (
     <>
-      <header className={`sticky top-0 z-40 w-full bg-[#030712]/90 backdrop-blur-md border-b border-[#1A2030]/60 transition-shadow duration-300 ${scrolled ? "shadow-[0_2px_24px_-4px_rgba(0,0,0,0.7)]" : ""}`}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          
-          {/* Left: Cosmic Ring Logo + Pill Search Bar */}
-          <div className="flex items-center gap-3 sm:gap-4">
-            
-            {/* Glowing Planet Emblem Logo + FWSF Brand */}
-            <Link prefetch={false} href="/" className="flex items-center gap-2.5 group shrink-0" title="FWSF">
-              <Logo className="w-8 h-8 sm:w-9 sm:h-9" />
-              <span className="brand-name font-extrabold tracking-wider text-white text-base sm:text-lg">
-                FWSF
-              </span>
+      <header
+        className="sticky top-0 z-40 w-full transition-all duration-300"
+        style={{
+          background: scrolled
+            ? "rgba(11,12,14,0.85)"
+            : "linear-gradient(180deg, rgba(11,12,14,0.82) 0%, rgba(11,12,14,0.62) 70%, rgba(11,12,14,0.40) 100%)",
+          backdropFilter: scrolled ? "blur(20px) saturate(150%)" : "blur(16px) saturate(140%)",
+          WebkitBackdropFilter: scrolled ? "blur(20px) saturate(150%)" : "blur(16px) saturate(140%)",
+          borderBottom: "none",
+          boxShadow: scrolled
+            ? "0 14px 38px -8px rgba(0,0,0,0.85), 0 6px 16px -2px rgba(0,0,0,0.5)"
+            : "0 10px 30px -10px rgba(0,0,0,0.7), 0 4px 12px -2px rgba(0,0,0,0.4)",
+        }}
+      >
+        <div className="max-w-[1160px] mx-auto px-5 sm:px-8 h-[60px] flex items-center justify-between gap-6">
+
+          {/* ── Brand ── */}
+          <Link
+            href="/"
+            prefetch={false}
+            className="flex items-center gap-2.5 group shrink-0"
+            title="FreeWebStuff"
+          >
+            <Logo className="w-7 h-7" />
+            <span className="font-heading font-black text-[16px] tracking-[-0.02em] text-[#F2F3F5] group-hover:text-[#8B7CFF] transition-colors duration-200">
+              FREEWEBSTUFF
+            </span>
+          </Link>
+
+          {/* ── Desktop Nav ── */}
+          <nav className="hidden md:flex items-center gap-1">
+            {NAV_LINKS.map((link) => {
+              const isActive =
+                link.href === "/search"
+                  ? pathname === link.href
+                  : pathname?.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  prefetch={true}
+                  className="relative px-3 py-1.5 text-[13.5px] font-medium rounded-lg transition-all duration-200"
+                  style={{
+                    color: isActive ? "#F2F3F5" : "#9298A3",
+                    background: isActive ? "rgba(255,255,255,0.06)" : "transparent",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) (e.currentTarget as HTMLElement).style.color = "#E2E4E8";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) (e.currentTarget as HTMLElement).style.color = "#9298A3";
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* ── Right actions ── */}
+          <div className="flex items-center gap-2.5">
+            {/* Search icon button */}
+            <button
+              type="button"
+              onClick={() => setIsSearchOpen(true)}
+              aria-label="Open search"
+              className="hidden sm:flex items-center gap-2 h-8 px-3 rounded-lg text-[#9298A3] hover:text-[#F2F3F5] transition-colors border border-[#262A30] hover:border-[#3a3f48] bg-[#111316] hover:bg-[#15181C]"
+            >
+              <Search className="w-3.5 h-3.5" />
+              <span className="text-[12px] font-medium">Search</span>
+              <kbd className="hidden lg:inline text-[10px] font-mono text-[#5A6070] border border-[#262A30] px-1.5 py-0.5 rounded bg-[#0B0C0E]">
+                ⌘K
+              </kbd>
+            </button>
+
+            {/* Submit */}
+            <Link
+              href="/submit"
+              prefetch={true}
+              className="inline-flex items-center justify-center h-8 px-4 rounded-lg text-[12.5px] font-bold tracking-tight transition-all duration-150 active:scale-95"
+              style={{
+                background: "#8B7CFF",
+                color: "#0B0C0E",
+                boxShadow: "0 1px 8px rgba(139,124,255,0.3)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "#9d90ff";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "#8B7CFF";
+              }}
+            >
+              Submit
             </Link>
 
-            {/* Quick Search Pill Bar (Polished Command Palette Toggle) */}
-            <SearchToggle
-              onClick={() => setIsSearchOpen(true)}
-              placeholder="Search tools & guides..."
-              className="w-48 sm:w-64"
-            />
-
+            {/* Mobile hamburger */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg text-[#9298A3] hover:text-[#F2F3F5] border border-[#262A30] bg-[#111316] transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
           </div>
-
-          {/* Right: FMHY Style Navigation Links & Social Icons */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-2 text-sm font-medium text-slate-300">
-              
-              <Link prefetch={false}
-                href="/beginners-guide"
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors"
-              >
-                <span>📖</span>
-                <span>Glossary</span>
-              </Link>
-
-              <Link prefetch={false}
-                href="/startpage"
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors"
-              >
-                <span>💾</span>
-                <span>Backups</span>
-              </Link>
-
-              {/* Ecosystem Dropdown */}
-              <div ref={ecosystemRef} className="relative">
-                <button
-                  onClick={() => setEcosystemOpen(!ecosystemOpen)}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors"
-                >
-                  <span>🌱</span>
-                  <span>Ecosystem</span>
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${ecosystemOpen ? "rotate-180" : ""}`} />
-                </button>
-
-                {ecosystemOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-60 rounded-2xl bg-[#101420] border border-[#22293C] shadow-2xl py-2 z-50 animate-fade-in">
-                    {ecosystemItems.map((item) => (
-                      <Link prefetch={false}
-                        key={item.name}
-                        href={item.href}
-                        onClick={() => setEcosystemOpen(false)}
-                        className="flex flex-col px-4 py-2 hover:bg-[#181E2E] transition-colors"
-                      >
-                        <span className="text-sm font-medium text-white">{item.name}</span>
-                        <span className="text-[11px] text-slate-400">{item.desc}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-            </nav>
-
-            {/* Social Icons & Theme indicator */}
-            <div className="flex items-center gap-1.5 pl-2 border-l border-[#1F273B] text-slate-400">
-              
-              {/* Mad Design Theme Selector Popover */}
-              <ThemeSelector align="right" />
-
-              {/* GitHub */}
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors"
-                title="GitHub"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                </svg>
-              </a>
-
-              {/* Discord */}
-              <a
-                href="https://discord.gg/mHpBcYJHM"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors group"
-                title="Join our Discord"
-              >
-                <svg className="w-4 h-4 fill-current text-[#5865F2] group-hover:text-[#7289DA] transition-colors" viewBox="0 0 24 24">
-                  <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.894.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                </svg>
-              </a>
-
-              {/* Telegram */}
-              <a
-                href="https://t.me/+N7tYaUKT2q44NGU1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors group"
-                title="Join our Telegram"
-              >
-                <svg className="w-4 h-4 fill-current text-[#229ED9] group-hover:text-[#42b5ee] transition-colors" viewBox="0 0 24 24">
-                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/>
-                </svg>
-              </a>
-
-              {/* Globe Icon */}
-              <button
-                className="p-1.5 rounded-lg hover:text-white hover:bg-[#151B2A] transition-colors"
-                title="Global Region"
-              >
-                <Globe className="w-4 h-4" />
-              </button>
-
-              {/* Mobile Menu Button */}
-              <button
-                type="button"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 border border-white/10 active:scale-95 transition-all ml-1 cursor-pointer"
-                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                title={isMobileMenuOpen ? "Close menu" : "Open menu"}
-              >
-                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-
-            </div>
-
-          </div>
-
         </div>
 
-        {/* Mobile Dropdown */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-[#1A2030] bg-[#0C0F18] px-4 py-3 space-y-1">
-            <Link prefetch={false} href="/changelog" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
-              📑 Changelog
-            </Link>
-            <Link prefetch={false} href="/beginners-guide" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
-              📖 Glossary / Guide
-            </Link>
-            <Link prefetch={false} href="/startpage" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
-              💾 Backups &amp; Startpage
-            </Link>
-            <Link prefetch={false} href="/unsafe" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
-              🛡 SafeGuard
-            </Link>
-            <Link prefetch={false} href="/submit" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-white">
-              ➕ Submit a Resource
+        {/* ── Mobile drawer ── */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-[#1E2228] bg-[#0D0F11] px-5 py-4 space-y-1 animate-fade-in">
+            {/* Mobile search */}
+            <button
+              type="button"
+              onClick={() => { setIsSearchOpen(true); setMobileMenuOpen(false); }}
+              className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[14px] font-medium text-[#9298A3] hover:text-[#F2F3F5] hover:bg-[#15181C] transition-colors"
+            >
+              <Search className="w-4 h-4" />
+              Search 15,000+ resources...
+            </button>
+            <div className="border-t border-[#1E2228] my-2" />
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[14px] font-medium text-[#F2F3F5] hover:bg-[#15181C] transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="border-t border-[#1E2228] my-2" />
+            <Link
+              href="/submit"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-[14px] font-bold text-[#0B0C0E] bg-[#8B7CFF] hover:bg-[#9d90ff] transition-colors"
+            >
+              + Submit a Resource
             </Link>
           </div>
         )}
       </header>
 
-      {/* Global Search Modal */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );

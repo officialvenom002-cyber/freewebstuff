@@ -1,125 +1,436 @@
 import React from "react";
 import Link from "next/link";
-import { BookOpen, Shield, Search, Star, AlertTriangle, CheckCircle2, Lock, Zap, Globe, Users } from "lucide-react";
+import {
+  ShieldCheck,
+  Search,
+  Bookmark,
+  Download,
+  Globe,
+  Lock,
+  Zap,
+  Star,
+  ArrowRight,
+  CheckCircle2,
+  AlertTriangle,
+  Tv2,
+  Bot,
+  Gamepad2,
+  BookOpen,
+  Music,
+  Code2,
+  ExternalLink,
+} from "lucide-react";
 
 export const metadata = {
-  title: "Beginner's Guide — FreeWebStuff",
-  description: "New here? Learn how to use FreeWebStuff safely, discover the best tools, and set up your privacy toolkit.",
+  title: "Quick Start — FreeWebStuff",
+  description:
+    "New to FreeWebStuff? Learn how to find, use, and stay safe with the internet's best free tools and resources.",
 };
 
-const faqs = [
+const STEPS = [
   {
-    section: "Getting Started", icon: Zap, color: "#7C5CFF",
-    items: [
-      { q: "What is FreeWebStuff?", a: "FreeWebStuff is a modern, curated directory of the internet's best tools, websites, software, and resources. Every entry is manually reviewed, verified, and categorized." },
-      { q: "How do I find something?", a: "Use the search bar at the top — it searches names, descriptions, and tags. Press Ctrl+K anywhere for instant spotlight search. You can also browse Categories, check Trending, or explore curated Collections." },
-      { q: "What do the badges mean?", a: "Verified = manually checked and live. Safe = clean safety record. Free / Open Source = costs nothing. Editor's Choice = top-tier pick. Freemium = free tier with paid upgrades." },
-    ]
+    step: "01",
+    title: "Install a Trusted Adblocker First",
+    description:
+      "Before exploring any free resource site, protect yourself. Install uBlock Origin — free, open-source, and blocks ads, trackers, and malicious scripts instantly.",
+    color: "#34D399",
+    icon: ShieldCheck,
+    tips: [
+      "Available for Chrome, Firefox, Edge, and Brave",
+      'Go to your browser\'s extension store and search "uBlock Origin"',
+      "After install, it works automatically — no configuration needed",
+    ],
+    links: [
+      { label: "uBlock Origin (Chrome)", href: "https://chrome.google.com/webstore/detail/ublock-origin" },
+      { label: "uBlock Origin (Firefox)", href: "https://addons.mozilla.org/firefox/addon/ublock-origin/" },
+    ],
+    badges: null,
   },
   {
-    section: "Staying Safe", icon: Shield, color: "#34D399",
-    items: [
-      { q: "How do I know a site is safe?", a: "Look for the Safe badge on resource cards. All resources with this badge have been cross-checked against known malware and phishing databases. Caution badges mean read the note before visiting." },
-      { q: "What ad-blocker should I use?", a: "uBlock Origin is the gold standard — free, open-source, and extremely effective. Available for Chrome, Firefox, and Edge. Pair with Privacy Badger for extra tracker blocking." },
-      { q: "Should I use a VPN?", a: "A VPN hides your browsing from your ISP and bypasses geo-restrictions. We recommend Mullvad or ProtonVPN — verified no-log providers. Avoid free VPNs — they often sell your data." },
-    ]
+    step: "02",
+    title: "Search Anything with Ctrl+K",
+    description:
+      "FreeWebStuff has 15,000+ verified resources. Use the search bar to instantly find tools by name, category, or use case. Press Ctrl+K anywhere on the site to open spotlight search.",
+    color: "#7C5CFF",
+    icon: Search,
+    tips: [
+      "Type a tool name, category, or what you want to do",
+      "Press Ctrl+K (Cmd+K on Mac) for instant search from anywhere on the site",
+      "Use filters on the /search page to narrow by pricing, platform, or rating",
+    ],
+    links: [
+      { label: "Open Search", href: "/search" },
+    ],
+    badges: null,
   },
   {
-    section: "Privacy Toolkit", icon: Lock, color: "#60A5FA",
-    items: [
-      { q: "Which browser should I use?", a: "Firefox + uBlock Origin is our top pick. For maximum privacy out of the box, try Brave (Chromium-based, built-in adblocking) or LibreWolf (hardened Firefox fork)." },
-      { q: "What's a private search engine?", a: "DuckDuckGo, Brave Search, or SearXNG. All avoid building user profiles from search history. Check our Privacy category for more options." },
-      { q: "How do I get a private email?", a: "Proton Mail is the most trusted option — end-to-end encrypted, Swiss-based. Tutanota is another solid choice. Both have free tiers." },
-    ]
+    step: "03",
+    title: "Browse Our 24+ Categories",
+    description:
+      "Not sure what you need? Explore curated categories — streaming, AI tools, privacy software, gaming resources, developer utilities, and much more.",
+    color: "#60A5FA",
+    icon: Globe,
+    tips: [
+      "Each category contains hundreds of hand-picked, verified entries",
+      "Categories: Streaming, AI, Privacy, Gaming, Books, Dev Tools, Music, and more",
+      "Click any category card on the homepage to dive straight in",
+    ],
+    links: [
+      { label: "Browse All Categories", href: "/categories" },
+    ],
+    badges: null,
   },
   {
-    section: "Power User Tips", icon: Star, color: "#FBBF24",
-    items: [
-      { q: "How do I search faster?", a: "Press Ctrl+K (or Cmd+K on Mac) anywhere to open instant spotlight search. Filter by category, pricing, platform, and more on the /search page." },
-      { q: "Can I save resources?", a: "Click the bookmark icon on any resource card. Bookmarks are stored locally in your browser (no account needed) and accessible at /bookmarks." },
-      { q: "How do I submit a resource?", a: "Go to /submit, fill in the details, and our team reviews it within 48 hours. The resource must be active, publicly accessible, and genuinely useful." },
-    ]
+    step: "04",
+    title: "Understand Resource Badges",
+    description:
+      "Every resource card shows badges that tell you exactly what to expect before you click. Here's what each one means:",
+    color: "#FBBF24",
+    icon: Star,
+    tips: [],
+    links: [],
+    badges: [
+      { label: "✓ Verified", color: "#34D399", desc: "Manually reviewed and confirmed working" },
+      { label: "🆓 Free", color: "#60A5FA", desc: "Completely free — no credit card required" },
+      { label: "⚡ Open Source", color: "#A78BFA", desc: "Source code is publicly available" },
+      { label: "⭐ Editor's Pick", color: "#FBBF24", desc: "Top-tier recommendation by our team" },
+      { label: "⚠ Freemium", color: "#F97316", desc: "Free tier exists, paid upgrades available" },
+    ],
   },
+  {
+    step: "05",
+    title: "Bookmark Your Favorites",
+    description:
+      "Found a tool you want to revisit? Click the bookmark icon on any resource card. Your bookmarks save locally in your browser — no account, no sign-up.",
+    color: "#F472B6",
+    icon: Bookmark,
+    tips: [
+      "Bookmarks are stored locally — 100% private, no account needed",
+      "Access all your saved resources anytime at /bookmarks",
+      "Works across all pages, categories, and search results",
+    ],
+    links: [
+      { label: "View Bookmarks", href: "/bookmarks" },
+    ],
+    badges: null,
+  },
+  {
+    step: "06",
+    title: "Set Up Your Privacy Toolkit",
+    description:
+      "Protect your browsing with a private browser, search engine, and VPN. These three tools cover 95% of your daily privacy needs — and most are completely free.",
+    color: "#34D399",
+    icon: Lock,
+    tips: [
+      "Browser: Firefox + uBlock Origin, or Brave (built-in adblocker)",
+      "Search engine: DuckDuckGo or Brave Search — zero tracking",
+      "VPN: Mullvad or ProtonVPN — verified no-log providers",
+      "Email: Proton Mail — end-to-end encrypted, free plan available",
+    ],
+    links: [
+      { label: "Privacy & Security Tools", href: "/categories/privacy" },
+    ],
+    badges: null,
+  },
+];
+
+const CATEGORIES = [
+  { name: "Streaming & Movies", href: "/categories/video", icon: Tv2, color: "#EF4444" },
+  { name: "AI Tools", href: "/categories/ai", icon: Bot, color: "#8B5CF6" },
+  { name: "Privacy & Security", href: "/categories/privacy", icon: ShieldCheck, color: "#10B981" },
+  { name: "Gaming & ROMs", href: "/categories/gaming", icon: Gamepad2, color: "#6366F1" },
+  { name: "Books & Reading", href: "/categories/reading", icon: BookOpen, color: "#D97706" },
+  { name: "Music & Audio", href: "/categories/audio", icon: Music, color: "#14B8A6" },
+  { name: "Developer Tools", href: "/categories/developer-tools", icon: Code2, color: "#3B82F6" },
+  { name: "Downloads", href: "/categories/downloading", icon: Download, color: "#F59E0B" },
 ];
 
 export default function BeginnersGuidePage() {
   return (
-    <div className="max-w-3xl mx-auto py-10 px-4 space-y-12">
-      <div className="text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">
-          <BookOpen className="w-3.5 h-3.5" /> Beginner&apos;s Guide
+    <div className="min-h-screen w-full" style={{ background: "#0B0C0E" }}>
+
+      {/* ── Hero ── */}
+      <div className="relative border-b overflow-hidden" style={{ borderColor: "#1E2228" }}>
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse 70% 60% at 50% -10%, rgba(124,92,255,0.12) 0%, transparent 70%)",
+          }}
+        />
+        <div className="relative max-w-[1000px] mx-auto px-5 sm:px-8 pt-14 pb-12 text-center">
+          <div
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-[11px] font-mono font-semibold uppercase tracking-[0.15em] mb-5"
+            style={{ background: "#111316", borderColor: "#1E2228", color: "#9298A3" }}
+          >
+            <Zap className="w-3 h-3 text-yellow-400" />
+            Quick Start Guide
+          </div>
+          <h1
+            className="font-extrabold text-[clamp(1.9rem,4.5vw,3rem)] leading-[1.08] tracking-[-0.03em] mb-4"
+            style={{ color: "#F2F3F5" }}
+          >
+            New Here? Start in{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg, #c4b5fd 0%, #7C5CFF 50%, #60A5FA 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              6 Steps.
+            </span>
+          </h1>
+          <p className="text-[15px] max-w-[520px] mx-auto leading-relaxed" style={{ color: "#9298A3" }}>
+            Everything you need to find free tools, stay safe, and get the most out of FreeWebStuff — from your very first visit.
+          </p>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-content-primary tracking-tight">Welcome to FreeWebStuff</h1>
-        <p className="text-sm text-content-muted max-w-xl mx-auto leading-relaxed">
-          New here? This guide covers everything you need — how to search, stay safe, protect your privacy, and get the most out of the directory.
-        </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {[
-          { label:"Browse Categories", href:"/categories",                icon:Globe,   desc:"24 curated niches" },
-          { label:"Trending Now",       href:"/trending",                  icon:Zap,     desc:"Popular this week" },
-          { label:"Privacy Tools",      href:"/categories/privacy-security",icon:Lock,  desc:"Stay safe online" },
-          { label:"Submit Resource",    href:"/submit",                    icon:Users,   desc:"Contribute to index" },
-        ].map(ql => {
-          const Icon = ql.icon;
-          return (
-            <Link key={ql.label} href={ql.href} className="p-4 rounded-xl bg-surface border border-surface-border interactive-card group flex flex-col items-center text-center gap-2">
-              <Icon className="w-5 h-5 text-brand-400 group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-semibold text-content-primary group-hover:text-brand-400 transition-colors">{ql.label}</span>
-              <span className="text-[11px] text-content-muted">{ql.desc}</span>
-            </Link>
-          );
-        })}
-      </div>
+      <div className="max-w-[1000px] mx-auto px-5 sm:px-8 py-10 space-y-4">
 
-      <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 flex gap-3">
-        <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-        <p className="text-sm text-content-secondary leading-relaxed">
-          <span className="font-semibold text-amber-400">Safety first:</span>{" "}
-          Always install <strong className="text-content-primary">uBlock Origin</strong> before visiting any site — it blocks ads, trackers, and malicious scripts.{" "}
-          <Link href="/categories/privacy-security" className="text-brand-400 hover:underline">Find privacy tools →</Link>
-        </p>
-      </div>
+        {/* ── Safety Banner ── */}
+        <div
+          className="flex items-start gap-3.5 p-4 rounded-2xl border"
+          style={{ background: "rgba(234,179,8,0.06)", borderColor: "rgba(234,179,8,0.25)" }}
+        >
+          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: "#FBBF24" }} />
+          <div>
+            <p className="text-[13.5px] font-semibold mb-0.5" style={{ color: "#FBBF24" }}>
+              Do this before anything else
+            </p>
+            <p className="text-[13px] leading-relaxed" style={{ color: "#9298A3" }}>
+              Install{" "}
+              <a
+                href="https://chrome.google.com/webstore/detail/ublock-origin"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold hover:underline"
+                style={{ color: "#F2F3F5" }}
+              >
+                uBlock Origin
+              </a>{" "}
+              on your browser first. It blocks ads and malicious scripts across every site you visit — completely free.
+            </p>
+          </div>
+        </div>
 
-      {faqs.map(sec => {
-        const Icon = sec.icon;
-        return (
-          <section key={sec.section} className="space-y-4">
-            <div className="flex items-center gap-3 pb-2 border-b border-surface-border">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: `${sec.color}18`, border: `1px solid ${sec.color}30` }}>
-                <Icon className="w-4 h-4" style={{ color: sec.color }} />
-              </div>
-              <h2 className="text-lg font-bold text-content-primary">{sec.section}</h2>
-            </div>
-            <div className="space-y-3">
-              {sec.items.map((item, i) => (
-                <div key={i} className="p-4 rounded-xl bg-surface border border-surface-border">
-                  <div className="flex items-start gap-2.5 mb-2">
-                    <CheckCircle2 className="w-4 h-4 text-brand-400 shrink-0 mt-0.5" />
-                    <h3 className="text-sm font-semibold text-content-primary">{item.q}</h3>
+        {/* ── Steps ── */}
+        <div className="space-y-3">
+          {STEPS.map((step) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={step.step}
+                className="rounded-2xl border"
+                style={{ background: "#111316", borderColor: "#1E2228" }}
+              >
+                <div className="flex items-start gap-4 p-5 sm:p-6">
+                  {/* Step icon + number */}
+                  <div className="shrink-0 flex flex-col items-center gap-1.5">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center"
+                      style={{
+                        background: `${step.color}18`,
+                        border: `1px solid ${step.color}35`,
+                      }}
+                    >
+                      <Icon className="w-5 h-5" style={{ color: step.color }} />
+                    </div>
+                    <span
+                      className="text-[10px] font-mono font-bold tracking-widest"
+                      style={{ color: step.color, opacity: 0.65 }}
+                    >
+                      {step.step}
+                    </span>
                   </div>
-                  <p className="text-sm text-content-muted leading-relaxed pl-6">{item.a}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        );
-      })}
 
-      <div className="text-center p-8 rounded-2xl bg-surface border border-surface-border space-y-4">
-        <h2 className="text-xl font-bold text-content-primary">Ready to explore?</h2>
-        <p className="text-sm text-content-muted">Start by searching, or browse a category that interests you.</p>
-        <div className="flex items-center justify-center gap-3 flex-wrap">
-          <Link href="/search" className="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-sm transition-all flex items-center gap-2">
-            <Search className="w-4 h-4" /> Search Everything
-          </Link>
-          <Link href="/categories" className="px-5 py-2.5 rounded-xl bg-surface-secondary border border-surface-border hover:border-brand-500/40 text-content-primary font-semibold text-sm transition-all flex items-center gap-2">
-            <Globe className="w-4 h-4" /> Browse Categories
-          </Link>
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <h2
+                      className="font-bold text-[1rem] sm:text-[1.05rem] leading-snug mb-1.5 tracking-tight"
+                      style={{ color: "#F2F3F5" }}
+                    >
+                      {step.title}
+                    </h2>
+                    <p className="text-[13.5px] leading-relaxed mb-3" style={{ color: "#9298A3" }}>
+                      {step.description}
+                    </p>
+
+                    {/* Tips */}
+                    {step.tips && step.tips.length > 0 && (
+                      <ul className="space-y-1.5 mb-3">
+                        {step.tips.map((tip, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <CheckCircle2
+                              className="w-3.5 h-3.5 shrink-0 mt-0.5"
+                              style={{ color: step.color }}
+                            />
+                            <span className="text-[13px]" style={{ color: "#9298A3" }}>
+                              {tip}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* Badges breakdown */}
+                    {step.badges && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+                        {step.badges.map((badge) => (
+                          <div
+                            key={badge.label}
+                            className="flex items-center gap-2.5 px-3 py-2 rounded-xl border"
+                            style={{
+                              background: `${badge.color}09`,
+                              borderColor: `${badge.color}22`,
+                            }}
+                          >
+                            <span
+                              className="text-[11px] font-bold px-2 py-0.5 rounded-md border font-mono whitespace-nowrap"
+                              style={{
+                                color: badge.color,
+                                background: `${badge.color}14`,
+                                borderColor: `${badge.color}30`,
+                              }}
+                            >
+                              {badge.label}
+                            </span>
+                            <span className="text-[12px]" style={{ color: "#9298A3" }}>
+                              {badge.desc}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Links */}
+                    {step.links && step.links.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {step.links.map((link) => (
+                          <a
+                            key={link.label}
+                            href={link.href}
+                            target={link.href.startsWith("http") ? "_blank" : undefined}
+                            rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[12px] font-semibold transition-all"
+                            style={{
+                              color: step.color,
+                              background: `${step.color}10`,
+                              border: `1px solid ${step.color}28`,
+                            }}
+                          >
+                            {link.label}
+                            {link.href.startsWith("http") ? (
+                              <ExternalLink className="w-3 h-3" />
+                            ) : (
+                              <ArrowRight className="w-3 h-3" />
+                            )}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        {/* ── Category Quick Links ── */}
+        <div className="pt-6">
+          <div className="mb-5">
+            <p
+              className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase mb-1.5"
+              style={{ color: "#9298A3" }}
+            >
+              Explore by Interest
+            </p>
+            <h2
+              className="font-bold text-[1.25rem] tracking-tight"
+              style={{ color: "#F2F3F5" }}
+            >
+              Jump into a Category
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <Link
+                  key={cat.name}
+                  href={cat.href}
+                  className="group flex flex-col items-center text-center gap-2.5 p-4 rounded-2xl border transition-all duration-200 hover:border-opacity-60"
+                  style={{ background: "#15181C", borderColor: "#1E2228" }}
+                >
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
+                    style={{
+                      background: `${cat.color}15`,
+                      border: `1px solid ${cat.color}30`,
+                    }}
+                  >
+                    <Icon className="w-5 h-5" style={{ color: cat.color }} />
+                  </div>
+                  <span
+                    className="text-[12.5px] font-semibold leading-tight transition-colors duration-200 group-hover:text-white"
+                    style={{ color: "#9298A3" }}
+                  >
+                    {cat.name}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── CTA ── */}
+        <div
+          className="rounded-2xl border p-8 text-center mt-4"
+          style={{ background: "#111316", borderColor: "#1E2228" }}
+        >
+          <div
+            className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4"
+            style={{ background: "rgba(124,92,255,0.12)", border: "1px solid rgba(124,92,255,0.25)" }}
+          >
+            <Zap className="w-6 h-6" style={{ color: "#7C5CFF" }} />
+          </div>
+          <h2 className="font-bold text-[1.2rem] mb-2 tracking-tight" style={{ color: "#F2F3F5" }}>
+            You&apos;re ready to explore.
+          </h2>
+          <p className="text-[13.5px] mb-6 max-w-sm mx-auto" style={{ color: "#9298A3" }}>
+            Start searching, or pick a category that interests you. Everything here is free.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/search"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all hover:scale-105"
+              style={{
+                background: "#7C5CFF",
+                color: "#fff",
+                boxShadow: "0 0 20px rgba(124,92,255,0.3)",
+              }}
+            >
+              <Search className="w-4 h-4" />
+              Search Everything
+            </Link>
+            <Link
+              href="/categories"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold border transition-all"
+              style={{
+                background: "#15181C",
+                borderColor: "#262A30",
+                color: "#F2F3F5",
+              }}
+            >
+              <Globe className="w-4 h-4" />
+              Browse Categories
+            </Link>
+          </div>
+        </div>
+
       </div>
     </div>
   );
 }
+

@@ -4,16 +4,17 @@ import "./globals.css";
 import ClientLayout from "@/components/layout/ClientLayout";
 import { generateWebSiteSchema } from "@/lib/seo/schema";
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const jakartaHeading = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-heading",
-  weight: ["500", "600", "700", "800"],
+  weight: ["600", "700", "800"],
   display: "swap",
 });
 
@@ -108,6 +109,10 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    icon: "/favicon.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -120,22 +125,26 @@ export default function RootLayout({
   return (
     <html 
       lang="en" 
-      className={`dark ${inter.variable} ${jakarta.variable} ${mono.variable}`}
+      suppressHydrationWarning
+      className={`dark ${jakarta.variable} ${jakartaHeading.variable} ${mono.variable}`}
     >
-      <head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/logo.png" />
+      <body 
+        suppressHydrationWarning
+        className="font-sans min-h-screen flex flex-col antialiased bg-[#0B0C0E] text-[#F2F3F5]"
+      >
         <script
+          id="fwsf-theme-init"
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("fwsf-theme")||localStorage.getItem("fins-theme")||"matte-sepia";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem("fwsf-theme")||localStorage.getItem("fins-theme")||"dark";if(t!=="white"&&t!=="light")t="dark";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`,
           }}
         />
         <script
+          id="website-jsonld"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+          }}
         />
-      </head>
-      <body className="font-sans min-h-screen flex flex-col antialiased bg-[#090b10] text-[#f8fafc]">
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

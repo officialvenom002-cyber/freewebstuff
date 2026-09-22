@@ -5,19 +5,19 @@ import { Sparkles, Shield, Heart, ExternalLink, Github, Terminal } from "lucide-
 
 export default function Footer() {
   return (
-    <footer className="border-t border-surface-border bg-surface/80 pt-12 pb-8 mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 pb-10 border-b border-surface-border/60">
+    <footer className="border-t border-[#262A30] bg-[#111316] pt-16 pb-10 mt-20">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-12 pb-12 border-b border-[#262A30]/80">
           
           {/* Brand Col */}
           <div className="md:col-span-2 space-y-4">
             <Link prefetch={false} href="/" className="flex items-center gap-2.5 group">
               <Logo className="w-8 h-8" />
               <div className="flex items-baseline gap-1.5">
-                <span className="font-extrabold text-lg tracking-wider text-white group-hover:text-sky-300 transition-colors">
+                <span className="font-heading font-extrabold text-lg tracking-wider text-[#F2F3F5] group-hover:text-[#8B7CFF] transition-colors">
                   FWSF
                 </span>
-                <span className="text-xs text-slate-400 font-medium">
+                <span className="text-xs text-[#9298A3] font-medium">
                   (FreeWebStuff)
                 </span>
               </div>
@@ -26,11 +26,11 @@ export default function Footer() {
               A curated, privacy-first directory and search engine for useful websites, software, developer utilities, AI models, and community tools.
             </p>
             <div className="flex items-center gap-3 pt-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-surface-secondary text-content-secondary border border-surface-border">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-surface-secondary text-content-secondary border border-surface-border">
                 <Shield className="w-3.5 h-3.5 text-emerald-400" />
                 Community Verified
               </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-surface-secondary text-content-secondary border border-surface-border">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-surface-secondary text-content-secondary border border-surface-border">
                 <span className="w-2 h-2 rounded-full bg-brand-400 animate-pulse" />
                 24+ Categories
               </span>
@@ -38,9 +38,9 @@ export default function Footer() {
           </div>
 
           {/* Directory Links */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary">Directory</h4>
-            <ul className="space-y-2 text-sm text-content-muted">
+          <div className="space-y-3.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary font-mono">Directory</h4>
+            <ul className="space-y-2.5 text-sm text-content-muted">
               <li><Link prefetch={false} href="/search" className="hover:text-brand-400 transition-colors">Explore All Tools</Link></li>
               <li><Link prefetch={false} href="/categories" className="hover:text-brand-400 transition-colors">Categories</Link></li>
               <li><Link prefetch={false} href="/collections" className="hover:text-brand-400 transition-colors">Curated Collections</Link></li>
@@ -50,9 +50,9 @@ export default function Footer() {
           </div>
 
           {/* Community & Moderation */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary">Community</h4>
-            <ul className="space-y-2 text-sm text-content-muted">
+          <div className="space-y-3.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary font-mono">Community</h4>
+            <ul className="space-y-2.5 text-sm text-content-muted">
               <li><a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Telegram</a></li>
               <li><a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Discord</a></li>
               <li><Link prefetch={false} href="/submit" className="hover:text-brand-400 transition-colors">Submit a Resource</Link></li>
@@ -63,9 +63,9 @@ export default function Footer() {
           </div>
 
           {/* Legal & Policy */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary">Legal & Safety</h4>
-            <ul className="space-y-2 text-sm text-content-muted">
+          <div className="space-y-3.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary font-mono">Legal & Safety</h4>
+            <ul className="space-y-2.5 text-sm text-content-muted">
               <li><Link prefetch={false} href="/terms" className="hover:text-brand-400 transition-colors">Terms of Service</Link></li>
               <li><Link prefetch={false} href="/privacy" className="hover:text-brand-400 transition-colors">Privacy Policy</Link></li>
               <li><Link prefetch={false} href="/terms#indexing-disclaimer" className="hover:text-brand-400 transition-colors">Indexing Disclaimer</Link></li>
@@ -76,22 +76,22 @@ export default function Footer() {
         </div>
 
         {/* Disclaimer Notice */}
-        <div className="py-6 text-xs text-content-muted/80 border-b border-surface-border/40 leading-relaxed">
-          <strong className="text-content-secondary">Notice & Indexing Policy:</strong> FreeWebStuff operates solely as an index and discovery directory of publicly available web resources, open-source software, and developer tools. FreeWebStuff does not host third-party files, binaries, or streams on its servers. All product names, logos, and brands are property of their respective owners.
+        <div className="py-7 text-xs text-content-muted/80 border-b border-surface-border/40 leading-relaxed">
+          <strong className="text-content-secondary font-medium">Notice & Indexing Policy:</strong> FreeWebStuff operates solely as an index and discovery directory of publicly available web resources, open-source software, and developer tools. FreeWebStuff does not host third-party files, binaries, or streams on its servers. All product names, logos, and brands are property of their respective owners.
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-content-muted">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-content-muted">
           <div>
-            &copy; {new Date().getFullYear()} FreeWebStuff. Free and community curated.
+            {"© 2026 FreeWebStuff. Free and community curated."}
           </div>
           <div className="flex items-center gap-4">
             <Link prefetch={false} href="/sitemap.xml" className="hover:text-brand-400 transition-colors">
               Sitemap
             </Link>
-            <span>&bull;</span>
+            <span>{"•"}</span>
             <span className="flex items-center gap-1">
-              Crafted with <Heart className="w-3 h-3 text-red-400 fill-red-400" /> for the Open Web
+              {"Crafted with"} <Heart className="w-3 h-3 text-red-400 fill-red-400" /> {"for the Open Web"}
             </span>
           </div>
         </div>

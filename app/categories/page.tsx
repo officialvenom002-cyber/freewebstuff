@@ -88,26 +88,26 @@ export default function CategoriesPage() {
   const categories = getCategoriesWithCounts();
 
   return (
-    <div className="space-y-8 py-4">
+    <div className="max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
       {/* Header */}
-      <div className="space-y-2 max-w-2xl animate-fade-up">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-content-primary tracking-tight">
+      <div className="space-y-3 max-w-2xl animate-fade-up">
+        <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-content-primary tracking-tight">
           Directory Categories
         </h1>
-        <p className="text-sm text-content-muted">
+        <p className="text-sm sm:text-base text-content-muted leading-relaxed">
           Browse 23 specialized categories indexing over 15,000 verified tools, open-source apps, and curated community recommendations.
         </p>
       </div>
 
       {/* Categories Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
         {categories.map((cat, idx) => {
           const Icon = iconMap[cat.icon] || Sparkles;
           const delayMs = Math.min(idx * 50, 600);
           return (
             <div
               key={cat.id}
-              className="animate-fade-up p-6 rounded-2xl bg-surface border border-surface-border interactive-card flex flex-col justify-between group"
+              className="animate-fade-up p-6 sm:p-7 rounded-2xl bg-surface border border-surface-border interactive-card flex flex-col justify-between group"
               style={{ animationDelay: `${delayMs}ms` }}
             >
               <div>
@@ -118,29 +118,29 @@ export default function CategoriesPage() {
                   >
                     <Icon className="w-6 h-6 transition-transform" style={{ color: cat.color }} />
                   </div>
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-surface-secondary text-content-secondary border border-surface-border">
-                    {cat.resourceCount} {cat.resourceCount === 1 ? "tool" : "tools"}
+                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-surface-secondary text-content-secondary border border-surface-border font-mono">
+                    {`${cat.resourceCount} ${cat.resourceCount === 1 ? "tool" : "tools"}`}
                   </span>
                 </div>
 
                 <Link href={`/categories/${cat.slug}`} prefetch={true}>
-                  <h2 className="text-lg font-bold text-content-primary group-hover:text-brand-400 transition-colors duration-200">
+                  <h2 className="font-heading font-bold text-lg text-content-primary group-hover:text-brand-400 transition-colors duration-200">
                     {cat.name}
                   </h2>
                 </Link>
-                <p className="text-xs text-content-muted mt-2 leading-relaxed">
+                <p className="text-xs sm:text-[13px] text-content-muted mt-2 leading-relaxed">
                   {cat.description}
                 </p>
 
                 {/* Subcategories tags */}
                 {cat.subcategories && cat.subcategories.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mt-4">
+                  <div className="flex flex-wrap gap-2 mt-5">
                     {cat.subcategories.map((sub) => (
                       <Link
                         key={sub.id}
                         href={`/categories/${cat.slug}?sub=${sub.id}`}
                         prefetch={true}
-                        className="text-[11px] px-2 py-0.5 rounded-md bg-surface-secondary text-content-muted hover:text-content-primary hover:border-brand-500/30 border border-surface-border/60 transition-all duration-150 hover:bg-surface-hover"
+                        className="text-xs px-2.5 py-1 rounded-lg bg-surface-secondary text-content-muted hover:text-content-primary hover:border-brand-500/30 border border-surface-border/60 transition-all duration-150 hover:bg-surface-hover font-medium"
                       >
                         {sub.name}
                       </Link>
@@ -149,13 +149,13 @@ export default function CategoriesPage() {
                 )}
               </div>
 
-              <div className="pt-6 mt-4 border-t border-surface-border/50 flex items-center justify-between">
+              <div className="pt-6 mt-5 border-t border-surface-border/50 flex items-center justify-between">
                 <Link
                   href={`/categories/${cat.slug}`}
                   prefetch={true}
                   className="text-xs font-semibold text-brand-400 hover:text-brand-300 transition-colors duration-150 flex items-center gap-1 group/link"
                 >
-                  <span>Explore {cat.name}</span>
+                  <span>{`Explore ${cat.name}`}</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-1" />
                 </Link>
               </div>

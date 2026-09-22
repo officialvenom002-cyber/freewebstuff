@@ -108,7 +108,7 @@ export default function StartpagePage() {
       {/* Footer links */}
       <div className="w-full max-w-xl hero-animate-5 flex items-center justify-center gap-5 flex-wrap border-t border-surface-border pt-6 text-xs text-content-muted">
         {[
-          { l:"Beginner's Guide", h:"/beginners-guide" },
+          { l:"Quick Start",       h:"/beginners-guide" },
           { l:"Changelog",        h:"/changelog" },
           { l:"Submit Resource",  h:"/submit" },
           { l:"SafeGuard",        h:"/unsafe" },

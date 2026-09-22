@@ -12,7 +12,7 @@ import {
 import { Category, Resource } from "@/lib/types";
 
 const FMHY_SIDEBAR_WIKI = [
-  { slug: "beginners-guide", name: "Beginners Guide",         emoji: "📖", isPage: true,     href: "/beginners-guide" },
+  { slug: "beginners-guide", name: "Quick Start",             emoji: "📖", isPage: true,     href: "/beginners-guide" },
   { slug: "privacy",         name: "Adblocking / Privacy",    emoji: "🛡️", isCategory: true, href: "/categories/privacy" },
   { slug: "ai",              name: "Artificial Intelligence",  emoji: "🤖", isCategory: true, href: "/categories/ai" },
   { slug: "video",           name: "Movies / TV / Anime",     emoji: "🎬", isCategory: true, href: "/categories/video" },

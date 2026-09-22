@@ -33,7 +33,13 @@ import {
   Github,
   MessageSquare,
   FileCode2,
-  Flame
+  Flame,
+  ChevronDown,
+  Search,
+  Folder,
+  Bookmark,
+  Rocket,
+  Send
 } from "lucide-react";
 
 interface CategoryItem {
@@ -182,6 +188,7 @@ const HOME_CATEGORIES: CategoryItem[] = [
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [ecosystemOpen, setEcosystemOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const ecosystemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -231,6 +238,7 @@ export default function HomePage() {
       if (!navbar) return;
       navbar.classList.toggle("navbar-scrolled", window.scrollY > 10);
     };
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
@@ -246,88 +254,103 @@ export default function HomePage() {
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       {/* NAVIGATION */}
-      <header className="navbar">
+      <header className={`navbar sticky top-0 z-40 transition-all duration-300 ${mobileMenuOpen ? "navbar-scrolled !bg-[#0B0C0E]/95 !backdrop-blur-xl" : ""}`}>
         <div className="nav-inner">
 
-          <Link prefetch={false} href="/" className="brand group" title="FWSF">
-            <Logo className="w-8 h-8 sm:w-9 sm:h-9" />
-            <span className="brand-name font-extrabold tracking-wider text-white text-base sm:text-lg">
-              FWSF
-            </span>
-          </Link>
+          {/* Left Group: Brand + Shrunk Search Bar */}
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 min-w-0">
+            <Link prefetch={false} href="/" className="brand group shrink-0" title="FREEWEBSTUFF">
+              <Logo className="w-8 h-8 sm:w-9 sm:h-9" />
+              <span className="brand-name font-extrabold tracking-wider text-white text-base sm:text-lg">
+                FREEWEBSTUFF
+              </span>
+            </Link>
 
-          <SearchToggle
-            onClick={() => setIsSearchOpen(true)}
-            placeholder="Search 15,000+ resources..."
-            className="w-52 sm:w-72"
-          />
+            <SearchToggle
+              onClick={() => setIsSearchOpen(true)}
+              placeholder="Search..."
+              className="w-28 xs:w-36 sm:w-44 md:w-52"
+            />
+          </div>
 
           <div className="nav-right">
 
-            <nav className="nav-links">
-              <Link prefetch={false} href="/beginners-guide" className="nav-link">📖 Glossary ↗</Link>
-              <Link prefetch={false} href="/startpage" className="nav-link">💾 Backups</Link>
+            <nav className="nav-links flex items-center gap-6 sm:gap-7">
+              <Link 
+                prefetch={false} 
+                href="/beginners-guide" 
+                className="text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap flex items-center gap-1.5"
+              >
+                <span>📖</span>
+                <span>Quick Start</span>
+              </Link>
+              <Link 
+                prefetch={false} 
+                href="/trending" 
+                className="text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap"
+              >
+                Trending
+              </Link>
 
-              {/* Ecosystem Interactive Dropdown Toggle */}
+              {/* Explore More Dropdown */}
               <div ref={ecosystemRef} className="relative">
                 <button
                   type="button"
                   onClick={() => setEcosystemOpen(!ecosystemOpen)}
-                  className="nav-link cursor-pointer flex items-center gap-1 bg-transparent border-none p-0 text-inherit font-inherit"
+                  className="cursor-pointer flex items-center gap-1.5 text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap bg-transparent border-none"
                 >
-                  <span>🌱 Ecosystem</span>
-                  <span className={`text-[11px] transition-transform duration-200 ${ecosystemOpen ? "rotate-180" : ""}`}>⌄</span>
+                  <span>More</span>
+                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${ecosystemOpen ? "rotate-180 text-white" : ""}`} />
                 </button>
 
                 {ecosystemOpen && (
-                  <div className="absolute top-full right-0 mt-2.5 w-60 rounded-2xl bg-[#090e1c] border border-white/10 shadow-2xl py-2 z-50 backdrop-blur-xl animate-fade-in">
-                    <Link prefetch={false}
-                      href="/search"
-                      onClick={() => setEcosystemOpen(false)}
-                      className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
-                    >
-                      <span className="text-xs font-semibold text-white">🌐 Search Directory</span>
-                      <span className="text-[11px] text-slate-400">Search all 15,000+ verified tools</span>
-                    </Link>
-                    <Link prefetch={false}
+                  <div 
+                    className="absolute right-0 top-full mt-2 w-48 rounded-xl bg-[#111316]/90 border border-white/[0.08] shadow-2xl p-1.5 z-50 animate-popover space-y-1 backdrop-blur-xl"
+                  >
+                    <Link
+                      prefetch={false}
                       href="/categories"
                       onClick={() => setEcosystemOpen(false)}
-                      className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
                     >
-                      <span className="text-xs font-semibold text-white">📂 All 23 Categories</span>
-                      <span className="text-[11px] text-slate-400">Browse complete category hub</span>
+                      <Folder className="w-4 h-4 text-slate-400" />
+                      <span className="flex-1 text-left">Categories</span>
                     </Link>
-                    <Link prefetch={false}
+                    <Link
+                      prefetch={false}
+                      href="/search"
+                      onClick={() => setEcosystemOpen(false)}
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
+                    >
+                      <Search className="w-4 h-4 text-slate-400" />
+                      <span className="flex-1 text-left">Search</span>
+                    </Link>
+                    <Link
+                      prefetch={false}
                       href="/bookmarks"
                       onClick={() => setEcosystemOpen(false)}
-                      className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
                     >
-                      <span className="text-xs font-semibold text-white">🔖 Saved Bookmarks</span>
-                      <span className="text-[11px] text-slate-400">Your personalized saved collection</span>
+                      <Bookmark className="w-4 h-4 text-slate-400" />
+                      <span className="flex-1 text-left">Bookmarks</span>
                     </Link>
-                    <Link prefetch={false}
-                      href="/trending"
-                      onClick={() => setEcosystemOpen(false)}
-                      className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
-                    >
-                      <span className="text-xs font-semibold text-white">🔥 Trending & Popular</span>
-                      <span className="text-[11px] text-slate-400">Top community favorites</span>
-                    </Link>
-                    <Link prefetch={false}
+                    <Link
+                      prefetch={false}
                       href="/startpage"
                       onClick={() => setEcosystemOpen(false)}
-                      className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
                     >
-                      <span className="text-xs font-semibold text-white">🚀 Minimal Startpage</span>
-                      <span className="text-[11px] text-slate-400">Custom browser new tab hub</span>
+                      <Rocket className="w-4 h-4 text-slate-400" />
+                      <span className="flex-1 text-left">Startpage</span>
                     </Link>
-                    <Link prefetch={false}
-                      href="/beginners-guide"
+                    <Link
+                      prefetch={false}
+                      href="/submit"
                       onClick={() => setEcosystemOpen(false)}
-                      className="flex flex-col px-4 py-2 hover:bg-white/5 transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
                     >
-                      <span className="text-xs font-semibold text-white">📖 Beginners Guide</span>
-                      <span className="text-[11px] text-slate-400">Safety tips and privacy setup</span>
+                      <Send className="w-4 h-4 text-slate-400" />
+                      <span className="flex-1 text-left">Submit</span>
                     </Link>
                   </div>
                 )}
@@ -336,14 +359,8 @@ export default function HomePage() {
 
             <div className="nav-divider"></div>
 
-            <div className="nav-icons flex items-center gap-3">
+            <div className="nav-icons flex items-center gap-3.5">
               <ThemeSelector />
-
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="nav-icon" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.74.08-.74 1.2.08 1.84 1.23 1.84 1.23 1.07 1.83 2.8 1.3 3.49.99.11-.77.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.23-3.22-.12-.3-.53-1.52.12-3.17 0 0 1-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.13 3.17.76.84 1.22 1.91 1.22 3.22 0 4.62-2.8 5.64-5.48 5.94.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z"/>
-                </svg>
-              </a>
 
               <a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="nav-icon" aria-label="Discord">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -356,22 +373,75 @@ export default function HomePage() {
                   <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/>
                 </svg>
               </a>
-
-              <a href="#" className="nav-icon" aria-label="Community">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <circle cx="12" cy="12" r="9"></circle>
-                  <path d="M3 12h18M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9S9.6 5.5 12 3Z"/>
-                </svg>
-              </a>
-
             </div>
           </div>
 
-          <button className="mobile-menu" id="mobileMenu" aria-label="Menu">
-            ☰
+          <button 
+            type="button"
+            className="mobile-menu" 
+            id="mobileMenu" 
+            aria-label="Toggle navigation menu"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? "✕" : "☰"}
           </button>
 
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        {mobileMenuOpen && (
+          <div className="sm:hidden border-t border-white/10 bg-[#090e1c]/90 backdrop-blur-xl px-5 py-4 flex flex-col gap-3 animate-fade-in shadow-2xl">
+            <Link 
+              prefetch={false} 
+              href="/categories" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-medium text-white hover:text-sky-400 py-1.5 flex items-center justify-between"
+            >
+              <span>📂 Browse Categories</span>
+              <span className="text-xs text-slate-500">23+</span>
+            </Link>
+            <Link 
+              prefetch={false} 
+              href="/trending" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
+            >
+              Trending Tools
+            </Link>
+            <Link 
+              prefetch={false} 
+              href="/beginners-guide" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
+            >
+              📖 Quick Start
+            </Link>
+            <Link 
+              prefetch={false} 
+              href="/startpage" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
+            >
+              🚀 Minimal Startpage
+            </Link>
+            <Link 
+              prefetch={false} 
+              href="/bookmarks" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
+            >
+              🔖 Saved Bookmarks
+            </Link>
+
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs">Discord</a>
+                <a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs">Telegram</a>
+              </div>
+              <ThemeSelector />
+            </div>
+          </div>
+        )}
       </header>
 
       {/* HERO */}
@@ -382,17 +452,16 @@ export default function HomePage() {
           <div className="hero-content">
 
             <h1 className="hero-title hero-title-anim">
-              freewebstuff
+              Everything Free.
+              <br />
+              <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">
+                All in One Place.
+              </span>
             </h1>
-
-            <p className="hero-description hero-desc-anim">
-              Your ultimate hub for the best free resources
-              across the internet.
-            </p>
 
             <div className="hero-actions hero-action-anim">
               <Link prefetch={false} href="/beginners-guide" className="btn btn-primary">
-                Beginner&apos;s Guide
+                Quick Start
                 <span>→</span>
               </Link>
 
@@ -493,7 +562,7 @@ export default function HomePage() {
 
         {/* QUICK ESSENTIAL ADVISORY BANNER */}
         <section className="w-full max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#0d1322] via-[#10172a] to-[#0d1322] border border-sky-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.5)] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#0d1322]/60 backdrop-blur-md border border-sky-500/20 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             
             <div className="space-y-2 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">
@@ -514,7 +583,7 @@ export default function HomePage() {
                 className="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 shadow-[0_0_20px_rgba(56,189,248,0.3)]"
               >
                 <BookOpen className="w-4 h-4" />
-                <span>Beginner&apos;s Guide</span>
+                <span>Quick Start</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               

@@ -134,12 +134,12 @@ export default function ResourceDetailPage({ params }: ResourcePageProps) {
                   {Number(resource.communityRating || 4.5).toFixed(1)} / 5.0
                 </span>
                 <span>&bull;</span>
-                <span className="flex items-center gap-1">
+                <span suppressHydrationWarning className="flex items-center gap-1">
                   <Eye className="w-3.5 h-3.5 text-content-muted" />
                   {resource.viewCount.toLocaleString()} views
                 </span>
                 <span>&bull;</span>
-                <span className="flex items-center gap-1">
+                <span suppressHydrationWarning className="flex items-center gap-1">
                   <MousePointerClick className="w-3.5 h-3.5 text-content-muted" />
                   {resource.clickCount.toLocaleString()} visits
                 </span>
@@ -183,7 +183,7 @@ export default function ResourceDetailPage({ params }: ResourcePageProps) {
           </div>
           <div className="p-3 rounded-xl bg-surface-secondary/70 border border-surface-border">
             <span className="text-content-muted block mb-1">Last Checked</span>
-            <span className="font-semibold text-content-primary">
+            <span suppressHydrationWarning className="font-semibold text-content-primary">
               {new Date(resource.lastVerifiedAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
             </span>
           </div>
