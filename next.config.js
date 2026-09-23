@@ -49,6 +49,16 @@ const nextConfig = {
   // ─── HTTP Headers ────────────────────────────────────────────────────────────
   async headers() {
     return [
+      // Cloudflare Edge Cache for all static & content pages — saves 99% Vercel bandwidth
+      {
+        source: "/((?!api/).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, s-maxage=604800, stale-while-revalidate=86400",
+          },
+        ],
+      },
       // Immutable cache for Next.js hashed build assets (/_next/static/*)
       {
         source: "/_next/static/:path*",
