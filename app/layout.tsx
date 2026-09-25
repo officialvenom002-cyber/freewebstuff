@@ -129,6 +129,23 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`dark ${jakarta.variable} ${jakartaHeading.variable} ${mono.variable}`}
     >
+      <head>
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-3T4ZJ0VR0G"
+        />
+        <script
+          id="google-analytics-inline"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-3T4ZJ0VR0G');
+            `,
+          }}
+        />
+      </head>
       <body 
         suppressHydrationWarning
         className="font-sans min-h-screen flex flex-col antialiased bg-[#0B0C0E] text-[#F2F3F5]"
