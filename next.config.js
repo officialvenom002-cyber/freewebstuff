@@ -49,13 +49,13 @@ const nextConfig = {
   // ─── HTTP Headers ────────────────────────────────────────────────────────────
   async headers() {
     return [
-      // Content pages: short edge cache so updates and changes appear live within 60s
+      // Content pages: do not cache HTML pages so ad tags, scripts, and verifications appear instantly
       {
-        source: "/((?!api/|shobhitadmin|adminshobhit|sw\\.js|service-worker\\.js).*)",
+        source: "/((?!api/|_next/static|_next/image|favicon|logo|images|shobhitadmin|adminshobhit|sw\\.js|service-worker\\.js).*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=60, stale-while-revalidate=60",
+            value: "no-cache, no-store, must-revalidate",
           },
         ],
       },
