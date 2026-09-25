@@ -8,6 +8,7 @@ import SearchToggle from "@/components/search/SearchToggle";
 import ThemeSelector from "@/components/ui/ThemeSelector";
 import LiveUserPresence from "@/components/analytics/LiveUserPresence";
 import Footer from "@/components/layout/Footer";
+import AdsterraBanner from "@/components/ads/AdsterraBanner";
 import { 
   ShieldCheck, 
   Bot, 
@@ -543,6 +544,9 @@ export default function HomePage() {
 
 
       </main>
+
+      {/* Sponsored Banner */}
+      <AdsterraBanner />
 
       {/* Global Clean Professional Footer */}
       <Footer />

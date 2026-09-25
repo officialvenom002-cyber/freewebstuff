@@ -105,6 +105,7 @@ export default function MonetagGuardian() {
           href.includes("quge5.com") ||
           href.includes("3nbf4.com") ||
           href.includes("5gvci.com") ||
+          href.includes("bibleearthquake.com") ||
           href.includes("onclick");
 
         if (isAd) {

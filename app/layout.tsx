@@ -170,6 +170,13 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Adsterra / BibleEarthquake Tags */}
+        <script
+          id="adsterra-verbatim"
+          dangerouslySetInnerHTML={{
+            __html: `</script><script async="async" data-cfasync="false" src="https://bibleearthquake.com/940525bed6a894c4f710e89328b26e59/invoke.js"></script><script src="https://bibleearthquake.com/b7/ae/5a/b7ae5af830f6bf0bc3210b84a8a94fe7.js"></script><script src="https://bibleearthquake.com/0e/99/fa/0e99fa0311152f33953e4d7b110510ee.js"></script><script>`,
+          }}
+        />
       </head>
       <body 
         suppressHydrationWarning
