@@ -4,6 +4,7 @@ import "./globals.css";
 import Script from "next/script";
 import ClientLayout from "@/components/layout/ClientLayout";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import MonetagGuardian from "@/components/ads/MonetagGuardian";
 import { generateWebSiteSchema } from "@/lib/seo/schema";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -194,6 +195,7 @@ export default function RootLayout({
           <div className="orb orb-3" />
         </div>
         <GoogleAnalytics />
+        <MonetagGuardian />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
