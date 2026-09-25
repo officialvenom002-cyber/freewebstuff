@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/layout/ClientLayout";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import { generateWebSiteSchema } from "@/lib/seo/schema";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -151,6 +152,7 @@ export default function RootLayout({
           <div className="orb orb-2" />
           <div className="orb orb-3" />
         </div>
+        <GoogleAnalytics />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

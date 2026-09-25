@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useUptimeChecker, SiteResult, setSiteHealthOverride } from "@/hooks/useUptimeChecker";
 import { Category, Resource } from "@/lib/types";
+import { pageview, event as trackGAEvent } from "@/lib/analytics/gtag";
 
 const FMHY_SIDEBAR_WIKI = [
   { slug: "beginners-guide", name: "Quick Start",             emoji: "📖", isPage: true,     href: "/beginners-guide" },
@@ -198,7 +199,13 @@ export default function CategoryView({
       setSelectedPill("all");
       setSearchQuery("");
       window.history.pushState({ slug: item.slug }, "", item.href);
-      document.title = `${cached.name} Directory 2026 — Best Free Tools, Websites & Software | FreeWebStuff`;
+      const newTitle = `${cached.name} Directory 2026 — Best Free Tools, Websites & Software | FreeWebStuff`;
+      document.title = newTitle;
+      pageview(item.href, newTitle);
+      trackGAEvent("category_switch", {
+        category_name: cached.name,
+        category_slug: item.slug,
+      });
       window.scrollTo({ top: 0, behavior: "instant" });
       return;
     }
@@ -218,7 +225,13 @@ export default function CategoryView({
         setSelectedPill("all");
         setSearchQuery("");
         window.history.pushState({ slug: item.slug }, "", item.href);
-        document.title = `${target.name} Directory 2026 — Best Free Tools, Websites & Software | FreeWebStuff`;
+        const newTitle = `${target.name} Directory 2026 — Best Free Tools, Websites & Software | FreeWebStuff`;
+        document.title = newTitle;
+        pageview(item.href, newTitle);
+        trackGAEvent("category_switch", {
+          category_name: target.name,
+          category_slug: item.slug,
+        });
         window.scrollTo({ top: 0, behavior: "instant" });
       } else {
         window.location.href = item.href;
