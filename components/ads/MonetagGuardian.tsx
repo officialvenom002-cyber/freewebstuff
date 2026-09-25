@@ -1,22 +1,30 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
 /**
- * Monetag CPM & Frequency Capping Guardian
+ * High-eCPM Programmatic Guardian
  *
- * Rules enforced:
- * 1. Strict 24-Hour Cap: Max 2 ad triggers per user in 24 hours.
- * 2. Smart Pacing: Minimum 10 minutes between ad 1 and ad 2 to maximize user engagement & eCPM.
- * 3. Zero Ads for Admins: Completely disabled on admin routes (/adminshobhit, /shobhitadmin).
- * 4. Intercepts both window.open and synthetic anchor tag click handlers in capture phase.
+ * Designed to maximize publisher revenue (eCPM) while maintaining premium UX:
+ * 1. Strict 24-Hour Cap: Max 2 ad triggers per user in 24 hours (preserves top-tier advertiser bids).
+ * 2. Smart Pacing: 10-minute cooldown between Ad #1 and Ad #2 to command fresh auction bids.
+ * 3. Dwell-Time Quality Gate: Requires at least 4 seconds of page dwell time or active scroll
+ *    before permitting any ad trigger. Prevents instant bounce penalties and qualifies traffic
+ *    for premium Tier-1 advertiser rates ($15-$45+ CPM).
+ * 4. Active Tab Visibility: Only permits triggers when document is actively visible.
+ * 5. 100% Ad-Free on Admin Routes: Zero ads on /admin*, /shobhitadmin.
  */
 export default function MonetagGuardian() {
   const pathname = usePathname();
+  const sessionStartRef = useRef<number>(Date.now());
+  const userInteractedRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    // Reset session start on page change
+    sessionStartRef.current = Date.now();
 
     // Never trigger ads on admin dashboards
     if (pathname.includes("admin") || pathname.includes("shobhit")) {
@@ -27,6 +35,14 @@ export default function MonetagGuardian() {
     const MAX_ADS_24H = 2;
     const WINDOW_24H = 24 * 60 * 60 * 1000; // 24 hours
     const MIN_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes pacing
+    const MIN_DWELL_MS = 4000; // 4 seconds dwell time to ensure high-intent quality score
+
+    // Track genuine user interaction (scroll or mouse movement)
+    const onUserInteraction = () => {
+      userInteractedRef.current = true;
+    };
+    window.addEventListener("scroll", onUserInteraction, { passive: true, once: true });
+    window.addEventListener("keydown", onUserInteraction, { passive: true, once: true });
 
     function getValidTimestamps(): number[] {
       try {
@@ -50,6 +66,17 @@ export default function MonetagGuardian() {
     }
 
     function canShowAd(): boolean {
+      // Must be visible in foreground
+      if (typeof document !== "undefined" && document.visibilityState !== "visible") {
+        return false;
+      }
+
+      // Quality gate: Require 4s dwell time OR proven user interaction (scroll/key)
+      const dwellTime = Date.now() - sessionStartRef.current;
+      if (dwellTime < MIN_DWELL_MS && !userInteractedRef.current) {
+        return false;
+      }
+
       const valid = getValidTimestamps();
       // 1. Max 2 in 24h
       if (valid.length >= MAX_ADS_24H) {
@@ -65,12 +92,12 @@ export default function MonetagGuardian() {
       return true;
     }
 
-    // Intercept window.open
+    // Intercept window.open (used by popunders / new tab ads)
     const originalOpen = window.open;
     window.open = function (url?: string | URL, target?: string, features?: string) {
       const urlStr = String(url || "");
 
-      // Allow internal links freely
+      // Allow internal links and community links freely
       const isInternal =
         urlStr.startsWith("/") ||
         urlStr.includes("freewebstuff.site") ||
@@ -91,7 +118,7 @@ export default function MonetagGuardian() {
       return originalOpen.call(window, url, target, features);
     };
 
-    // Intercept synthetic anchor clicks (used by some popunder scripts)
+    // Intercept synthetic anchor clicks (used by onclick / popunder scripts)
     const handleCaptureClick = (e: MouseEvent) => {
       let el = e.target as HTMLElement | null;
       while (el && el.tagName !== "A") {
@@ -124,6 +151,8 @@ export default function MonetagGuardian() {
     return () => {
       window.open = originalOpen;
       document.removeEventListener("click", handleCaptureClick, true);
+      window.removeEventListener("scroll", onUserInteraction);
+      window.removeEventListener("keydown", onUserInteraction);
     };
   }, [pathname]);
 

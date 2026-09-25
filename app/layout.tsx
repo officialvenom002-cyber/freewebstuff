@@ -125,6 +125,11 @@ export default function RootLayout({
       className={`dark ${jakarta.variable} ${mono.variable}`}
     >
       <head>
+        {/* High-speed CDN preconnect for maximum fill rate & low latency CPM */}
+        <link rel="preconnect" href="https://bibleearthquake.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://bibleearthquake.com" />
+        <link rel="preconnect" href="https://quge5.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://quge5.com" />
         {/* Verification & Ad Network Tags (Monetag & Adsterra verbatim) */}
         <script
           id="ad-network-tags"
