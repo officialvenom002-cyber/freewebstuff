@@ -49,13 +49,13 @@ const nextConfig = {
   // ─── HTTP Headers ────────────────────────────────────────────────────────────
   async headers() {
     return [
-      // Cloudflare Edge Cache for all static & content pages — saves 99% Vercel bandwidth
+      // Content pages: short edge cache so updates and changes appear live within 60s
       {
         source: "/((?!api/|shobhitadmin|adminshobhit).*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=3600, s-maxage=604800, stale-while-revalidate=86400",
+            value: "public, max-age=0, s-maxage=60, stale-while-revalidate=60",
           },
         ],
       },
