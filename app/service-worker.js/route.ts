@@ -17,6 +17,7 @@ export async function GET() {
       "Content-Type": "application/javascript; charset=utf-8",
       "Cache-Control": "no-cache, no-store, must-revalidate",
       "Service-Worker-Allowed": "/",
+      "Access-Control-Allow-Origin": "*",
     },
   });
 }
@@ -28,6 +29,7 @@ export async function HEAD() {
       "Content-Type": "application/javascript; charset=utf-8",
       "Cache-Control": "no-cache, no-store, must-revalidate",
       "Service-Worker-Allowed": "/",
+      "Access-Control-Allow-Origin": "*",
     },
   });
 }
@@ -39,6 +41,7 @@ export async function POST() {
       "Content-Type": "application/javascript; charset=utf-8",
       "Cache-Control": "no-cache, no-store, must-revalidate",
       "Service-Worker-Allowed": "/",
+      "Access-Control-Allow-Origin": "*",
     },
   });
 }

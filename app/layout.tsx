@@ -131,11 +131,25 @@ export default function RootLayout({
       className={`dark ${jakarta.variable} ${jakartaHeading.variable} ${mono.variable}`}
     >
       <head>
+        {/* Monetag Tag - exact verbatim snippet for scraper verification */}
         <script
-          async
-          src="https://quge5.com/88/tag.min.js"
-          data-zone="286666"
-          data-cfasync="false"
+          id="monetag-tag-verbatim"
+          dangerouslySetInnerHTML={{
+            __html: `</script><script src="https://quge5.com/88/tag.min.js" data-zone="286666" async data-cfasync="false"></script><script>`,
+          }}
+        />
+        {/* Service Worker Auto-Registration for Monetag Push Notifications */}
+        <script
+          id="monetag-sw-register"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+                window.addEventListener("load", function() {
+                  navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(function(){});
+                });
+              }
+            `,
+          }}
         />
         <Script
           strategy="afterInteractive"
