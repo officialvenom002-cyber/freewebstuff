@@ -51,7 +51,7 @@ const nextConfig = {
     return [
       // Content pages: short edge cache so updates and changes appear live within 60s
       {
-        source: "/((?!api/|shobhitadmin|adminshobhit).*)",
+        source: "/((?!api/|shobhitadmin|adminshobhit|sw\\.js|service-worker\\.js).*)",
         headers: [
           {
             key: "Cache-Control",
