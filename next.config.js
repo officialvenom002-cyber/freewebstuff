@@ -51,11 +51,30 @@ const nextConfig = {
     return [
       // Cloudflare Edge Cache for all static & content pages — saves 99% Vercel bandwidth
       {
-        source: "/((?!api/).*)",
+        source: "/((?!api/|shobhitadmin|adminshobhit).*)",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=3600, s-maxage=604800, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      // Admin dashboard must never be cached by CDN or browser
+      {
+        source: "/(shobhitadmin|adminshobhit)/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+          },
+        ],
+      },
+      {
+        source: "/(shobhitadmin|adminshobhit)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
           },
         ],
       },
