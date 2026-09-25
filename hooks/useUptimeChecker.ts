@@ -36,25 +36,18 @@ let memoryHealthMap: Record<string, SiteResult> | null = null;
 let lastFetchTime = 0;
 
 /**
- * Loads the daily site health registry safely.
- * Complete fail-safe guarantees:
- * - Never throws in SSR or client environments.
- * - Never blocks page load or rendering.
- * - 3-second timeout on health fetch.
- * - Falls back seamlessly to normal site operation if offline or unavailable.
+ * Synchronously checks if health map is in memory or local storage.
+ * Eliminates double-renders on page switches!
  */
-async function getDailyHealthMap(): Promise<Record<string, SiteResult>> {
+export function getSyncCachedHealthMap(): Record<string, SiteResult> | null {
   if (typeof window === "undefined") {
-    return {};
+    return null;
   }
-
   const now = Date.now();
-
   if (memoryHealthMap && now - lastFetchTime < ONE_DAY_MS) {
     return memoryHealthMap;
   }
 
-  // Check localStorage safely
   try {
     const local = localStorage.getItem(STORAGE_KEY);
     if (local) {
@@ -66,13 +59,51 @@ async function getDailyHealthMap(): Promise<Record<string, SiteResult>> {
       }
     }
   } catch {
-    // Ignore private browsing or localStorage disabled errors
+    // Ignore private browsing error
   }
 
-  // Fetch daily pre-compiled static registry with strict 3-second abort
+  return memoryHealthMap;
+}
+
+function resolveUrlsMap(urls: string[], safeMap: Record<string, SiteResult> | null): Record<string, SiteResult> {
+  if (!urls || urls.length === 0) return {};
+  const map = safeMap || {};
+  const output: Record<string, SiteResult> = {};
+  for (const url of urls) {
+    if (!url) continue;
+    if (map[url]) {
+      output[url] = map[url];
+    } else {
+      const trimmed = url.replace(/\/+$/, "");
+      const alt = map[trimmed] || map[trimmed + "/"];
+      if (alt) {
+        output[url] = { ...alt, url };
+      } else {
+        output[url] = { url, status: "up" };
+      }
+    }
+  }
+  return output;
+}
+
+/**
+ * Loads the daily site health registry safely.
+ */
+async function getDailyHealthMap(): Promise<Record<string, SiteResult>> {
+  if (typeof window === "undefined") {
+    return {};
+  }
+
+  const cached = getSyncCachedHealthMap();
+  if (cached && Object.keys(cached).length > 0) {
+    return cached;
+  }
+
+  const now = Date.now();
+
   try {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 3000);
+    const timer = setTimeout(() => controller.abort(), 2000);
 
     const res = await fetch("/data/site-health.json", {
       cache: "default",
@@ -106,28 +137,67 @@ async function getDailyHealthMap(): Promise<Record<string, SiteResult>> {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({ timestamp: now, sites: mapped }));
       } catch {
-        // Storage quota full — safely ignore
+        // Safe quota ignore
       }
 
       return mapped;
     }
   } catch {
-    // Network offline, timeout, or missing file — gracefully fallback
+    // Graceful fallback
   }
 
   return memoryHealthMap || {};
 }
 
 /**
+ * Updates site health status dynamically in memory and storage,
+ * and notifies active components to re-render in 0ms.
+ */
+export function setSiteHealthOverride(
+  url: string,
+  status: "up" | "down",
+  latency?: number,
+  updatedUrl?: string
+) {
+  if (!url) return;
+  const now = Date.now();
+  if (!memoryHealthMap) memoryHealthMap = getSyncCachedHealthMap() || {};
+  memoryHealthMap[url] = {
+    url,
+    status,
+    latency,
+    updatedUrl,
+    checkedAt: now,
+  };
+
+  const cleanUrl = url.replace(/\/+$/, "");
+  memoryHealthMap[cleanUrl] = memoryHealthMap[url];
+  memoryHealthMap[cleanUrl + "/"] = memoryHealthMap[url];
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ timestamp: now, sites: memoryHealthMap }));
+  } catch {}
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("fwsf-health-update", { detail: { url, status } }));
+  }
+}
+
+/**
  * useUptimeChecker
  *
- * Daily low-resource, zero-risk hook:
- * - Checks run ONCE daily via pre-compiled static health registry.
- * - Visitors NEVER make live external server requests.
- * - Completely immune to external outages or network failures.
+ * Butter-smooth, zero-jank uptime checker:
+ * - Synchronously populates with in-memory health map on category changes.
+ * - Reacts immediately when a site goes down or comes back up.
  */
 export function useUptimeChecker(urls: string[]): Record<string, SiteResult> {
-  const [results, setResults] = useState<Record<string, SiteResult>>({});
+  const [results, setResults] = useState<Record<string, SiteResult>>(() => {
+    const cached = getSyncCachedHealthMap();
+    if (cached) {
+      return resolveUrlsMap(urls, cached);
+    }
+    return {};
+  });
 
   useEffect(() => {
     let isMounted = true;
@@ -136,40 +206,35 @@ export function useUptimeChecker(urls: string[]): Record<string, SiteResult> {
       return;
     }
 
+    const cached = getSyncCachedHealthMap();
+    if (cached && Object.keys(cached).length > 0) {
+      setResults(resolveUrlsMap(urls, cached));
+      return;
+    }
+
     getDailyHealthMap()
       .then((healthMap) => {
         if (!isMounted) return;
-
-        const safeMap = healthMap || {};
-        const output: Record<string, SiteResult> = {};
-
-        for (const url of urls) {
-          if (!url) continue;
-
-          if (safeMap[url]) {
-            output[url] = safeMap[url];
-          } else {
-            const trimmed = url.replace(/\/+$/, "");
-            const alt = safeMap[trimmed] || safeMap[trimmed + "/"];
-            if (alt) {
-              output[url] = { ...alt, url };
-            } else {
-              // Default to healthy "up" — never break site display
-              output[url] = { url, status: "up" };
-            }
-          }
-        }
-
-        setResults(output);
+        setResults(resolveUrlsMap(urls, healthMap));
       })
-      .catch(() => {
-        // Any unexpected error is safely caught — all sites remain displayed normally
-      });
+      .catch(() => {});
 
     return () => {
       isMounted = false;
     };
-  }, [urls.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [urls]);
+
+  // Listen for real-time uptime status overrides
+  useEffect(() => {
+    const handleUpdate = () => {
+      const cached = getSyncCachedHealthMap();
+      if (cached) {
+        setResults(resolveUrlsMap(urls, cached));
+      }
+    };
+    window.addEventListener("fwsf-health-update", handleUpdate);
+    return () => window.removeEventListener("fwsf-health-update", handleUpdate);
+  }, [urls]);
 
   return results;
 }

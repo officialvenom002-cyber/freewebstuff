@@ -220,29 +220,6 @@ export default function HomePage() {
     };
     document.addEventListener("mousedown", handleClickOutside);
 
-    /* Staggered card entrance via IntersectionObserver + CSS class */
-    const cards = document.querySelectorAll<HTMLElement>(".category-card");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry, idx) => {
-          if (entry.isIntersecting) {
-            const el = entry.target as HTMLElement;
-            const delay = parseInt(el.dataset.cardIndex || "0", 10) * 55;
-            el.style.animationDelay = `${delay}ms`;
-            el.classList.add("card-enter");
-            observer.unobserve(el);
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-
-    cards.forEach((card, i) => {
-      card.dataset.cardIndex = String(i);
-      card.style.opacity = "0";
-      observer.observe(card);
-    });
-
     /* Navbar scroll shadow */
     const navbar = document.querySelector<HTMLElement>(".navbar");
     const handleScroll = () => {
@@ -256,7 +233,6 @@ export default function HomePage() {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
       window.removeEventListener("scroll", handleScroll);
-      observer.disconnect();
     };
   }, []);
 
@@ -270,7 +246,7 @@ export default function HomePage() {
 
           {/* Left Group: Brand + Shrunk Search Bar */}
           <div className="flex items-center gap-3 sm:gap-4 md:gap-5 min-w-0">
-            <Link prefetch={false} href="/" className="brand group shrink-0" title="FREEWEBSTUFF">
+            <Link href="/" className="brand group shrink-0" title="FREEWEBSTUFF">
               <Logo className="w-8 h-8 sm:w-9 sm:h-9" />
               <span className="brand-name font-extrabold tracking-wider text-white text-base sm:text-lg">
                 FREEWEBSTUFF
@@ -288,7 +264,6 @@ export default function HomePage() {
 
             <nav className="nav-links flex items-center gap-6 sm:gap-7">
               <Link 
-                prefetch={false} 
                 href="/beginners-guide" 
                 className="text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap flex items-center gap-1.5"
               >
@@ -296,7 +271,6 @@ export default function HomePage() {
                 <span>Quick Start</span>
               </Link>
               <Link 
-                prefetch={false} 
                 href="/trending" 
                 className="text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap"
               >
@@ -319,7 +293,6 @@ export default function HomePage() {
                     className="absolute right-0 top-full mt-2 w-48 rounded-xl bg-[#111316]/90 border border-white/[0.08] shadow-2xl p-1.5 z-50 animate-popover space-y-1 backdrop-blur-xl"
                   >
                     <Link
-                      prefetch={false}
                       href="/categories"
                       onClick={() => setEcosystemOpen(false)}
                       className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
@@ -328,7 +301,6 @@ export default function HomePage() {
                       <span className="flex-1 text-left">Categories</span>
                     </Link>
                     <Link
-                      prefetch={false}
                       href="/search"
                       onClick={() => setEcosystemOpen(false)}
                       className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
@@ -337,7 +309,6 @@ export default function HomePage() {
                       <span className="flex-1 text-left">Search</span>
                     </Link>
                     <Link
-                      prefetch={false}
                       href="/bookmarks"
                       onClick={() => setEcosystemOpen(false)}
                       className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
@@ -346,7 +317,6 @@ export default function HomePage() {
                       <span className="flex-1 text-left">Bookmarks</span>
                     </Link>
                     <Link
-                      prefetch={false}
                       href="/startpage"
                       onClick={() => setEcosystemOpen(false)}
                       className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
@@ -355,7 +325,6 @@ export default function HomePage() {
                       <span className="flex-1 text-left">Startpage</span>
                     </Link>
                     <Link
-                      prefetch={false}
                       href="/submit"
                       onClick={() => setEcosystemOpen(false)}
                       className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-150 cursor-pointer"
@@ -403,7 +372,6 @@ export default function HomePage() {
         {mobileMenuOpen && (
           <div className="sm:hidden border-t border-white/10 bg-[#090e1c]/90 backdrop-blur-xl px-5 py-4 flex flex-col gap-3 animate-fade-in shadow-2xl">
             <Link 
-              prefetch={false} 
               href="/categories" 
               onClick={() => setMobileMenuOpen(false)}
               className="text-sm font-medium text-white hover:text-sky-400 py-1.5 flex items-center justify-between"
@@ -412,7 +380,6 @@ export default function HomePage() {
               <span className="text-xs text-slate-500">23+</span>
             </Link>
             <Link 
-              prefetch={false} 
               href="/trending" 
               onClick={() => setMobileMenuOpen(false)}
               className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
@@ -420,7 +387,6 @@ export default function HomePage() {
               Trending Tools
             </Link>
             <Link 
-              prefetch={false} 
               href="/beginners-guide" 
               onClick={() => setMobileMenuOpen(false)}
               className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
@@ -428,7 +394,6 @@ export default function HomePage() {
               📖 Quick Start
             </Link>
             <Link 
-              prefetch={false} 
               href="/startpage" 
               onClick={() => setMobileMenuOpen(false)}
               className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
@@ -436,7 +401,6 @@ export default function HomePage() {
               🚀 Minimal Startpage
             </Link>
             <Link 
-              prefetch={false} 
               href="/bookmarks" 
               onClick={() => setMobileMenuOpen(false)}
               className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
@@ -471,12 +435,12 @@ export default function HomePage() {
             </h1>
 
             <div className="hero-actions hero-action-anim">
-              <Link prefetch={false} href="/beginners-guide" className="btn btn-primary">
+              <Link href="/beginners-guide" className="btn btn-primary">
                 Quick Start
                 <span>→</span>
               </Link>
 
-              <Link prefetch={false} href="/submit" className="btn btn-secondary">
+              <Link href="/submit" className="btn btn-secondary">
                 Contribute
               </Link>
 

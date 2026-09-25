@@ -72,7 +72,7 @@ export default function Header() {
           {/* ── Brand ── */}
           <Link
             href="/"
-            prefetch={false}
+            prefetch={true}
             className="flex items-center gap-2.5 group shrink-0"
             title="FreeWebStuff"
           >

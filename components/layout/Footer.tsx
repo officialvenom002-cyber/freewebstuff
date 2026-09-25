@@ -11,7 +11,7 @@ export default function Footer() {
           
           {/* Brand Col */}
           <div className="md:col-span-2 space-y-4">
-            <Link prefetch={false} href="/" className="flex items-center gap-2.5 group">
+            <Link href="/" className="flex items-center gap-2.5 group">
               <Logo className="w-8 h-8" />
               <div className="flex items-baseline gap-1.5">
                 <span className="font-heading font-extrabold text-lg tracking-wider text-[#F2F3F5] group-hover:text-[#8B7CFF] transition-colors">
@@ -41,11 +41,12 @@ export default function Footer() {
           <div className="space-y-3.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary font-mono">Directory</h4>
             <ul className="space-y-2.5 text-sm text-content-muted">
-              <li><Link prefetch={false} href="/search" className="hover:text-brand-400 transition-colors">Explore All Tools</Link></li>
-              <li><Link prefetch={false} href="/categories" className="hover:text-brand-400 transition-colors">Categories</Link></li>
-              <li><Link prefetch={false} href="/collections" className="hover:text-brand-400 transition-colors">Curated Collections</Link></li>
-              <li><Link prefetch={false} href="/trending" className="hover:text-brand-400 transition-colors">Trending Tools</Link></li>
-              <li><Link prefetch={false} href="/new" className="hover:text-brand-400 transition-colors">Recently Added</Link></li>
+              <li><Link href="/search" className="hover:text-brand-400 transition-colors">Explore All Tools</Link></li>
+              <li><Link href="/categories" className="hover:text-brand-400 transition-colors">Categories</Link></li>
+              <li><Link href="/collections" className="hover:text-brand-400 transition-colors">Curated Collections</Link></li>
+              <li><Link href="/trending" className="hover:text-brand-400 transition-colors">Trending Tools</Link></li>
+              <li><Link href="/new" className="hover:text-brand-400 transition-colors">Recently Added</Link></li>
+              <li><Link href="/categories/offline" className="hover:text-red-400 transition-colors flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-red-400"></span><span>Offline Directory</span></Link></li>
             </ul>
           </div>
 
@@ -55,10 +56,10 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm text-content-muted">
               <li><a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Telegram</a></li>
               <li><a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Discord</a></li>
-              <li><Link prefetch={false} href="/submit" className="hover:text-brand-400 transition-colors">Submit a Resource</Link></li>
-              <li><Link prefetch={false} href="/report" className="hover:text-brand-400 transition-colors">Report Broken Link</Link></li>
-              <li><Link prefetch={false} href="/guidelines" className="hover:text-brand-400 transition-colors">Inclusion Guidelines</Link></li>
-              <li><Link prefetch={false} href="/adminshobhit" className="hover:text-brand-400 transition-colors flex items-center gap-1">Admin Panel</Link></li>
+              <li><Link href="/submit" className="hover:text-brand-400 transition-colors">Submit a Resource</Link></li>
+              <li><Link href="/report" className="hover:text-brand-400 transition-colors">Report Broken Link</Link></li>
+              <li><Link href="/guidelines" className="hover:text-brand-400 transition-colors">Inclusion Guidelines</Link></li>
+              <li><Link href="/adminshobhit" className="hover:text-brand-400 transition-colors flex items-center gap-1">Admin Panel</Link></li>
             </ul>
           </div>
 
@@ -66,10 +67,10 @@ export default function Footer() {
           <div className="space-y-3.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary font-mono">Legal & Safety</h4>
             <ul className="space-y-2.5 text-sm text-content-muted">
-              <li><Link prefetch={false} href="/terms" className="hover:text-brand-400 transition-colors">Terms of Service</Link></li>
-              <li><Link prefetch={false} href="/privacy" className="hover:text-brand-400 transition-colors">Privacy Policy</Link></li>
-              <li><Link prefetch={false} href="/terms#indexing-disclaimer" className="hover:text-brand-400 transition-colors">Indexing Disclaimer</Link></li>
-              <li><Link prefetch={false} href="/report" className="hover:text-brand-400 transition-colors">Takedown Requests</Link></li>
+              <li><Link href="/terms" className="hover:text-brand-400 transition-colors">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="hover:text-brand-400 transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms#indexing-disclaimer" className="hover:text-brand-400 transition-colors">Indexing Disclaimer</Link></li>
+              <li><Link href="/report" className="hover:text-brand-400 transition-colors">Takedown Requests</Link></li>
             </ul>
           </div>
 
@@ -86,7 +87,7 @@ export default function Footer() {
             {"© 2026 FreeWebStuff. Free and community curated."}
           </div>
           <div className="flex items-center gap-4">
-            <Link prefetch={false} href="/sitemap.xml" className="hover:text-brand-400 transition-colors">
+            <Link href="/sitemap.xml" className="hover:text-brand-400 transition-colors">
               Sitemap
             </Link>
             <span>{"•"}</span>

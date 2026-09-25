@@ -76,8 +76,9 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 import { CATEGORY_KEYWORDS_MAP, generateCategorySchema } from "@/lib/seo/schema";
-import CategoryView, { PrivacySection } from "@/components/categories/CategoryView";
-import allCategorySectionsData from "@/lib/db/allCategorySections.json";
+import CategoryView from "@/components/categories/CategoryView";
+import { buildTypedBoxes, TypedBox, PrivacySection } from "@/lib/categories/boxExtractor";
+import { getPrecomputedBoxesForCategory } from "@/lib/categories/serverBoxLoader";
 
 export async function generateMetadata({ params }: CategoryPageProps) {
   const category = getCategoryBySlug(params.slug);
@@ -137,41 +138,46 @@ export async function generateMetadata({ params }: CategoryPageProps) {
   };
 }
 
-export default function CategoryPage({ params, searchParams }: CategoryPageProps) {
+interface CategoryPageProps {
+  params: { slug: string };
+}
+
+export default function CategoryPage({ params }: CategoryPageProps) {
   const category = getCategoryBySlug(params.slug);
   if (!category) notFound();
 
-  const selectedSub = searchParams?.sub;
-  const currentSort = searchParams?.sort || "popular";
-
-  const allCategoryResources = filterResources({
-    category: category.id,
-  });
-
   const slug = category.slug || category.id;
-  const categoryDict = allCategorySectionsData as Record<string, PrivacySection[]>;
-  let initialSections: PrivacySection[] = categoryDict[slug] || [];
+  
+  // Instant retrieval from precomputed cache (0ms)
+  let initialBoxes = getPrecomputedBoxesForCategory(slug);
 
-  if (!initialSections || initialSections.length === 0) {
-    const slugKey = Object.keys(categoryDict).find(
-      (k) => slug.toLowerCase().includes(k) || k.includes(slug.toLowerCase())
-    );
-    if (slugKey && categoryDict[slugKey]) {
-      initialSections = categoryDict[slugKey];
+  if (!initialBoxes || initialBoxes.length === 0) {
+    try {
+      const allCategorySectionsData = require("@/lib/db/allCategorySections.json") as Record<string, PrivacySection[]>;
+      let initialSections: PrivacySection[] = allCategorySectionsData[slug] || [];
+
+      if (!initialSections || initialSections.length === 0) {
+        const slugKey = Object.keys(allCategorySectionsData).find(
+          (k) => slug.toLowerCase().includes(k) || k.includes(slug.toLowerCase())
+        );
+        if (slugKey && allCategorySectionsData[slugKey]) {
+          initialSections = allCategorySectionsData[slugKey];
+        }
+      }
+      initialBoxes = buildTypedBoxes(slug, initialSections);
+    } catch {
+      initialBoxes = [];
     }
   }
 
   // Generate top-tier Google SERP Schemas (CollectionPage + BreadcrumbList + FAQPage)
-  const structuredBoxes = initialSections.map((sec) => ({
-    id: sec.id,
-    title: sec.title,
-    websites: sec.items.map((item) => {
-      const match = /(?:\*\*\[([^\]]+)\]\((https?:\/\/[^\)]+)\)\*\*|\[([^\]]+)\]\((https?:\/\/[^\)]+)\))/.exec(item.raw);
-      return {
-        name: match ? (match[1] || match[3] || "").trim() : "",
-        url: match ? (match[2] || match[4] || "").trim() : "",
-      };
-    }).filter((w) => w.name && w.url),
+  const structuredBoxes = initialBoxes.map((box) => ({
+    id: box.id,
+    title: box.title,
+    websites: box.websites.map((w) => ({
+      name: w.name,
+      url: w.url,
+    })),
   }));
 
   const jsonLd = generateCategorySchema(category, structuredBoxes);
@@ -184,10 +190,7 @@ export default function CategoryPage({ params, searchParams }: CategoryPageProps
       />
       <CategoryView
         category={category}
-        allResources={allCategoryResources}
-        initialSectionsProp={initialSections}
-        initialSub={selectedSub}
-        initialSort={currentSort}
+        initialBoxesProp={initialBoxes}
       />
     </>
   );
