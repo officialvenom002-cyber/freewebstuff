@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  --font-heading: var(--font-sans);
   --bg: #0B0C0E;
   --bg-secondary: #111316;
   --card: #15181C;

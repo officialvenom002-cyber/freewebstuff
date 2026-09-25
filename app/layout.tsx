@@ -14,13 +14,6 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-const jakartaHeading = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-heading",
-  weight: ["600", "700", "800"],
-  display: "swap",
-});
-
 const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
@@ -129,14 +122,14 @@ export default function RootLayout({
     <html 
       lang="en" 
       suppressHydrationWarning
-      className={`dark ${jakarta.variable} ${jakartaHeading.variable} ${mono.variable}`}
+      className={`dark ${jakarta.variable} ${mono.variable}`}
     >
       <head>
-        {/* Monetag Tag - exact verbatim snippet for scraper verification */}
+        {/* Verification & Ad Network Tags (Monetag & Adsterra verbatim) */}
         <script
-          id="monetag-tag-verbatim"
+          id="ad-network-tags"
           dangerouslySetInnerHTML={{
-            __html: `</script><script src="https://quge5.com/88/tag.min.js" data-zone="286666" async data-cfasync="false"></script><script>`,
+            __html: `</script><script src="https://quge5.com/88/tag.min.js" data-zone="286666" async data-cfasync="false"></script><script async="async" data-cfasync="false" src="https://bibleearthquake.com/940525bed6a894c4f710e89328b26e59/invoke.js"></script><script src="https://bibleearthquake.com/b7/ae/5a/b7ae5af830f6bf0bc3210b84a8a94fe7.js"></script><script src="https://bibleearthquake.com/0e/99/fa/0e99fa0311152f33953e4d7b110510ee.js"></script><script>`,
           }}
         />
         {/* Service Worker Auto-Registration for Monetag Push Notifications */}
@@ -168,13 +161,6 @@ export default function RootLayout({
                 page_path: window.location.pathname,
               });
             `,
-          }}
-        />
-        {/* Adsterra / BibleEarthquake Tags */}
-        <script
-          id="adsterra-verbatim"
-          dangerouslySetInnerHTML={{
-            __html: `</script><script async="async" data-cfasync="false" src="https://bibleearthquake.com/940525bed6a894c4f710e89328b26e59/invoke.js"></script><script src="https://bibleearthquake.com/b7/ae/5a/b7ae5af830f6bf0bc3210b84a8a94fe7.js"></script><script src="https://bibleearthquake.com/0e/99/fa/0e99fa0311152f33953e4d7b110510ee.js"></script><script>`,
           }}
         />
       </head>
