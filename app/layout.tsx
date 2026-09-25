@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 import ClientLayout from "@/components/layout/ClientLayout";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import { generateWebSiteSchema } from "@/lib/seo/schema";
@@ -130,18 +131,21 @@ export default function RootLayout({
       className={`dark ${jakarta.variable} ${jakartaHeading.variable} ${mono.variable}`}
     >
       <head>
-        <script
-          async
+        <Script
+          strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-3T4ZJ0VR0G"
         />
-        <script
+        <Script
           id="google-analytics-inline"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-3T4ZJ0VR0G');
+              gtag('config', 'G-3T4ZJ0VR0G', {
+                page_path: window.location.pathname,
+              });
             `,
           }}
         />
