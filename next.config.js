@@ -126,6 +126,24 @@ const nextConfig = {
           },
         ],
       },
+      // Service worker headers (no-cache, root scope)
+      {
+        source: "/:path(sw\\.js|service-worker\\.js)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+          {
+            key: "Content-Type",
+            value: "application/javascript; charset=utf-8",
+          },
+          {
+            key: "Service-Worker-Allowed",
+            value: "/",
+          },
+        ],
+      },
       // Security headers — Cloudflare Full (Strict) SSL compatible
       {
         source: "/:path*",
