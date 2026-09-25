@@ -1,4 +1,4 @@
-export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
+export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID || "G-3T4ZJ0VR0G";
 
 // Track page views (useful for client-side transitions and pushState)
 export const pageview = (url: string, title?: string) => {

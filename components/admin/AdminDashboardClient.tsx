@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
+import LiveUserPresence from "@/components/analytics/LiveUserPresence";
 import { 
   Lock, 
   Unlock, 
@@ -607,6 +608,19 @@ export default function AdminDashboardClient({ initialAuth }: { initialAuth: boo
           </div>
 
           <div className="flex items-center gap-2.5">
+            <LiveUserPresence className="hidden sm:inline-flex" />
+
+            <a
+              href="https://analytics.google.com/analytics/web/#/realtime"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 hover:text-white border border-purple-500/25 text-xs font-sans transition-all"
+              title="Open Google Analytics 4 Realtime Dashboard"
+            >
+              <span>GA4 Realtime</span>
+              <ExternalLink className="w-3.5 h-3.5 text-purple-400" />
+            </a>
+
             <Link
               href="/"
               target="_blank"

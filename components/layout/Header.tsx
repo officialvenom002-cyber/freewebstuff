@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "../ui/Logo";
 import SearchModal from "../search/SearchModal";
+import LiveUserPresence from "../analytics/LiveUserPresence";
 import { Menu, X, Search } from "lucide-react";
 
 const NAV_LINKS = [
@@ -114,6 +115,9 @@ export default function Header() {
 
           {/* ── Right actions ── */}
           <div className="flex items-center gap-2.5">
+            {/* Live user indicator */}
+            <LiveUserPresence className="hidden md:inline-flex" />
+
             {/* Search icon button */}
             <button
               type="button"
