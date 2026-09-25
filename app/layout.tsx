@@ -131,6 +131,12 @@ export default function RootLayout({
       className={`dark ${jakarta.variable} ${jakartaHeading.variable} ${mono.variable}`}
     >
       <head>
+        <script
+          async
+          src="https://quge5.com/88/tag.min.js"
+          data-zone="286666"
+          data-cfasync="false"
+        />
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-3T4ZJ0VR0G"

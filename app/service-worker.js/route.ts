@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 const swCode = `self.options = {
-    "domain": "3nbf4.com",
-    "zoneId": 11890563
+    "domain": "5gvci.com",
+    "zoneId": 11890817
 }
 self.lary = ""
-importScripts('https://3nbf4.com/act/files/service-worker.min.js?r=sw')
+importScripts('https://5gvci.com/act/files/service-worker.min.js?r=sw')
 `;
 
 export async function GET() {
@@ -42,4 +42,3 @@ export async function POST() {
     },
   });
 }
-
