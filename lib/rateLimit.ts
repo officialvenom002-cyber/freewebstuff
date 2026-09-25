@@ -52,7 +52,7 @@ export function rateLimit(
   // If store exceeds max capacity, prune oldest expired items to protect server memory
   if (store.size > MAX_STORE_ENTRIES) {
     let count = 0;
-    for (const [k, val] of store.entries()) {
+    for (const [k, val] of Array.from(store.entries())) {
       if (now > val.resetAt || count < 500) {
         store.delete(k);
         count++;

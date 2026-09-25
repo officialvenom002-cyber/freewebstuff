@@ -7,8 +7,13 @@ import {
   ArrowUp, 
   Search, 
   X,
-  ChevronRight
+  ChevronRight,
+  WifiOff,
+  ChevronDown,
+  RefreshCw,
+  CheckCircle2
 } from "lucide-react";
+import { useUptimeChecker, SiteResult } from "@/hooks/useUptimeChecker";
 import { Category, Resource } from "@/lib/types";
 
 const FMHY_SIDEBAR_WIKI = [
@@ -240,7 +245,11 @@ function getSectionEmoji(title: string, catSlug: string): string {
 }
 
 // Curated boxes for Video category
-const VIDEO_SPECIALIZED_BOXES: Omit<TypedBox, "websites"> & { websites: Array<{name:string;url:string;isStarred?:boolean}> }[] = [
+type VideoBoxDef = Omit<TypedBox, "websites"> & {
+  websites: Array<{ name: string; url: string; isStarred?: boolean }>;
+};
+
+const VIDEO_SPECIALIZED_BOXES: VideoBoxDef[] = [
   {
     id:"movies-english", slug:"movies-english",
     title:"Movies & TV — English", emoji:"🎬", accent:"sky",
@@ -474,6 +483,24 @@ export default function CategoryView({
   const [searchQuery, setSearchQuery]   = useState("");
   const [filterStarredOnly, setFilterStarredOnly] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [deletedSet, setDeletedSet] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    fetch("/api/site-config")
+      .then((r) => r.json())
+      .then((cfg) => {
+        if (cfg && Array.isArray(cfg.deletedWebsites)) {
+          const s = new Set<string>();
+          cfg.deletedWebsites.forEach((u: string) => {
+            const clean = u.trim();
+            s.add(clean);
+            s.add(clean.replace(/\/+$/, ""));
+          });
+          setDeletedSet(s);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const isVideoCategory = category.slug === "video";
 
@@ -481,12 +508,14 @@ export default function CategoryView({
     if (isVideoCategory) {
       return VIDEO_SPECIALIZED_BOXES.map((box) => ({
         ...box,
-        websites: box.websites.map((w, idx) => ({
-          id: `${box.id}-${idx}`,
-          name: w.name,
-          url: w.url,
-          isStarred: !!w.isStarred,
-        })),
+        websites: box.websites
+          .filter((w) => !deletedSet.has(w.url) && !deletedSet.has(w.url.replace(/\/+$/, "")))
+          .map((w, idx) => ({
+            id: `${box.id}-${idx}`,
+            name: w.name,
+            url: w.url,
+            isStarred: !!w.isStarred,
+          })),
       }));
     }
 
@@ -496,7 +525,10 @@ export default function CategoryView({
     initialSections.forEach((sec) => {
       const websites: WebsiteEntry[] = [];
       sec.items.forEach((item) => {
-        websites.push(...extractWebsitesFromRaw(item));
+        const extracted = extractWebsitesFromRaw(item).filter(
+          (w) => !deletedSet.has(w.url) && !deletedSet.has(w.url.replace(/\/+$/, ""))
+        );
+        websites.push(...extracted);
       });
 
       // Filter out empty sections (like warnings or index notes)
@@ -568,6 +600,12 @@ export default function CategoryView({
       return { ...box, websites };
     }).filter((box): box is TypedBox => box !== null && (box.websites.length > 0 || (!filterStarredOnly && !q)));
   }, [typedBoxes, selectedPill, filterStarredOnly, searchQuery]);
+
+  // ── Uptime checking ──
+  const allUrls = useMemo(() => {
+    return typedBoxes.flatMap((b) => b.websites.map((s) => s.url));
+  }, [typedBoxes]);
+  const uptimeMap = useUptimeChecker(allUrls);
 
   const totalCount = useMemo(() => filteredBoxes.reduce((a, b) => a + b.websites.length, 0), [filteredBoxes]);
 
@@ -766,30 +804,12 @@ export default function CategoryView({
                       </span>
                     </div>
 
-                    {/* Website list — Single column rows */}
-                    <div className="p-3">
-                      <div className="flex flex-col gap-0.5">
-                        {box.websites.map((site) => (
-                          <a
-                            key={site.id}
-                            href={site.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`group/link flex items-center gap-2.5 py-2 px-3 rounded-xl text-[13.5px] font-sans font-medium text-zinc-300 hover:text-white transition-all duration-150 hover:bg-white/[0.06] cursor-pointer tracking-[-0.005em]`}
-                          >
-                            <span className={`w-1.5 h-1.5 rounded-full ${ac.dot} opacity-60 group-hover/link:opacity-100 shrink-0 transition-opacity`}></span>
-                            {site.isStarred && (
-                              <span className="text-amber-400 text-[10px] select-none shrink-0" title="Top Pick">
-                                ⭐
-                              </span>
-                            )}
-                            <span className="truncate leading-none">
-                              {site.name}
-                            </span>
-                          </a>
-                        ))}
-                      </div>
-                    </div>
+                    {/* Website list — split up/down */}
+                    <BoxWebsiteList
+                      box={box}
+                      ac={ac}
+                      uptimeMap={uptimeMap}
+                    />
                   </section>
                 );
               })}
@@ -810,6 +830,169 @@ export default function CategoryView({
         </button>
       )}
 
+    </div>
+  );
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BoxWebsiteList — renders live sites + collapsible "Down" section
+   ───────────────────────────────────────────────────────────────────────── */
+
+interface BoxWebsiteListProps {
+  box: TypedBox;
+  ac: (typeof ACCENT_MAP)[string];
+  uptimeMap: Record<string, SiteResult>;
+}
+
+function StatusDot({ status }: { status: SiteResult["status"] }) {
+  if (status === "checking") {
+    return (
+      <span className="relative flex h-2 w-2 shrink-0">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-60" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-300" />
+      </span>
+    );
+  }
+  if (status === "up")
+    return <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_4px_rgba(52,211,153,0.7)]" />;
+  if (status === "down")
+    return <span className="w-2 h-2 rounded-full bg-red-500 shrink-0 shadow-[0_0_4px_rgba(239,68,68,0.6)]" />;
+  return <span className="w-2 h-2 rounded-full bg-zinc-600 shrink-0" />;
+}
+
+function BoxWebsiteList({ box, ac, uptimeMap }: BoxWebsiteListProps) {
+  const [downOpen, setDownOpen] = useState(false);
+
+  const { liveSites, downSites } = useMemo(() => {
+    const live: typeof box.websites = [];
+    const down: typeof box.websites = [];
+    const map = uptimeMap || {};
+    const list = box?.websites || [];
+    for (const site of list) {
+      if (!site || !site.url) continue;
+      if (map[site.url]?.status === "down") down.push(site);
+      else live.push(site);
+    }
+    return { liveSites: live, downSites: down };
+  }, [box?.websites, uptimeMap]);
+
+  const checkingCount = useMemo(
+    () => box.websites.filter((s) => uptimeMap[s.url]?.status === "checking").length,
+    [box.websites, uptimeMap]
+  );
+
+  const allChecked = checkingCount === 0 && liveSites.some((s) => uptimeMap[s.url]?.status === "up");
+
+  return (
+    <div className="flex flex-col">
+      {/* Live / unchecked sites */}
+      <div className="p-3">
+        <div className="flex flex-col gap-0.5">
+          {liveSites.map((site) => {
+            const r = uptimeMap[site.url];
+            const targetUrl = r?.updatedUrl || site.url;
+            const isRedirected = Boolean(r?.updatedUrl && r.updatedUrl !== site.url);
+
+            return (
+              <a
+                key={site.id}
+                href={targetUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/link flex items-center gap-2.5 py-2 px-3 rounded-xl text-[13.5px] font-sans font-medium text-zinc-300 hover:text-white transition-all duration-150 hover:bg-white/[0.06] cursor-pointer tracking-[-0.005em]"
+              >
+                <StatusDot status={r?.status ?? "up"} />
+                {site.isStarred && (
+                  <span className="text-amber-400 text-[10px] select-none shrink-0" title="Top Pick">⭐</span>
+                )}
+                <span className="truncate leading-none flex-1">{site.name}</span>
+                {isRedirected && (
+                  <span
+                    className="text-[9.5px] font-mono px-1.5 py-0.5 rounded bg-sky-500/15 text-sky-300 border border-sky-500/25 shrink-0"
+                    title={`Domain automatically updated to: ${targetUrl}`}
+                  >
+                    updated
+                  </span>
+                )}
+                {r?.status === "up" && r.latency && (
+                  <span className="text-[10px] font-mono text-zinc-600 shrink-0 hidden group-hover/link:inline">
+                    {r.latency}ms
+                  </span>
+                )}
+              </a>
+            );
+          })}
+          {checkingCount > 0 && (
+            <div className="flex items-center gap-2 py-1.5 px-3 text-[11.5px] text-zinc-600 font-sans">
+              <RefreshCw className="w-3 h-3 animate-spin opacity-50" />
+              <span>Checking {checkingCount} site{checkingCount > 1 ? "s" : ""}…</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* All online badge */}
+      {downSites.length === 0 && allChecked && (
+        <div className="flex items-center gap-1.5 mx-3 mb-2.5 px-3 py-1.5 rounded-lg bg-emerald-500/[0.08] border border-emerald-500/15">
+          <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
+          <span className="text-[11px] text-emerald-400 font-medium font-sans">All sites online</span>
+        </div>
+      )}
+
+      {/* Down sites collapsible */}
+      {downSites.length > 0 && (
+        <div className="mx-3 mb-3 rounded-xl border border-red-500/20 bg-red-950/20 overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setDownOpen((v) => !v)}
+            className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 text-left cursor-pointer hover:bg-red-500/5 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <WifiOff className="w-3.5 h-3.5 text-red-400 shrink-0" />
+              <span className="text-[12px] font-semibold text-red-400 font-heading tracking-tight">
+                Down / Unreachable
+              </span>
+              <span className="text-[10.5px] font-mono bg-red-500/15 text-red-400 border border-red-500/25 px-1.5 py-0.5 rounded-full">
+                {downSites.length}
+              </span>
+            </div>
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-red-500/60 transition-transform duration-200 ${downOpen ? "rotate-180" : ""}`}
+            />
+          </button>
+
+          {downOpen && (
+            <div className="flex flex-col gap-0.5 px-2 pb-2.5">
+              {downSites.map((site) => {
+                const r = uptimeMap?.[site.url];
+                const targetUrl = r?.updatedUrl || site.url || "#";
+                return (
+                  <a
+                    key={site.id}
+                    href={targetUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 py-1.5 px-2.5 rounded-lg text-[12.5px] font-sans font-medium text-zinc-500 hover:text-red-300 transition-all duration-150 hover:bg-red-500/[0.07] cursor-pointer"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0 opacity-70" />
+                    <span className="truncate leading-none flex-1 line-through decoration-red-800/60">
+                      {site.name}
+                    </span>
+                    <span className="text-[10px] font-mono text-red-600/70 shrink-0">
+                      {!r?.httpStatus || r.httpStatus === 0
+                        ? "offline"
+                        : r.httpStatus === 408
+                        ? "timeout"
+                        : `${r.httpStatus}`}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

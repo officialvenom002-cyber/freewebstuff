@@ -8,6 +8,7 @@ import Footer from "./Footer";
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isAdmin = pathname.startsWith("/shobhitadmin") || pathname.startsWith("/admin");
   const mainRef = useRef<HTMLElement>(null);
 
   // Smooth page transition on route change
@@ -26,11 +27,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   return (
     <>
-      {!isHome && <Header />}
+      {!isHome && !isAdmin && <Header />}
       <main ref={mainRef} className="flex-1 w-full flex flex-col">
         {children}
       </main>
-      {!isHome && <Footer />}
+      {!isHome && !isAdmin && <Footer />}
     </>
   );
 }

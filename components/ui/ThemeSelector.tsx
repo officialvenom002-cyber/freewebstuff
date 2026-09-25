@@ -17,7 +17,7 @@ export interface ThemeOption {
 export const THEMES: ThemeOption[] = [
   {
     id: "white",
-    name: "Light",
+    name: "Matte Light",
     icon: Sun,
   },
   {
@@ -105,8 +105,12 @@ export default function ThemeSelector({
       {/* Small, Compact Dropdown Popup */}
       {isOpen && (
         <div 
-          className={`absolute ${align === "right" ? "right-0" : "left-0"} top-full mt-2 w-40 rounded-xl bg-[#111316] border border-[#262A30] shadow-2xl p-1.5 z-50 animate-popover space-y-1`}
-          style={{ backdropFilter: "blur(20px)" }}
+          className={`absolute ${align === "right" ? "right-0" : "left-0"} top-full mt-2 w-40 rounded-xl border shadow-2xl p-1.5 z-50 animate-popover space-y-1`}
+          style={{ 
+            backdropFilter: "blur(20px)",
+            background: "var(--color-surface, #111316)",
+            borderColor: "var(--color-surface-border, rgba(38,42,48,1))",
+          }}
         >
           {THEMES.map((theme) => {
             const isSelected = currentTheme === theme.id;
@@ -117,15 +121,18 @@ export default function ThemeSelector({
                 key={theme.id}
                 type="button"
                 onClick={() => handleSelectTheme(theme.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-150 cursor-pointer ${
-                  isSelected
-                    ? "bg-white/10 text-white font-semibold"
-                    : "text-slate-300 hover:text-white hover:bg-white/5"
-                }`}
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-150 cursor-pointer`}
+                style={{
+                  background: isSelected ? "var(--color-surface-secondary, rgba(255,255,255,0.10))" : "transparent",
+                  color: isSelected ? "var(--text, #ffffff)" : "var(--text-muted, #94a3b8)",
+                  fontWeight: isSelected ? 600 : 500,
+                }}
+                onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = "var(--color-surface-secondary, rgba(255,255,255,0.05))"; (e.currentTarget as HTMLElement).style.color = "var(--text, #ffffff)"; }}
+                onMouseLeave={e => { if (!isSelected) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "var(--text-muted, #94a3b8)"; }}}
               >
-                <Icon className={`w-4 h-4 ${isSelected ? "text-sky-400" : "text-slate-400"}`} />
+                <Icon className={`w-4 h-4`} style={{ color: isSelected ? "var(--color-brand, #38bdf8)" : "var(--text-muted, #94a3b8)" }} />
                 <span className="flex-1 text-left">{theme.name}</span>
-                {isSelected && <Check className="w-4 h-4 text-sky-400" />}
+                {isSelected && <Check className="w-4 h-4" style={{ color: "var(--color-brand, #38bdf8)" }} />}
               </button>
             );
           })}

@@ -27,7 +27,6 @@ import {
   ArrowRight,
   Sparkles,
   Lock,
-  ShieldAlert,
   CheckCircle2,
   ExternalLink,
   Github,
@@ -39,7 +38,10 @@ import {
   Folder,
   Bookmark,
   Rocket,
-  Send
+  Send,
+  Tv2,
+  Subtitles,
+  Radio
 } from "lucide-react";
 
 interface CategoryItem {
@@ -53,56 +55,7 @@ interface CategoryItem {
 }
 
 const HOME_CATEGORIES: CategoryItem[] = [
-  {
-    id: "privacy",
-    name: "Privacy & Adblock",
-    slug: "privacy",
-    desc: "Adblock filters, DNS privacy, VPNs, trackers, and anti-telemetry.",
-    icon: ShieldCheck,
-    color: "#10B981",
-    badge: "Essential",
-  },
-  {
-    id: "ai",
-    name: "Artificial Intelligence",
-    slug: "ai",
-    desc: "LLMs, AI assistants, chatbots, local AI frontends, and generation tools.",
-    icon: Bot,
-    color: "#8B5CF6",
-    badge: "Popular",
-  },
-  {
-    id: "torrenting",
-    name: "Torrenting & P2P",
-    slug: "torrenting",
-    desc: "Verified torrent clients, indexers, trackers, search engines, and P2P.",
-    icon: Share2,
-    color: "#A855F7",
-  },
-  {
-    id: "educational",
-    name: "Educational & Courses",
-    slug: "educational",
-    desc: "Free university lectures, courses, certifications, and research tools.",
-    icon: GraduationCap,
-    color: "#84CC16",
-  },
-  {
-    id: "mobile",
-    name: "Android & iOS",
-    slug: "mobile",
-    desc: "Sideloading, F-Droid open source, jailbreak tools, and mobile apps.",
-    icon: Smartphone,
-    color: "#22C55E",
-  },
-  {
-    id: "linux-macos",
-    name: "Linux & macOS",
-    slug: "linux-macos",
-    desc: "Distros, package managers, terminal tools, and Unix software.",
-    icon: Terminal,
-    color: "#E11D48",
-  },
+  // ── Priority 1-4 (user-specified order) ──────────────────────────────────
   {
     id: "video",
     name: "Streaming & Movies",
@@ -110,6 +63,7 @@ const HOME_CATEGORIES: CategoryItem[] = [
     desc: "Movies, anime, TV shows, streaming sites, and web media players.",
     icon: Video,
     color: "#EF4444",
+    badge: "🔥 Hot",
   },
   {
     id: "audio",
@@ -128,12 +82,58 @@ const HOME_CATEGORIES: CategoryItem[] = [
     color: "#6366F1",
   },
   {
-    id: "developer-tools",
-    name: "Developer Tools",
-    slug: "developer-tools",
-    desc: "Code editors, free APIs, git utilities, and cloud hosting.",
-    icon: Code2,
-    color: "#3B82F6",
+    id: "downloading",
+    name: "Downloading & Direct",
+    slug: "downloading",
+    desc: "Debrid services, download managers, cyberlockers, and direct mirrors.",
+    icon: Download,
+    color: "#F59E0B",
+  },
+  // ── Trending new additions ─────────────────────────────────────────────
+  {
+    id: "iptv",
+    name: "IPTV & Live TV",
+    slug: "video",
+    desc: "Free IPTV playlists, live TV channels, sports streams, and M3U indexes.",
+    icon: Tv2,
+    color: "#F97316",
+    badge: "Trending",
+  },
+  {
+    id: "subtitles",
+    name: "Subtitles & Captions",
+    slug: "video",
+    desc: "Subtitle databases, auto-caption tools, synced SRT files, and translators.",
+    icon: Radio,
+    color: "#06B6D4",
+    badge: "Trending",
+  },
+  // ── Core essentials ────────────────────────────────────────────────────
+  {
+    id: "privacy",
+    name: "Privacy & Adblock",
+    slug: "privacy",
+    desc: "Adblock filters, DNS privacy, VPNs, tracker blockers, and anti-telemetry.",
+    icon: ShieldCheck,
+    color: "#10B981",
+    badge: "Essential",
+  },
+  {
+    id: "ai",
+    name: "Artificial Intelligence",
+    slug: "ai",
+    desc: "LLMs, AI assistants, chatbots, local AI frontends, and generation tools.",
+    icon: Bot,
+    color: "#8B5CF6",
+    badge: "Trending",
+  },
+  {
+    id: "torrenting",
+    name: "Torrenting & P2P",
+    slug: "torrenting",
+    desc: "Verified torrent clients, indexers, trackers, search engines, and P2P.",
+    icon: Share2,
+    color: "#A855F7",
   },
   {
     id: "reading",
@@ -144,28 +144,28 @@ const HOME_CATEGORIES: CategoryItem[] = [
     color: "#D97706",
   },
   {
-    id: "downloading",
-    name: "Downloading & Direct",
-    slug: "downloading",
-    desc: "Debrid services, download managers, cyberlockers, and direct mirrors.",
-    icon: Download,
-    color: "#F59E0B",
+    id: "educational",
+    name: "Educational & Courses",
+    slug: "educational",
+    desc: "Free university lectures, courses, certifications, and research tools.",
+    icon: GraduationCap,
+    color: "#84CC16",
   },
   {
-    id: "non-english",
-    name: "Non-English Resources",
-    slug: "non-english",
-    desc: "Multilingual repositories, international hubs, and translations.",
-    icon: Globe,
-    color: "#FB923C",
+    id: "mobile",
+    name: "Android & iOS",
+    slug: "mobile",
+    desc: "Sideloading, F-Droid open source, jailbreak tools, and mobile apps.",
+    icon: Smartphone,
+    color: "#22C55E",
   },
   {
-    id: "misc",
-    name: "Miscellaneous & Fun",
-    slug: "misc",
-    desc: "Internet archives, retro web games, cool websites, and fun utilities.",
-    icon: Boxes,
-    color: "#EAB308",
+    id: "developer-tools",
+    name: "Developer Tools",
+    slug: "developer-tools",
+    desc: "Code editors, free APIs, git utilities, and cloud hosting.",
+    icon: Code2,
+    color: "#3B82F6",
   },
   {
     id: "system-tools",
@@ -175,21 +175,32 @@ const HOME_CATEGORIES: CategoryItem[] = [
     icon: Cpu,
     color: "#0284C7",
   },
-  {
-    id: "storage",
-    name: "Storage & Cloud Drives",
-    slug: "storage",
-    desc: "Free cloud drives, decentralized storage, and sync tools.",
-    icon: HardDrive,
-    color: "#059669",
-  },
 ];
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [ecosystemOpen, setEcosystemOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [orderedCategories, setOrderedCategories] = useState(HOME_CATEGORIES);
   const ecosystemRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch("/api/site-config")
+      .then((r) => r.json())
+      .then((cfg) => {
+        if (cfg && Array.isArray(cfg.categoryOrder) && cfg.categoryOrder.length > 0) {
+          const orderMap = new Map<string, number>();
+          cfg.categoryOrder.forEach((id: string, idx: number) => orderMap.set(id, idx));
+          const sorted = [...HOME_CATEGORIES].sort((a, b) => {
+            const orderA = orderMap.has(a.id) ? orderMap.get(a.id)! : 999;
+            const orderB = orderMap.has(b.id) ? orderMap.get(b.id)! : 999;
+            return orderA - orderB;
+          });
+          setOrderedCategories(sorted);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     /* Ctrl + K search */
@@ -510,7 +521,7 @@ export default function HomePage() {
           </div>
 
           <div className="category-grid">
-            {HOME_CATEGORIES.map((cat) => {
+            {orderedCategories.map((cat) => {
               const Icon = cat.icon;
               return (
                 <Link 
@@ -560,44 +571,7 @@ export default function HomePage() {
 
         </section>
 
-        {/* QUICK ESSENTIAL ADVISORY BANNER */}
-        <section className="w-full max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#0d1322]/60 backdrop-blur-md border border-sky-500/20 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            
-            <div className="space-y-2 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">
-                <ShieldAlert className="w-3.5 h-3.5" />
-                <span>Recommended Safety Practice</span>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">
-                Essential Setup Before Exploring Third-Party Tools
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                For optimal security, ensure your browser is equipped with a reputable adblocker (e.g. <strong>uBlock Origin</strong>), encrypted DNS (e.g. <strong>NextDNS / Quad9</strong>), and always scan unknown downloads using <strong>VirusTotal</strong>.
-              </p>
-            </div>
 
-            <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0">
-              <Link prefetch={false}
-                href="/beginners-guide"
-                className="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 shadow-[0_0_20px_rgba(56,189,248,0.3)]"
-              >
-                <BookOpen className="w-4 h-4" />
-                <span>Quick Start</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-              
-              <Link prefetch={false}
-                href="/categories/privacy"
-                className="px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/10 hover:border-sky-400/30 text-white font-medium text-xs sm:text-sm transition-all duration-200 flex items-center gap-2"
-              >
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>Privacy &amp; Adblock</span>
-              </Link>
-            </div>
-
-          </div>
-        </section>
 
       </main>
 

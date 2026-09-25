@@ -33,6 +33,11 @@ html {
   color-scheme: dark;
 }
 
+html[data-theme="white"],
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
 aside {
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -66,36 +71,101 @@ body {
   position: relative;
 }
 
+/* ─────────────── LIVE REVOLVING BACKGROUND CANVAS ─────────────── */
+
+/* Orb layer — three large slow-drifting blobs, always behind content */
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#bg-canvas .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+  mix-blend-mode: screen;
+}
+
+/* Orb 1 — violet, top-left, large slow clockwise */
+#bg-canvas .orb-1 {
+  width: 700px;
+  height: 700px;
+  top: -200px;
+  left: -180px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(139, 92, 246, 0.055) 0%,
+    rgba(99, 102, 241, 0.03) 45%,
+    transparent 70%
+  );
+  animation: bgOrbRotate1 55s linear infinite;
+}
+
+/* Orb 2 — cyan/blue, bottom-right, medium slow counter-clockwise */
+#bg-canvas .orb-2 {
+  width: 580px;
+  height: 580px;
+  bottom: -160px;
+  right: -140px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(56, 189, 248, 0.045) 0%,
+    rgba(14, 165, 233, 0.025) 45%,
+    transparent 70%
+  );
+  animation: bgOrbRotate2 70s linear infinite;
+}
+
+/* Orb 3 — warm indigo, center, drifts very gently */
+#bg-canvas .orb-3 {
+  width: 900px;
+  height: 480px;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(100, 116, 139, 0.03) 0%,
+    rgba(71, 85, 105, 0.015) 50%,
+    transparent 70%
+  );
+  animation: bgOrbDrift 90s ease-in-out infinite alternate;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading), var(--font-sans), sans-serif;
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
-/* ── Matte grain texture overlay — adds tactile depth ── */
+/* ── Matte grain texture overlay — adds tactile depth (sits above orbs) ── */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.028;
+  opacity: 0.032;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
 }
 
-/* ── Precision dot grid — fades out 60% down the page ── */
+/* ── Precision dot grid — fades out 60% down the page (sits above orbs) ── */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.18;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.35) 1px, transparent 1px);
+  opacity: 0.15;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.30) 1px, transparent 1px);
   background-size: 36px 36px;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 60%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 60%);
-  z-index: 1;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 65%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 65%);
+  z-index: 2;
 }
 
 a {
@@ -905,6 +975,29 @@ button {
 
 /* ─────────────── SMOOTH ANIMATION KEYFRAMES & UTILITIES ─────────────── */
 
+/* Background orb revolution keyframes */
+@keyframes bgOrbRotate1 {
+  0%   { transform: rotate(0deg)   translateX(60px) scale(1); }
+  33%  { transform: rotate(120deg) translateX(80px) scale(1.08); }
+  66%  { transform: rotate(240deg) translateX(50px) scale(0.95); }
+  100% { transform: rotate(360deg) translateX(60px) scale(1); }
+}
+
+@keyframes bgOrbRotate2 {
+  0%   { transform: rotate(0deg)    translateX(-50px) scale(1); }
+  33%  { transform: rotate(-120deg) translateX(-70px) scale(1.06); }
+  66%  { transform: rotate(-240deg) translateX(-40px) scale(0.96); }
+  100% { transform: rotate(-360deg) translateX(-50px) scale(1); }
+}
+
+@keyframes bgOrbDrift {
+  0%   { opacity: 0.6; transform: translateX(-50%) scaleX(1)    scaleY(1); }
+  25%  { opacity: 0.9; transform: translateX(-48%) scaleX(1.06) scaleY(0.94); }
+  50%  { opacity: 0.7; transform: translateX(-52%) scaleX(0.95) scaleY(1.08); }
+  75%  { opacity: 0.85; transform: translateX(-49%) scaleX(1.04) scaleY(0.97); }
+  100% { opacity: 0.6; transform: translateX(-50%) scaleX(1)    scaleY(1); }
+}
+
 @keyframes glowPulse {
   0% {
     opacity: 0.5;
@@ -1313,229 +1406,660 @@ button:active, .btn:active {
   box-shadow: 0 10px 24px -2px rgba(0, 0, 0, 0.55), 0 0 14px -2px rgba(56, 189, 248, 0.12);
 }
 
-/* ─── 2. WHITE / LIGHT MODE (CLEAN PAPER-WHITE) ─── */
+/* ══════════════════════════════════════════════════════════════════════
+   MATTE LIGHT MODE — warm stone surface, ink-dark text, zero bleed
+   Base: #EDEAE5 (warm stone)  Surface: #F5F2EE  Ink: #1C1917
+   Brand: #0369A1 (deep sky)   Muted: #57534E    Border: #D6D3CF
+   ══════════════════════════════════════════════════════════════════════ */
+
 [data-theme="white"],
 [data-theme="light"] {
-  --color-brand: #0284c7;
-  --color-brand-glow: rgba(2, 132, 199, 0.18);
-  --color-accent: #64748b;
-  --color-background: #f8fafc;
-  --color-surface: #ffffff;
-  --color-surface-secondary: #f1f5f9;
-  --color-surface-border: #e2e8f0;
-  --text: #0f172a;
-  --text-muted: #64748b;
-  background-color: #f8fafc !important;
-  color: #0f172a !important;
+  /* Design tokens */
+  --color-brand:             #0369a1;
+  --color-brand-light:       #0284c7;
+  --color-brand-glow:        rgba(3, 105, 161, 0.14);
+  --color-accent:            #57534e;
+  --color-background:        #EDEAE5;
+  --color-surface:           #F5F2EE;
+  --color-surface-secondary: #EBE8E3;
+  --color-surface-border:    #D6D3CF;
+  --text:                    #1C1917;
+  --text-muted:              #57534E;
+  --text-subtle:             #78716C;
+  /* Legacy vars used by older components */
+  --bg:                      #EDEAE5;
+  --bg-secondary:            #EBE8E3;
+  --card:                    #F5F2EE;
+  --border:                  #D6D3CF;
+  --muted:                   #57534E;
 }
 
+/* ── Body & matte background ── */
 [data-theme="white"] body,
 [data-theme="light"] body {
-  background-color: #f8fafc !important;
+  background-color: #EDEAE5 !important;
   background-image:
-    radial-gradient(ellipse 72% 55% at 50% -8%, rgba(2, 132, 199, 0.08) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 40% at 90% 15%, rgba(99, 102, 241, 0.04) 0%, transparent 55%),
-    #f8fafc !important;
-  color: #0f172a !important;
+    radial-gradient(ellipse 65% 45% at 50% -5%, rgba(3,105,161,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 35% at 88% 18%, rgba(120,113,108,0.04) 0%, transparent 55%),
+    #EDEAE5 !important;
+  color: #1C1917 !important;
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   MATTE LIGHT — TYPOGRAPHY SYSTEM
+   Tier 1 Ink    #1C1917  — headings, strong labels, primary UI
+   Tier 2 Stone  #44403C  — body text, secondary labels
+   Tier 3 Subtle #78716C  — captions, placeholders, meta, badges
+   Brand         #0369A1  — interactive, links, accents
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Base body text ── */
+[data-theme="white"],
+[data-theme="light"] {
+  color: #1C1917;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+/* ── Headings → Tier 1 Ink ── */
+[data-theme="white"] h1, [data-theme="white"] h2,
+[data-theme="white"] h3, [data-theme="white"] h4,
+[data-theme="white"] h5, [data-theme="white"] h6,
+[data-theme="light"] h1, [data-theme="light"] h2,
+[data-theme="light"] h3, [data-theme="light"] h4,
+[data-theme="light"] h5, [data-theme="light"] h6 {
+  color: #1C1917 !important;
+  font-weight: 700;
+}
+
+/* ── Body paragraphs → Tier 2 Stone ── */
+[data-theme="white"] p,
+[data-theme="light"] p {
+  color: #44403C !important;
+}
+
+/* ── Labels, captions ── */
+[data-theme="white"] label,
+[data-theme="light"] label {
+  color: #292524 !important;
+  font-weight: 500;
+}
+[data-theme="white"] small,
+[data-theme="light"] small {
+  color: #57534E !important;
+}
+
+/* ── List items ── */
+[data-theme="white"] li,
+[data-theme="light"] li {
+  color: #44403C;
+}
+
+/* ── Spans & generic text containers ── */
+[data-theme="white"] span:not([class*="text-"]):not([class*="badge"]):not([style]),
+[data-theme="light"] span:not([class*="text-"]):not([class*="badge"]):not([style]) {
+  color: inherit;
+}
+
+/* ── Links → Brand blue, underline on hover ── */
+[data-theme="white"] a:not([class]),
+[data-theme="light"] a:not([class]) {
+  color: #0369a1;
+}
+[data-theme="white"] a:not([class]):hover,
+[data-theme="light"] a:not([class]):hover {
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+/* ── Placeholder text ── */
+[data-theme="white"] ::placeholder,
+[data-theme="light"] ::placeholder {
+  color: #A8A29E !important;
+  opacity: 1;
+}
+
+/* ── Strong / bold ── */
+[data-theme="white"] strong, [data-theme="white"] b,
+[data-theme="light"] strong, [data-theme="light"] b {
+  color: #1C1917 !important;
+  font-weight: 700;
+}
+
+/* ── Code / monospace ── */
+[data-theme="white"] code, [data-theme="white"] kbd, [data-theme="white"] pre,
+[data-theme="light"] code, [data-theme="light"] kbd, [data-theme="light"] pre {
+  color: #1C1917 !important;
+  background: #EBE8E3 !important;
+  border-color: #D6D3CF !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   TAILWIND TEXT CLASS OVERRIDES — full coverage slate + stone families
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* white → Tier 1 Ink */
+[data-theme="white"] .text-white,
+[data-theme="light"] .text-white {
+  color: #1C1917 !important;
+}
+
+/* slate-50 → 200: light grays → Stone-like */
+[data-theme="white"] .text-slate-50, [data-theme="white"] .text-slate-100,
+[data-theme="white"] .text-slate-200,
+[data-theme="light"] .text-slate-50,  [data-theme="light"] .text-slate-100,
+[data-theme="light"] .text-slate-200 {
+  color: #57534E !important;
+}
+
+/* slate-300 → 400: medium grays → Muted stone */
+[data-theme="white"] .text-slate-300, [data-theme="white"] .text-slate-400,
+[data-theme="light"] .text-slate-300, [data-theme="light"] .text-slate-400 {
+  color: #78716C !important;
+}
+
+/* slate-500 → mid-stone */
+[data-theme="white"] .text-slate-500,
+[data-theme="light"] .text-slate-500 {
+  color: #57534E !important;
+}
+
+/* slate-600 → 900: dark slate → Ink tiers */
+[data-theme="white"] .text-slate-600, [data-theme="white"] .text-slate-700,
+[data-theme="light"] .text-slate-600, [data-theme="light"] .text-slate-700 {
+  color: #44403C !important;
+}
+[data-theme="white"] .text-slate-800, [data-theme="white"] .text-slate-900,
+[data-theme="light"] .text-slate-800, [data-theme="light"] .text-slate-900 {
+  color: #1C1917 !important;
+}
+
+/* zinc family */
+[data-theme="white"] .text-zinc-100, [data-theme="white"] .text-zinc-200,
+[data-theme="white"] .text-zinc-300,
+[data-theme="light"] .text-zinc-100,  [data-theme="light"] .text-zinc-200,
+[data-theme="light"] .text-zinc-300 {
+  color: #57534E !important;
+}
+[data-theme="white"] .text-zinc-400, [data-theme="white"] .text-zinc-500,
+[data-theme="light"] .text-zinc-400,  [data-theme="light"] .text-zinc-500 {
+  color: #78716C !important;
+}
+[data-theme="white"] .text-zinc-600, [data-theme="white"] .text-zinc-700,
+[data-theme="white"] .text-zinc-800,  [data-theme="white"] .text-zinc-900,
+[data-theme="light"] .text-zinc-600,  [data-theme="light"] .text-zinc-700,
+[data-theme="light"] .text-zinc-800,  [data-theme="light"] .text-zinc-900 {
+  color: #1C1917 !important;
+}
+
+/* neutral / stone / gray families */
+[data-theme="white"] .text-neutral-300, [data-theme="white"] .text-gray-300,
+[data-theme="white"] .text-stone-300,
+[data-theme="light"] .text-neutral-300, [data-theme="light"] .text-gray-300,
+[data-theme="light"] .text-stone-300 {
+  color: #78716C !important;
+}
+[data-theme="white"] .text-neutral-400, [data-theme="white"] .text-gray-400,
+[data-theme="white"] .text-stone-400,   [data-theme="white"] .text-neutral-500,
+[data-theme="white"] .text-gray-500,    [data-theme="white"] .text-stone-500,
+[data-theme="light"] .text-neutral-400, [data-theme="light"] .text-gray-400,
+[data-theme="light"] .text-stone-400,   [data-theme="light"] .text-neutral-500,
+[data-theme="light"] .text-gray-500,    [data-theme="light"] .text-stone-500 {
+  color: #57534E !important;
+}
+[data-theme="white"] .text-neutral-600, [data-theme="white"] .text-gray-600,
+[data-theme="white"] .text-stone-600,   [data-theme="white"] .text-neutral-700,
+[data-theme="white"] .text-gray-700,    [data-theme="white"] .text-stone-700,
+[data-theme="white"] .text-neutral-800, [data-theme="white"] .text-gray-800,
+[data-theme="white"] .text-stone-800,   [data-theme="white"] .text-neutral-900,
+[data-theme="white"] .text-gray-900,    [data-theme="white"] .text-stone-900,
+[data-theme="light"] .text-neutral-600, [data-theme="light"] .text-gray-600,
+[data-theme="light"] .text-stone-600,   [data-theme="light"] .text-neutral-700,
+[data-theme="light"] .text-gray-700,    [data-theme="light"] .text-stone-700,
+[data-theme="light"] .text-neutral-800, [data-theme="light"] .text-gray-800,
+[data-theme="light"] .text-stone-800,   [data-theme="light"] .text-neutral-900,
+[data-theme="light"] .text-gray-900,    [data-theme="light"] .text-stone-900 {
+  color: #1C1917 !important;
+}
+
+/* text-muted / text-foreground utility aliases */
+[data-theme="white"] .text-muted-foreground,
+[data-theme="light"] .text-muted-foreground {
+  color: #78716C !important;
+}
+[data-theme="white"] .text-foreground,
+[data-theme="light"] .text-foreground {
+  color: #1C1917 !important;
+}
+
+/* text-xs / text-sm size utilities → Tier 3 Subtle */
+[data-theme="white"] .text-xs,
+[data-theme="light"] .text-xs {
+  color: #78716C;
+}
+[data-theme="white"] .text-sm,
+[data-theme="light"] .text-sm {
+  color: #57534E;
+}
+
+
+/* Fix dark hardcoded backgrounds leaking into light mode */
+[data-theme="white"] .bg-\[\#0B0C0E\], [data-theme="white"] .bg-\[\#111316\],
+[data-theme="white"] .bg-\[\#090e1c\], [data-theme="white"] .bg-\[\#151B2A\],
+[data-theme="light"] .bg-\[\#0B0C0E\], [data-theme="light"] .bg-\[\#111316\],
+[data-theme="light"] .bg-\[\#090e1c\], [data-theme="light"] .bg-\[\#151B2A\] {
+  background-color: #F5F2EE !important;
+  color: #1C1917 !important;
+}
+
+/* ── Orb canvas: multiply blend — orbs add texture without brightening ── */
+[data-theme="white"] #bg-canvas .orb,
+[data-theme="light"] #bg-canvas .orb {
+  mix-blend-mode: multiply !important;
+  opacity: 0.5;
+}
+[data-theme="white"] #bg-canvas .orb-1,
+[data-theme="light"] #bg-canvas .orb-1 {
+  background: radial-gradient(ellipse at center,
+    rgba(120,113,108,0.08) 0%, rgba(87,83,78,0.04) 45%, transparent 70%) !important;
+}
+[data-theme="white"] #bg-canvas .orb-2,
+[data-theme="light"] #bg-canvas .orb-2 {
+  background: radial-gradient(ellipse at center,
+    rgba(3,105,161,0.06) 0%, rgba(14,165,233,0.03) 45%, transparent 70%) !important;
+}
+[data-theme="white"] #bg-canvas .orb-3,
+[data-theme="light"] #bg-canvas .orb-3 {
+  background: radial-gradient(ellipse at center,
+    rgba(120,113,108,0.04) 0%, rgba(87,83,78,0.02) 50%, transparent 70%) !important;
+}
+
+/* ── Matte grain — slightly more visible on warm stone ── */
+[data-theme="white"] body::after,
+[data-theme="light"] body::after {
+  opacity: 0.045 !important;
+}
+
+/* ── Dot grid — dark dots on warm stone ── */
 [data-theme="white"] body::before,
 [data-theme="light"] body::before {
-  opacity: 0.06;
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.4) 1px, transparent 1px);
+  opacity: 0.09 !important;
+  background-image: radial-gradient(circle, rgba(28,25,23,0.5) 1px, transparent 1px) !important;
 }
 
+/* ── Scrollbar — warm stone track ── */
+[data-theme="white"]::-webkit-scrollbar-track,
+[data-theme="light"]::-webkit-scrollbar-track {
+  background: #D6D3CF;
+}
+[data-theme="white"]::-webkit-scrollbar-thumb,
+[data-theme="light"]::-webkit-scrollbar-thumb {
+  background: rgba(120,113,108,0.4);
+  border-radius: 4px;
+}
+[data-theme="white"]::-webkit-scrollbar-thumb:hover,
+[data-theme="light"]::-webkit-scrollbar-thumb:hover {
+  background: rgba(3,105,161,0.55);
+}
+
+/* ── Navbar — matte stone glass ── */
 [data-theme="white"] .navbar,
 [data-theme="light"] .navbar {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border-bottom: 1px solid #e2e8f0 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg,
+    rgba(237,234,229,0.96) 0%,
+    rgba(237,234,229,0.88) 70%,
+    rgba(237,234,229,0.72) 100%) !important;
+  backdrop-filter: blur(20px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(120%) !important;
+  border-bottom: 1px solid rgba(214,211,207,0.9) !important;
+  box-shadow: 0 1px 0 rgba(214,211,207,0.6), 0 4px 16px -4px rgba(0,0,0,0.06) !important;
 }
 
+[data-theme="white"] .navbar.navbar-scrolled,
+[data-theme="light"] .navbar.navbar-scrolled {
+  background: rgba(237,234,229,0.98) !important;
+  border-bottom: 1px solid #D6D3CF !important;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04) !important;
+}
+
+/* ── Brand ── */
 [data-theme="white"] .brand-name,
 [data-theme="light"] .brand-name {
-  color: #0f172a !important;
+  color: #1C1917 !important;
 }
 
+/* ── Nav links ── */
 [data-theme="white"] .nav-link,
 [data-theme="white"] .nav-links a,
 [data-theme="white"] .nav-links button,
 [data-theme="light"] .nav-link,
 [data-theme="light"] .nav-links a,
 [data-theme="light"] .nav-links button {
-  color: #475569 !important;
+  color: #44403C !important;
 }
-
 [data-theme="white"] .nav-link:hover,
 [data-theme="white"] .nav-links a:hover,
 [data-theme="white"] .nav-links button:hover,
 [data-theme="light"] .nav-link:hover,
 [data-theme="light"] .nav-links a:hover,
 [data-theme="light"] .nav-links button:hover {
-  color: #0f172a !important;
+  color: #1C1917 !important;
 }
 
 [data-theme="white"] .nav-divider,
 [data-theme="light"] .nav-divider {
-  background: #e2e8f0 !important;
+  background: #D6D3CF !important;
 }
-
 [data-theme="white"] .nav-icon,
 [data-theme="light"] .nav-icon {
-  color: #64748b !important;
+  color: #78716C !important;
+  opacity: 1 !important;
 }
-
 [data-theme="white"] .nav-icon:hover,
 [data-theme="light"] .nav-icon:hover {
-  color: #0f172a !important;
+  color: #1C1917 !important;
 }
 
+/* ── Mobile menu button ── */
 [data-theme="white"] .mobile-menu,
 [data-theme="light"] .mobile-menu {
-  color: #0f172a !important;
+  color: #1C1917 !important;
+  background: #EBE8E3 !important;
+  border-color: #D6D3CF !important;
 }
 
+/* ── Mobile dropdown panel ── */
+[data-theme="white"] .sm\:hidden,
+[data-theme="light"] .sm\:hidden {
+  background: rgba(237,234,229,0.98) !important;
+  border-top-color: #D6D3CF !important;
+  color: #1C1917 !important;
+}
+[data-theme="white"] .sm\:hidden a,
+[data-theme="white"] .sm\:hidden span,
+[data-theme="white"] .sm\:hidden p,
+[data-theme="light"] .sm\:hidden a,
+[data-theme="light"] .sm\:hidden span,
+[data-theme="light"] .sm\:hidden p {
+  color: #1C1917 !important;
+}
+
+/* ── Dropdown popover panels ── */
+[data-theme="white"] .animate-popover,
+[data-theme="light"] .animate-popover {
+  background: rgba(245,242,238,0.99) !important;
+  border-color: #D6D3CF !important;
+  color: #1C1917 !important;
+}
+[data-theme="white"] .animate-popover *,
+[data-theme="light"] .animate-popover * {
+  color: #44403C !important;
+}
+[data-theme="white"] .animate-popover a:hover,
+[data-theme="white"] .animate-popover button:hover,
+[data-theme="light"] .animate-popover a:hover,
+[data-theme="light"] .animate-popover button:hover {
+  background: rgba(214,211,207,0.5) !important;
+  color: #1C1917 !important;
+}
+
+/* ── Search / toggle button ── */
+[data-theme="white"] #searchButton,
+[data-theme="white"] .search,
+[data-theme="light"] #searchButton,
+[data-theme="light"] .search {
+  background: #EBE8E3 !important;
+  border-color: #D6D3CF !important;
+  color: #57534E !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 3px rgba(0,0,0,0.06) !important;
+}
+[data-theme="white"] #searchButton:hover,
+[data-theme="white"] .search:hover,
+[data-theme="light"] #searchButton:hover,
+[data-theme="light"] .search:hover {
+  border-color: #0369a1 !important;
+  color: #1C1917 !important;
+  box-shadow: 0 0 0 3px rgba(3,105,161,0.1), inset 0 1px 0 rgba(255,255,255,0.4) !important;
+}
+[data-theme="white"] #searchButton span,
+[data-theme="white"] .search span,
+[data-theme="light"] #searchButton span,
+[data-theme="light"] .search span {
+  color: #78716C !important;
+}
+[data-theme="white"] #searchButton:hover span,
+[data-theme="light"] #searchButton:hover span {
+  color: #1C1917 !important;
+}
+[data-theme="white"] #searchButton kbd,
+[data-theme="white"] .shortcut,
+[data-theme="light"] #searchButton kbd,
+[data-theme="light"] .shortcut {
+  background: #F5F2EE !important;
+  border-color: #D6D3CF !important;
+  color: #78716C !important;
+}
+
+/* ── Hero title ── */
 [data-theme="white"] .hero-title,
 [data-theme="light"] .hero-title {
-  background: linear-gradient(180deg, #0f172a 0%, #1e293b 55%, #334155 100%) !important;
+  background: linear-gradient(175deg, #1C1917 0%, #292524 45%, #44403C 100%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   color: transparent !important;
 }
 
+/* ── Hero description ── */
 [data-theme="white"] .hero-description,
 [data-theme="light"] .hero-description {
-  color: #475569 !important;
+  color: #57534E !important;
 }
 
+/* ── Buttons ── */
 [data-theme="white"] .btn-primary,
 [data-theme="light"] .btn-primary {
-  background: #0f172a !important;
-  color: #ffffff !important;
-  border-color: #0f172a !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
+  background: #1C1917 !important;
+  color: #F5F2EE !important;
+  border-color: #1C1917 !important;
+  box-shadow: 0 2px 8px rgba(28,25,23,0.2) !important;
 }
-
 [data-theme="white"] .btn-primary:hover,
 [data-theme="light"] .btn-primary:hover {
-  background: #1e293b !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+  background: #292524 !important;
+  box-shadow: 0 4px 14px rgba(28,25,23,0.28) !important;
 }
-
 [data-theme="white"] .btn-secondary,
 [data-theme="light"] .btn-secondary {
-  background: #ffffff !important;
-  color: #334155 !important;
-  border-color: #cbd5e1 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  background: #EBE8E3 !important;
+  color: #44403C !important;
+  border-color: #D6D3CF !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 3px rgba(0,0,0,0.06) !important;
 }
-
 [data-theme="white"] .btn-secondary:hover,
 [data-theme="light"] .btn-secondary:hover {
-  background: #f8fafc !important;
-  border-color: #0284c7 !important;
-  color: #0284c7 !important;
+  background: #F5F2EE !important;
+  border-color: #0369a1 !important;
+  color: #0369a1 !important;
+  box-shadow: 0 0 0 3px rgba(3,105,161,0.1) !important;
 }
 
+/* ── Section heading ── */
 [data-theme="white"] .section-heading h2,
 [data-theme="light"] .section-heading h2 {
-  color: #0f172a !important;
+  color: #1C1917 !important;
 }
-
+[data-theme="white"] .section-heading h2::after,
+[data-theme="light"] .section-heading h2::after {
+  background: linear-gradient(90deg, #0369a1, #78716C) !important;
+  box-shadow: 0 0 6px rgba(3,105,161,0.15) !important;
+}
 [data-theme="white"] .section-heading p,
 [data-theme="light"] .section-heading p {
-  color: #64748b !important;
+  color: #57534E !important;
 }
 
+/* ── Category cards — matte stone finish ── */
 [data-theme="white"] .category-card,
 [data-theme="light"] .category-card {
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+  background: #F5F2EE !important;
+  border: 1px solid #D6D3CF !important;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.05),
+    0 1px 2px rgba(0,0,0,0.03),
+    inset 0 1px 0 rgba(255,255,255,0.6) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
-
 [data-theme="white"] .category-card:hover,
 [data-theme="light"] .category-card:hover {
-  transform: translateY(-3px);
-  background: #ffffff !important;
-  border-color: #0284c7 !important;
-  box-shadow: 0 12px 24px -4px rgba(2, 132, 199, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.04) !important;
+  transform: translateY(-4px);
+  background: #FAF8F5 !important;
+  border-color: #0369a1 !important;
+  box-shadow:
+    0 12px 28px -4px rgba(3,105,161,0.12),
+    0 4px 10px -2px rgba(0,0,0,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.7) !important;
 }
-
 [data-theme="white"] .category-card h3,
 [data-theme="light"] .category-card h3 {
-  color: #0f172a !important;
+  color: #1C1917 !important;
 }
-
+[data-theme="white"] .category-card:hover h3,
+[data-theme="light"] .category-card:hover h3 {
+  color: #0369a1 !important;
+}
 [data-theme="white"] .category-card p,
 [data-theme="light"] .category-card p {
-  color: #64748b !important;
+  color: #57534E !important;
 }
 
+/* ── Category icon chip ── */
 [data-theme="white"] .category-icon,
 [data-theme="light"] .category-icon {
-  background: #f8fafc !important;
-  border: 1px solid #e2e8f0 !important;
+  background: #EBE8E3 !important;
+  border: 1px solid #D6D3CF !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6) !important;
 }
 
+/* ── Arrow ── */
 [data-theme="white"] .arrow,
 [data-theme="light"] .arrow {
-  background: #f1f5f9 !important;
-  border-color: #e2e8f0 !important;
-  color: #64748b !important;
+  background: #EBE8E3 !important;
+  border-color: #D6D3CF !important;
+  color: #78716C !important;
 }
-
 [data-theme="white"] .category-card:hover .arrow,
 [data-theme="light"] .category-card:hover .arrow {
-  background: rgba(2, 132, 199, 0.1) !important;
-  border-color: #0284c7 !important;
-  color: #0284c7 !important;
+  background: rgba(3,105,161,0.08) !important;
+  border-color: #0369a1 !important;
+  color: #0369a1 !important;
 }
 
-[data-theme="white"] #searchButton,
-[data-theme="light"] #searchButton {
-  background: #ffffff !important;
-  border-color: #cbd5e1 !important;
-  color: #64748b !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+/* ── Hero orbit graphic — slate tones ── */
+[data-theme="white"] .planet,
+[data-theme="light"] .planet {
+  background: radial-gradient(circle at 35% 28%,
+    #D6D3CF 0%, #A8A29E 40%, #78716C 80%, #57534E 100%) !important;
+  box-shadow:
+    inset -6px -5px 14px rgba(0,0,0,0.14),
+    inset 3px 3px 10px rgba(255,255,255,0.55),
+    0 10px 25px rgba(0,0,0,0.1) !important;
+  border-color: rgba(0,0,0,0.06) !important;
 }
-
-[data-theme="white"] #searchButton:hover,
-[data-theme="light"] #searchButton:hover {
-  border-color: #0284c7 !important;
-  color: #0f172a !important;
-}
-
-[data-theme="white"] #searchButton span,
-[data-theme="light"] #searchButton span {
-  color: #64748b !important;
-}
-
-[data-theme="white"] #searchButton:hover span,
-[data-theme="light"] #searchButton:hover span {
-  color: #0f172a !important;
-}
-
-[data-theme="white"] #searchButton kbd,
-[data-theme="light"] #searchButton kbd {
-  background: #f1f5f9 !important;
-  border-color: #cbd5e1 !important;
-  color: #475569 !important;
-}
-
 [data-theme="white"] .orbit,
 [data-theme="light"] .orbit {
-  border-top-color: #0284c7 !important;
-  border-bottom-color: #94a3b8 !important;
+  border-top-color: #0369a1 !important;
+  border-bottom-color: #A8A29E !important;
+  box-shadow: 0 0 10px rgba(3,105,161,0.12) !important;
 }
-
+[data-theme="white"] .orbit-two,
+[data-theme="light"] .orbit-two {
+  border-left-color: #0369a1 !important;
+  border-right-color: #D6D3CF !important;
+}
 [data-theme="white"] .orbit-dot,
 [data-theme="light"] .orbit-dot {
-  background: #0284c7 !important;
-  box-shadow: 0 0 8px rgba(2, 132, 199, 0.5) !important;
+  background: #0369a1 !important;
+  box-shadow: 0 0 8px rgba(3,105,161,0.5) !important;
+}
+[data-theme="white"] .dot-two,
+[data-theme="light"] .dot-two {
+  background: #78716C !important;
+  box-shadow: 0 0 7px rgba(120,113,108,0.45) !important;
+}
+[data-theme="white"] .space-glow,
+[data-theme="light"] .space-glow {
+  background: radial-gradient(ellipse,
+    rgba(3,105,161,0.08), rgba(168,162,158,0.04) 45%, transparent 70%) !important;
+}
+[data-theme="white"] .planet-floor,
+[data-theme="light"] .planet-floor {
+  background: radial-gradient(ellipse,
+    rgba(3,105,161,0.12), rgba(168,162,158,0.06), transparent 70%) !important;
 }
 
-/* ─── 3. CYBERPUNK NEON (INTERESTING THEME) ─── */
+/* ── Skeleton loader ── */
+[data-theme="white"] .skeleton,
+[data-theme="light"] .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.04) 25%,
+    rgba(0,0,0,0.08) 50%,
+    rgba(0,0,0,0.04) 75%
+  ) !important;
+  background-size: 200% 100% !important;
+}
+
+/* ── Resource item hover ── */
+[data-theme="white"] .resource-item:hover,
+[data-theme="light"] .resource-item:hover {
+  background: rgba(3,105,161,0.07) !important;
+}
+
+/* ── Interactive card ── */
+[data-theme="white"] .interactive-card,
+[data-theme="light"] .interactive-card {
+  background: #F5F2EE !important;
+  border-color: #D6D3CF !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.6) !important;
+}
+[data-theme="white"] .interactive-card:hover,
+[data-theme="light"] .interactive-card:hover {
+  border-color: #0369a1 !important;
+  box-shadow: 0 8px 22px -4px rgba(3,105,161,0.12), 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+
+/* ── Footer ── */
+[data-theme="white"] footer,
+[data-theme="light"] footer {
+  border-top-color: #D6D3CF !important;
+  background: #EBE8E3 !important;
+  color: #57534E !important;
+}
+[data-theme="white"] footer *,
+[data-theme="light"] footer * {
+  color: #57534E;
+}
+[data-theme="white"] footer a,
+[data-theme="light"] footer a {
+  color: #78716C !important;
+}
+[data-theme="white"] footer a:hover,
+[data-theme="light"] footer a:hover {
+  color: #0369a1 !important;
+}
+[data-theme="white"] footer h1,
+[data-theme="white"] footer h2,
+[data-theme="white"] footer h3,
+[data-theme="white"] footer h4,
+[data-theme="light"] footer h1,
+[data-theme="light"] footer h2,
+[data-theme="light"] footer h3,
+[data-theme="light"] footer h4 {
+  color: #1C1917 !important;
+}
+
+/* ─── 3. CYBERPUNK NEON ─── */
 [data-theme="cyberpunk"] {
   --color-brand: #ec4899;
   --color-brand-glow: rgba(236, 72, 153, 0.35);
@@ -1598,13 +2122,8 @@ button:active, .btn:active {
   box-shadow: 0 10px 30px -2px rgba(0, 0, 0, 0.8), 0 0 20px -2px rgba(236, 72, 153, 0.4), 0 0 10px -2px rgba(6, 182, 212, 0.3) !important;
 }
 
-[data-theme="cyberpunk"] .category-card h3 {
-  color: #fdf2f8 !important;
-}
-
-[data-theme="cyberpunk"] .category-card p {
-  color: #c4b5fd !important;
-}
+[data-theme="cyberpunk"] .category-card h3 { color: #fdf2f8 !important; }
+[data-theme="cyberpunk"] .category-card p  { color: #c4b5fd !important; }
 
 [data-theme="cyberpunk"] .orbit {
   border-top-color: #ec4899 !important;
@@ -1657,30 +2176,21 @@ button:active, .btn:active {
   border-color: var(--color-surface-border) !important;
 }
 
-[data-theme] .navbar {
+/* Dark-mode universal navbar — do NOT apply to light themes */
+[data-theme="dark"] .navbar,
+[data-theme="matte-obsidian"] .navbar,
+[data-theme="matte-sepia"] .navbar {
   border-bottom: none !important;
 }
 
-[data-theme] .navbar.navbar-scrolled {
+[data-theme="dark"] .navbar.navbar-scrolled,
+[data-theme="matte-obsidian"] .navbar.navbar-scrolled,
+[data-theme="matte-sepia"] .navbar.navbar-scrolled {
   background: rgba(11, 12, 14, 0.85) !important;
   border-bottom: none !important;
   backdrop-filter: blur(20px) saturate(150%);
   -webkit-backdrop-filter: blur(20px) saturate(150%);
   box-shadow: 0 14px 38px -8px rgba(0, 0, 0, 0.85), 0 6px 16px -2px rgba(0, 0, 0, 0.5);
-}
-
-[data-theme="white"] .navbar,
-[data-theme="light"] .navbar {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.75) 70%, rgba(255, 255, 255, 0.55) 100%) !important;
-  border-bottom: none !important;
-  box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04) !important;
-}
-
-[data-theme="white"] .navbar.navbar-scrolled,
-[data-theme="light"] .navbar.navbar-scrolled {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border-bottom: none !important;
-  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.12), 0 4px 14px -2px rgba(0, 0, 0, 0.06) !important;
 }
 
 [data-theme] .search {
@@ -1701,7 +2211,8 @@ button:active, .btn:active {
   border-color: var(--color-brand) !important;
 }
 
-[data-theme] .category-card {
+/* Dark-mode card universal shadow — light mode overrides above */
+[data-theme="dark"] .category-card {
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
@@ -1718,3 +2229,37 @@ button:active, .btn:active {
 .font-heading {
   font-family: var(--font-heading), var(--font-sans), "Inter", sans-serif;
 }
+
+
+/* ─── 1. DARK MODE (DEFAULT) ─── */
+[data-theme="dark"],
+[data-theme="matte-obsidian"],
+[data-theme="matte-sepia"],
+:root {
+  --color-brand: #38bdf8;
+  --color-brand-glow: rgba(56, 189, 248, 0.25);
+  --color-accent: #94a3b8;
+  --color-background: #0B0C0E;
+  --color-surface: #111316;
+  --color-surface-secondary: #16191E;
+  --color-surface-border: rgba(255, 255, 255, 0.08);
+  --text: #F2F3F5;
+  --text-muted: #94a3b8;
+  background-color: #0B0C0E;
+  color: #F2F3F5;
+}
+
+[data-theme="dark"] body {
+  background-color: #0B0C0E;
+  background-image:
+    radial-gradient(ellipse 72% 55% at 50% -8%, rgba(139,124,255,0.10) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 90% 15%, rgba(125,211,252,0.04) 0%, transparent 55%),
+    #0B0C0E;
+  color: #F2F3F5;
+}
+
+[data-theme="dark"] .category-card:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 10px 24px -2px rgba(0, 0, 0, 0.55), 0 0 14px -2px rgba(56, 189, 248, 0.12);
+}
+

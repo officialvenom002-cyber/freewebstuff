@@ -6,7 +6,9 @@
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start -p 3000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check:sites": "node scripts/daily-health-check.mjs",
+    "check:sites:update": "node scripts/daily-health-check.mjs --update-sources"
   },
   "dependencies": {
     "clsx": "^2.1.1",

@@ -145,6 +145,12 @@ export default function RootLayout({
             __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
           }}
         />
+        {/* ── Live revolving background orbs (matte, very dim, full-site) ── */}
+        <div id="bg-canvas" aria-hidden="true">
+          <div className="orb orb-1" />
+          <div className="orb orb-2" />
+          <div className="orb orb-3" />
+        </div>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
