@@ -7,202 +7,27 @@ import SearchModal from "@/components/search/SearchModal";
 import SearchToggle from "@/components/search/SearchToggle";
 import ThemeSelector from "@/components/ui/ThemeSelector";
 import LiveUserPresence from "@/components/analytics/LiveUserPresence";
+import CategoryGrid from "@/components/home/CategoryGrid";
 import Footer from "@/components/layout/Footer";
 import AdsterraBanner from "@/components/ads/AdsterraBanner";
 import { 
-  ShieldCheck, 
-  Bot, 
-  Share2, 
-  GraduationCap, 
-  Smartphone, 
-  Terminal, 
-  Video, 
-  Headphones, 
-  Gamepad2, 
-  Code2, 
-  BookOpen, 
-  Download, 
-  Globe, 
-  Boxes, 
-  Cpu, 
-  HardDrive,
+  ShieldAlert,
+  ShieldCheck,
+  BookOpen,
   ArrowRight,
-  Sparkles,
-  Lock,
-  CheckCircle2,
-  ExternalLink,
-  Github,
-  MessageSquare,
-  FileCode2,
-  Flame,
   ChevronDown,
   Search,
   Folder,
   Bookmark,
   Rocket,
-  Send,
-  Tv2,
-  Subtitles,
-  Radio
+  Send
 } from "lucide-react";
-
-interface CategoryItem {
-  id: string;
-  name: string;
-  slug: string;
-  desc: string;
-  icon: React.ElementType;
-  color: string;
-  badge?: string;
-}
-
-const HOME_CATEGORIES: CategoryItem[] = [
-  // ── Priority 1-4 (user-specified order) ──────────────────────────────────
-  {
-    id: "video",
-    name: "Streaming & Movies",
-    slug: "video",
-    desc: "Movies, anime, TV shows, streaming sites, and web media players.",
-    icon: Video,
-    color: "#EF4444",
-    badge: "🔥 Hot",
-  },
-  {
-    id: "audio",
-    name: "Music & Podcasts",
-    slug: "audio",
-    desc: "Lossless streaming, podcasts, radio stations, and audio tools.",
-    icon: Headphones,
-    color: "#14B8A6",
-  },
-  {
-    id: "gaming",
-    name: "Gaming & Emulation",
-    slug: "gaming",
-    desc: "Preservation ROMs, emulators, free indie games, and launcher tools.",
-    icon: Gamepad2,
-    color: "#6366F1",
-  },
-  {
-    id: "downloading",
-    name: "Downloading & Direct",
-    slug: "downloading",
-    desc: "Debrid services, download managers, cyberlockers, and direct mirrors.",
-    icon: Download,
-    color: "#F59E0B",
-  },
-  // ── Trending new additions ─────────────────────────────────────────────
-  {
-    id: "iptv",
-    name: "IPTV & Live TV",
-    slug: "video",
-    desc: "Free IPTV playlists, live TV channels, sports streams, and M3U indexes.",
-    icon: Tv2,
-    color: "#F97316",
-    badge: "Trending",
-  },
-  {
-    id: "subtitles",
-    name: "Subtitles & Captions",
-    slug: "video",
-    desc: "Subtitle databases, auto-caption tools, synced SRT files, and translators.",
-    icon: Radio,
-    color: "#06B6D4",
-    badge: "Trending",
-  },
-  // ── Core essentials ────────────────────────────────────────────────────
-  {
-    id: "privacy",
-    name: "Privacy & Adblock",
-    slug: "privacy",
-    desc: "Adblock filters, DNS privacy, VPNs, tracker blockers, and anti-telemetry.",
-    icon: ShieldCheck,
-    color: "#10B981",
-    badge: "Essential",
-  },
-  {
-    id: "ai",
-    name: "Artificial Intelligence",
-    slug: "ai",
-    desc: "LLMs, AI assistants, chatbots, local AI frontends, and generation tools.",
-    icon: Bot,
-    color: "#8B5CF6",
-    badge: "Trending",
-  },
-  {
-    id: "torrenting",
-    name: "Torrenting & P2P",
-    slug: "torrenting",
-    desc: "Verified torrent clients, indexers, trackers, search engines, and P2P.",
-    icon: Share2,
-    color: "#A855F7",
-  },
-  {
-    id: "reading",
-    name: "Books & Comics",
-    slug: "reading",
-    desc: "E-books, manga, comics, light novels, audiobooks, and e-readers.",
-    icon: BookOpen,
-    color: "#D97706",
-  },
-  {
-    id: "educational",
-    name: "Educational & Courses",
-    slug: "educational",
-    desc: "Free university lectures, courses, certifications, and research tools.",
-    icon: GraduationCap,
-    color: "#84CC16",
-  },
-  {
-    id: "mobile",
-    name: "Android & iOS",
-    slug: "mobile",
-    desc: "Sideloading, F-Droid open source, jailbreak tools, and mobile apps.",
-    icon: Smartphone,
-    color: "#22C55E",
-  },
-  {
-    id: "developer-tools",
-    name: "Developer Tools",
-    slug: "developer-tools",
-    desc: "Code editors, free APIs, git utilities, and cloud hosting.",
-    icon: Code2,
-    color: "#3B82F6",
-  },
-  {
-    id: "system-tools",
-    name: "System Tools & OS",
-    slug: "system-tools",
-    desc: "Windows debloating, optimization scripts, and hardware utilities.",
-    icon: Cpu,
-    color: "#0284C7",
-  },
-];
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [ecosystemOpen, setEcosystemOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [orderedCategories, setOrderedCategories] = useState(HOME_CATEGORIES);
   const ecosystemRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    fetch("/api/site-config")
-      .then((r) => r.json())
-      .then((cfg) => {
-        if (cfg && Array.isArray(cfg.categoryOrder) && cfg.categoryOrder.length > 0) {
-          const orderMap = new Map<string, number>();
-          cfg.categoryOrder.forEach((id: string, idx: number) => orderMap.set(id, idx));
-          const sorted = [...HOME_CATEGORIES].sort((a, b) => {
-            const orderA = orderMap.has(a.id) ? orderMap.get(a.id)! : 999;
-            const orderB = orderMap.has(b.id) ? orderMap.get(b.id)! : 999;
-            return orderA - orderB;
-          });
-          setOrderedCategories(sorted);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     /* Ctrl + K search */
@@ -223,7 +48,7 @@ export default function HomePage() {
     document.addEventListener("mousedown", handleClickOutside);
 
     /* Navbar scroll shadow */
-    const navbar = document.querySelector<HTMLElement>(".navbar");
+    const navbar = document.querySelector<HTMLElement>("header.navbar");
     const handleScroll = () => {
       if (!navbar) return;
       navbar.classList.toggle("navbar-scrolled", window.scrollY > 10);
@@ -246,7 +71,7 @@ export default function HomePage() {
       <header className={`navbar sticky top-0 z-40 transition-all duration-300 ${mobileMenuOpen ? "navbar-scrolled !bg-[#0B0C0E]/95 !backdrop-blur-xl" : ""}`}>
         <div className="nav-inner">
 
-          {/* Left Group: Brand + Shrunk Search Bar */}
+          {/* Left Group: Brand + Search Bar */}
           <div className="flex items-center gap-3 sm:gap-4 md:gap-5 min-w-0">
             <Link href="/" className="brand group shrink-0" title="FREEWEBSTUFF">
               <Logo className="w-8 h-8 sm:w-9 sm:h-9" />
@@ -481,67 +306,60 @@ export default function HomePage() {
         </section>
 
         {/* CATEGORIES */}
-        <section className="categories" id="categories">
+        <section className="categories max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-10" id="categories">
 
-          <div className="section-heading">
-            <h2>Browse Curated Categories ✨</h2>
+          <div className="section-heading text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-white tracking-tight">
+              Browse Curated Categories ✨
+            </h2>
             <p className="text-xs sm:text-sm text-slate-400 mt-2 max-w-xl mx-auto">
               Explore 15,000+ verified tools, privacy software, media indexes, and developer resources.
             </p>
           </div>
 
-          <div className="category-grid">
-            {orderedCategories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <Link 
-                  key={cat.id} 
-                  href={`/categories/${cat.slug}`} 
-                  prefetch={true}
-                  className="category-card group"
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <div 
-                        className="category-icon transition-transform duration-200 group-hover:scale-110"
-                        style={{
-                          background: `${cat.color}15`,
-                          borderColor: `${cat.color}35`,
-                          color: cat.color
-                        }}
-                      >
-                        <Icon className="w-5 h-5" />
-                      </div>
-
-                      {cat.badge && (
-                        <span 
-                          className="text-[10px] font-semibold px-2 py-0.5 rounded-full border"
-                          style={{
-                            background: `${cat.color}12`,
-                            color: cat.color,
-                            borderColor: `${cat.color}30`
-                          }}
-                        >
-                          {cat.badge}
-                        </span>
-                      )}
-                    </div>
-
-                    <h3 className="group-hover:text-sky-300 transition-colors">
-                      {cat.name}
-                    </h3>
-                    <p>
-                      {cat.desc}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+          {/* Minimalist Card Grid with tool counts and accent styling */}
+          <CategoryGrid />
 
         </section>
 
+        {/* QUICK ESSENTIAL ADVISORY BANNER */}
+        <section className="w-full max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#0d1322]/60 backdrop-blur-md border border-sky-500/20 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            
+            <div className="space-y-2 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                <ShieldAlert className="w-3.5 h-3.5" />
+                <span>Recommended Safety Practice</span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                Essential Setup Before Exploring Third-Party Tools
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                For optimal security, ensure your browser is equipped with a reputable adblocker (e.g. <strong>uBlock Origin</strong>), encrypted DNS (e.g. <strong>NextDNS / Quad9</strong>), and always scan unknown downloads using <strong>VirusTotal</strong>.
+              </p>
+            </div>
 
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0">
+              <Link
+                href="/beginners-guide"
+                className="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 shadow-[0_0_20px_rgba(56,189,248,0.3)]"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>Quick Start</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              
+              <Link
+                href="/categories/privacy"
+                className="px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/10 hover:border-sky-400/30 text-white font-medium text-xs sm:text-sm transition-all duration-200 flex items-center gap-2"
+              >
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Privacy &amp; Adblock</span>
+              </Link>
+            </div>
+
+          </div>
+        </section>
 
       </main>
 
