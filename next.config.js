@@ -49,13 +49,39 @@ const nextConfig = {
   // ─── HTTP Headers ────────────────────────────────────────────────────────────
   async headers() {
     return [
-      // Content pages: do not cache HTML pages so ad tags, scripts, and verifications appear instantly
+      // Root homepage: never cache HTML on Cloudflare edge or browser
+      {
+        source: "/",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0",
+          },
+          {
+            key: "CDN-Cache-Control",
+            value: "no-store",
+          },
+          {
+            key: "Cloudflare-CDN-Cache-Control",
+            value: "no-store",
+          },
+        ],
+      },
+      // Content pages: do not cache HTML pages so ad tags, scripts, and updates appear instantly
       {
         source: "/((?!api/|_next/static|_next/image|favicon|logo|images|shobhitadmin|adminshobhit|sw\\.js|service-worker\\.js).*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "no-cache, no-store, must-revalidate",
+            value: "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0",
+          },
+          {
+            key: "CDN-Cache-Control",
+            value: "no-store",
+          },
+          {
+            key: "Cloudflare-CDN-Cache-Control",
+            value: "no-store",
           },
         ],
       },
