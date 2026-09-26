@@ -59,11 +59,11 @@ body {
     Roboto,
     sans-serif;
   text-rendering: optimizeLegibility;
-  background-color: #0B0C0E;
+  background-color: #0A0C10;
   background-image:
-    radial-gradient(ellipse 72% 55% at 50% -8%, rgba(139,124,255,0.10) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 40% at 90% 15%, rgba(125,211,252,0.04) 0%, transparent 55%),
-    #0B0C0E;
+    radial-gradient(ellipse 70% 45% at 50% -5%, rgba(56,189,248,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 85% 15%, rgba(139,124,255,0.03) 0%, transparent 50%),
+    #0A0C10;
   background-attachment: fixed;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -71,7 +71,7 @@ body {
   position: relative;
 }
 
-/* ─────────────── LIVE REVOLVING BACKGROUND CANVAS ─────────────── */
+/* ─────────────── LIVE REVOLVING BACKGROUND CANVAS (MATTE DIFFUSE) ─────────────── */
 
 /* Orb layer — hardware-accelerated isolated composite layer */
 #bg-canvas {
@@ -87,10 +87,10 @@ body {
 #bg-canvas .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(110px);
   will-change: transform;
   transform: translate3d(0, 0, 0);
-  mix-blend-mode: screen;
+  opacity: 0.16;
 }
 
 /* Orb 1 — violet, top-left, large slow clockwise */
@@ -440,29 +440,29 @@ button {
 .btn-primary {
   color: #090b10;
   background: #f8fafc;
-  border: 1px solid #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .btn-primary:hover {
   background: #e2e8f0;
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 .btn-secondary {
   color: #e2e8f0;
-  background: rgba(18, 24, 35, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(16, 20, 28, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
 }
 
 .btn-secondary:hover {
-  border-color: rgba(56, 189, 248, 0.35);
-  background: rgba(24, 32, 46, 0.85);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(22, 28, 38, 0.9);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
 }
 
 /* ─────────────── MATTE ORBIT GRAPHIC ─────────────── */
