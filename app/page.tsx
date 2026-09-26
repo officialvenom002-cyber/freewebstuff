@@ -10,10 +10,6 @@ import CategoryGrid from "@/components/home/CategoryGrid";
 import Footer from "@/components/layout/Footer";
 import AdsterraBanner from "@/components/ads/AdsterraBanner";
 import { 
-  ShieldAlert,
-  ShieldCheck,
-  BookOpen,
-  ArrowRight,
   ChevronDown,
   Search,
   Folder,
@@ -318,44 +314,7 @@ export default function HomePage() {
 
         </section>
 
-        {/* QUICK ESSENTIAL ADVISORY BANNER */}
-        <section className="w-full max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#0d1322]/60 backdrop-blur-md border border-sky-500/20 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            
-            <div className="space-y-2 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">
-                <ShieldAlert className="w-3.5 h-3.5" />
-                <span>Recommended Safety Practice</span>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">
-                Essential Setup Before Exploring Third-Party Tools
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                For optimal security, ensure your browser is equipped with a reputable adblocker (e.g. <strong>uBlock Origin</strong>), encrypted DNS (e.g. <strong>NextDNS / Quad9</strong>), and always scan unknown downloads using <strong>VirusTotal</strong>.
-              </p>
-            </div>
 
-            <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0">
-              <Link
-                href="/beginners-guide"
-                className="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 shadow-[0_0_20px_rgba(56,189,248,0.3)]"
-              >
-                <BookOpen className="w-4 h-4" />
-                <span>Quick Start</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-              
-              <Link
-                href="/categories/privacy"
-                className="px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/10 hover:border-sky-400/30 text-white font-medium text-xs sm:text-sm transition-all duration-200 flex items-center gap-2"
-              >
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>Privacy &amp; Adblock</span>
-              </Link>
-            </div>
-
-          </div>
-        </section>
 
       </main>
 
