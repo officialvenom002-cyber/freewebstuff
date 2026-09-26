@@ -242,23 +242,23 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
   return (
     <Link
       href={cat.href}
-      className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-2xl border transition-all duration-300"
+      className="group relative flex flex-col justify-between p-5 sm:p-5.5 rounded-[22px] border transition-all duration-300 overflow-hidden"
       style={{
         background: hovered ? cat.accentBg : "var(--card, #111316)",
         borderColor: hovered ? cat.accentBorder : "var(--border, #1E2228)",
-        transform: hovered ? "translateY(-4px)" : "translateY(0)",
+        transform: hovered ? "translateY(-3px)" : "translateY(0)",
         boxShadow: hovered 
-          ? `0 12px 28px -6px ${cat.accentBg}, 0 0 0 1px ${cat.accentBorder}`
-          : "0 2px 8px rgba(0,0,0,0.15)",
+          ? `0 14px 28px -8px ${cat.accentBg}, 0 0 0 1px ${cat.accentBorder}`
+          : "0 2px 10px rgba(0,0,0,0.16)",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <div>
-        {/* Top Header: Icon + Badge + Count */}
-        <div className="flex items-center justify-between gap-3 mb-4">
+        {/* Top Header: Icon + Name + Badges in clean horizontal rectangle flow */}
+        <div className="flex items-start gap-3.5 mb-3">
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-[22px] font-bold border transition-transform duration-300 group-hover:scale-110 shadow-inner shrink-0"
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center text-[20px] sm:text-[22px] font-bold border transition-transform duration-300 group-hover:scale-105 shadow-inner shrink-0"
             style={{
               background: "var(--bg, #0B0C0E)",
               borderColor: hovered ? cat.accentBorder : "var(--border, #262A30)",
@@ -268,40 +268,42 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
             {cat.icon}
           </div>
 
-          <div className="flex items-center gap-1.5 flex-wrap justify-end">
-            {cat.badge && (
-              <span
-                className="text-[10px] sm:text-[10.5px] font-semibold px-2 py-0.5 rounded-full border shadow-sm tracking-wide"
-                style={{
-                  color: cat.accent,
-                  background: cat.accentBg,
-                  borderColor: cat.accentBorder,
-                }}
-              >
-                {cat.badge}
-              </span>
-            )}
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center justify-between gap-1.5 flex-wrap mb-1">
+              <h3 className="font-heading font-bold text-[16px] sm:text-[17px] text-[#F2F3F5] leading-snug group-hover:text-white transition-colors truncate">
+                {cat.name}
+              </h3>
+              {cat.badge && (
+                <span
+                  className="text-[10px] font-semibold px-2 py-0.5 rounded-full border shadow-sm tracking-wide shrink-0"
+                  style={{
+                    color: cat.accent,
+                    background: cat.accentBg,
+                    borderColor: cat.accentBorder,
+                  }}
+                >
+                  {cat.badge}
+                </span>
+              )}
+            </div>
             <span
-              className="text-[10.5px] font-mono font-medium tabular-nums px-2 py-0.5 rounded-md border text-slate-400 bg-white/[0.03] border-white/[0.08]"
+              className="inline-block text-[11px] font-mono font-medium tabular-nums text-slate-400 bg-white/[0.04] px-2 py-0.5 rounded-md border border-white/[0.08]"
             >
               {cat.count}
             </span>
           </div>
         </div>
 
-        {/* Content: Title & Description */}
-        <h3 className="font-heading font-bold text-[16px] sm:text-[17px] text-[#F2F3F5] leading-snug group-hover:text-white transition-colors mb-2">
-          {cat.name}
-        </h3>
-        <p className="text-[12.5px] sm:text-[13px] text-[#8A92A6] leading-relaxed line-clamp-2">
+        {/* Description */}
+        <p className="text-[12.5px] sm:text-[13px] text-[#8A92A6] leading-relaxed line-clamp-2 mb-3">
           {cat.desc}
         </p>
       </div>
 
-      {/* Footer: Explore link + dynamic arrow */}
-      <div className="pt-4 mt-4 border-t border-white/[0.06] flex items-center justify-between">
+      {/* Footer: Explore link + arrow */}
+      <div className="pt-2.5 border-t border-white/[0.06] flex items-center justify-between text-xs">
         <span 
-          className="text-[11.5px] sm:text-xs font-semibold tracking-wide transition-colors duration-200"
+          className="font-medium tracking-wide transition-colors duration-200"
           style={{ color: hovered ? cat.accent : "#64748b" }}
         >
           Explore category
@@ -310,8 +312,8 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
           className="w-4 h-4 transition-all duration-300"
           style={{
             color: cat.accent,
-            transform: hovered ? "translate(2px, -2px) scale(1.15)" : "translate(0, 0)",
-            opacity: hovered ? 1 : 0.35,
+            transform: hovered ? "translate(2px, -2px)" : "translate(0, 0)",
+            opacity: hovered ? 1 : 0.4,
           }}
         />
       </div>
@@ -322,7 +324,7 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
 export default function CategoryGrid() {
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {CATEGORIES.map((cat) => (
           <CategoryCard key={cat.id} cat={cat} />
         ))}
