@@ -23,216 +23,216 @@ const CATEGORIES: CategoryMeta[] = [
   {
     id: "video",
     name: "Streaming & Movies",
-    count: "1,100+ sites",
+    count: "1,100+",
     label: "sites",
     href: "/categories/video",
     icon: "▶",
     accent: "#f87171",
     accentBg: "rgba(248,113,113,0.10)",
     accentBorder: "rgba(248,113,113,0.30)",
-    desc: "Free movie sites, anime streams, sports channels, and web media players.",
+    desc: "Free movies, anime streams, sports, media players",
     badge: "🔥 #1 Viral",
   },
   // ── 2nd: Gaming & Emulation ───────────────────────────────────────────────
   {
     id: "gaming",
     name: "Gaming & Emulation",
-    count: "1,400+ games",
+    count: "1,400+",
     label: "resources",
     href: "/categories/gaming",
     icon: "◉",
     accent: "#fb923c",
     accentBg: "rgba(251,146,60,0.10)",
     accentBorder: "rgba(251,146,60,0.30)",
-    desc: "Preservation ROMs, console emulators, repacks, indie titles, and mods.",
-    badge: "⚡ #2 Trending",
+    desc: "Preservation ROMs, emulators, repacks, and mods",
+    badge: "⚡ #2",
   },
   // ── 3rd: Audio & Music ────────────────────────────────────────────────────
   {
     id: "audio",
     name: "Music & Podcasts",
-    count: "520+ tools",
+    count: "520+",
     label: "tools",
     href: "/categories/audio",
     icon: "◈",
     accent: "#86efac",
     accentBg: "rgba(134,239,172,0.10)",
     accentBorder: "rgba(134,239,172,0.30)",
-    desc: "Lossless FLAC audio, internet radio, podcasts, sound editors, and mixers.",
-    badge: "🎧 #3 Trending",
+    desc: "Lossless FLAC, web radio, podcasts, sound tools",
+    badge: "🎧 #3",
   },
   // ── 4th: AI Tools (Viral) ─────────────────────────────────────────────────
   {
     id: "ai",
     name: "AI & Machine Learning",
-    count: "1,200+ tools",
+    count: "1,200+",
     label: "tools",
     href: "/categories/ai",
     icon: "✦",
     accent: "#a78bfa",
     accentBg: "rgba(167,139,250,0.10)",
     accentBorder: "rgba(167,139,250,0.30)",
-    desc: "Frontier LLMs, image generation, code assistants, and local AI frontends.",
+    desc: "Frontier LLMs, image gen, chatbots, code tools",
     badge: "✦ Hot",
   },
   // ── 5th: Direct Downloads & Debrid ────────────────────────────────────────
   {
     id: "downloading",
     name: "Downloading & Direct",
-    count: "680+ sites",
+    count: "680+",
     label: "sites",
     href: "/categories/downloading",
     icon: "↓",
     accent: "#94a3b8",
     accentBg: "rgba(148,163,184,0.10)",
     accentBorder: "rgba(148,163,184,0.28)",
-    desc: "Debrid services, multi-download managers, cyberlockers, and direct mirrors.",
+    desc: "Debrid links, download managers, and cyberlockers",
     badge: "Popular",
   },
   // ── 6th: Torrenting & P2P ─────────────────────────────────────────────────
   {
     id: "torrenting",
     name: "Torrenting & P2P",
-    count: "620+ trackers",
+    count: "620+",
     label: "trackers",
     href: "/categories/torrenting",
     icon: "⚡",
     accent: "#c084fc",
     accentBg: "rgba(192,132,252,0.10)",
     accentBorder: "rgba(192,132,252,0.30)",
-    desc: "Verified torrent clients, private trackers, magnet indexes, and seedboxes.",
+    desc: "Torrent clients, private trackers, magnet indexes",
     badge: "P2P",
   },
   // ── 7th: Privacy & Adblock ────────────────────────────────────────────────
   {
     id: "privacy",
     name: "Privacy & Adblock",
-    count: "850+ tools",
+    count: "850+",
     label: "tools",
     href: "/categories/privacy",
     icon: "🛡",
     accent: "#6ee7b7",
     accentBg: "rgba(110,231,183,0.10)",
     accentBorder: "rgba(110,231,183,0.30)",
-    desc: "Adblock filters, DNS privacy, audited VPNs, trackers, and telemetry blockers.",
+    desc: "Adblock filters, DNS privacy, audited VPNs",
     badge: "Essential",
   },
   // ── 8th: Books & Comics ───────────────────────────────────────────────────
   {
     id: "reading",
     name: "Books & Comics",
-    count: "810+ sources",
+    count: "810+",
     label: "libraries",
     href: "/categories/reading",
     icon: "📖",
     accent: "#fbbf24",
     accentBg: "rgba(251,191,36,0.10)",
     accentBorder: "rgba(251,191,36,0.30)",
-    desc: "E-books, manga readers, light novels, audiobooks, and free digital libraries.",
+    desc: "E-books, manga readers, light novels, audiobooks",
   },
   // ── 9th: Mobile & Android ─────────────────────────────────────────────────
   {
     id: "mobile",
     name: "Mobile & Apps",
-    count: "640+ apps",
+    count: "640+",
     label: "apps",
     href: "/categories/mobile",
     icon: "□",
     accent: "#7dd3fc",
     accentBg: "rgba(125,211,252,0.10)",
     accentBorder: "rgba(125,211,252,0.28)",
-    desc: "Android APKs, iOS sideloading, F-Droid repositories, and mobile utilities.",
+    desc: "Android APKs, iOS sideloading, F-Droid stores",
   },
   // ── 10th: Developer Tools ─────────────────────────────────────────────────
   {
     id: "developer-tools",
     name: "Developer Tools",
-    count: "900+ tools",
+    count: "900+",
     label: "tools",
     href: "/categories/developer-tools",
     icon: "⌥",
     accent: "#67e8f9",
     accentBg: "rgba(103,232,249,0.10)",
     accentBorder: "rgba(103,232,249,0.28)",
-    desc: "Free API endpoints, cloud hosting, CSS generators, and developer utilities.",
+    desc: "Free API endpoints, cloud hosting, dev utilities",
   },
   // ── 11th: Educational & Courses ───────────────────────────────────────────
   {
     id: "educational",
     name: "Education & Courses",
-    count: "750+ courses",
+    count: "750+",
     label: "resources",
     href: "/categories/educational",
     icon: "◎",
     accent: "#fde68a",
     accentBg: "rgba(253,230,138,0.10)",
     accentBorder: "rgba(253,230,138,0.28)",
-    desc: "Free college lectures, open textbooks, computer science tracks, and roadmaps.",
+    desc: "Free university lectures, open textbooks, roadmaps",
   },
   // ── 12th: System Tools & OS ───────────────────────────────────────────────
   {
     id: "system-tools",
     name: "System Tools & OS",
-    count: "540+ utilities",
+    count: "540+",
     label: "utilities",
     href: "/categories/system-tools",
     icon: "⚙",
     accent: "#38bdf8",
     accentBg: "rgba(56,189,248,0.10)",
     accentBorder: "rgba(56,189,248,0.28)",
-    desc: "Windows debloaters, live USB builders, diagnostic tools, and OS optimization.",
+    desc: "Windows debloaters, live USBs, diagnostic tools",
   },
   // ── 13th: Linux & macOS ───────────────────────────────────────────────────
   {
     id: "linux-macos",
     name: "Linux & macOS",
-    count: "480+ tools",
+    count: "480+",
     label: "tools",
     href: "/categories/linux-macos",
     icon: "⌘",
     accent: "#f43f5e",
     accentBg: "rgba(244,63,94,0.10)",
     accentBorder: "rgba(244,63,94,0.28)",
-    desc: "Linux distros, package managers, terminal applications, and Unix software.",
+    desc: "Distros, package managers, Unix terminal apps",
   },
   // ── 14th: Cloud Storage & Drives ──────────────────────────────────────────
   {
     id: "storage",
     name: "Cloud Storage",
-    count: "310+ drives",
+    count: "310+",
     label: "drives",
     href: "/categories/storage",
     icon: "☁",
     accent: "#34d399",
     accentBg: "rgba(52,211,153,0.10)",
     accentBorder: "rgba(52,211,153,0.28)",
-    desc: "Free cloud storage tiers, encrypted sync utilities, and decentralized drives.",
+    desc: "Free cloud storage tiers and encrypted sync",
   },
   // ── 15th: Global & Multilingual Hubs ──────────────────────────────────────
   {
     id: "non-english",
     name: "Global Hubs",
-    count: "590+ sites",
+    count: "590+",
     label: "sites",
     href: "/categories/non-english",
     icon: "🌐",
     accent: "#f97316",
     accentBg: "rgba(249,115,22,0.10)",
     accentBorder: "rgba(249,115,22,0.28)",
-    desc: "Multilingual repositories, international indexes, translations, and regional tools.",
+    desc: "Multilingual repositories and regional indexes",
   },
   // ── 16th: Miscellaneous & Fun ─────────────────────────────────────────────
   {
     id: "misc",
     name: "Miscellaneous & Fun",
-    count: "920+ sites",
+    count: "920+",
     label: "sites",
     href: "/categories/misc",
     icon: "✨",
     accent: "#eab308",
     accentBg: "rgba(234,179,8,0.10)",
     accentBorder: "rgba(234,179,8,0.28)",
-    desc: "Internet archives, retro web games, weird websites, and fun utilities.",
+    desc: "Internet archives, retro web games, cool utilities",
   },
 ];
 
@@ -242,81 +242,71 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
   return (
     <Link
       href={cat.href}
-      className="group relative flex flex-col justify-between p-5 sm:p-5.5 rounded-[22px] border transition-all duration-300 overflow-hidden"
+      className="group relative flex items-center gap-3 p-3.5 rounded-2xl border transition-all duration-200 overflow-hidden"
       style={{
         background: hovered ? cat.accentBg : "var(--card, #111316)",
         borderColor: hovered ? cat.accentBorder : "var(--border, #1E2228)",
-        transform: hovered ? "translateY(-3px)" : "translateY(0)",
+        transform: hovered ? "translateY(-2px)" : "translateY(0)",
         boxShadow: hovered 
-          ? `0 14px 28px -8px ${cat.accentBg}, 0 0 0 1px ${cat.accentBorder}`
-          : "0 2px 10px rgba(0,0,0,0.16)",
+          ? `0 10px 24px -6px ${cat.accentBg}, 0 0 0 1px ${cat.accentBorder}`
+          : "0 2px 8px rgba(0,0,0,0.14)",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div>
-        {/* Top Header: Icon + Name + Badges in clean horizontal rectangle flow */}
-        <div className="flex items-start gap-3.5 mb-3">
-          <div
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center text-[20px] sm:text-[22px] font-bold border transition-transform duration-300 group-hover:scale-105 shadow-inner shrink-0"
-            style={{
-              background: "var(--bg, #0B0C0E)",
-              borderColor: hovered ? cat.accentBorder : "var(--border, #262A30)",
-              color: cat.accent,
-            }}
-          >
-            {cat.icon}
-          </div>
+      {/* Icon block */}
+      <div
+        className="w-10 h-10 rounded-xl flex items-center justify-center text-[18px] font-bold border transition-transform duration-200 group-hover:scale-105 shrink-0 shadow-inner"
+        style={{
+          background: "var(--bg, #0B0C0E)",
+          borderColor: hovered ? cat.accentBorder : "var(--border, #262A30)",
+          color: cat.accent,
+        }}
+      >
+        {cat.icon}
+      </div>
 
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center justify-between gap-1.5 flex-wrap mb-1">
-              <h3 className="font-heading font-bold text-[16px] sm:text-[17px] text-[#F2F3F5] leading-snug group-hover:text-white transition-colors truncate">
-                {cat.name}
-              </h3>
-              {cat.badge && (
-                <span
-                  className="text-[10px] font-semibold px-2 py-0.5 rounded-full border shadow-sm tracking-wide shrink-0"
-                  style={{
-                    color: cat.accent,
-                    background: cat.accentBg,
-                    borderColor: cat.accentBorder,
-                  }}
-                >
-                  {cat.badge}
-                </span>
-              )}
-            </div>
+      {/* Middle info */}
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-1.5 mb-0.5">
+          <h3 className="font-heading font-bold text-[14px] text-[#F2F3F5] leading-snug group-hover:text-white transition-colors truncate">
+            {cat.name}
+          </h3>
+          {cat.badge && (
             <span
-              className="inline-block text-[11px] font-mono font-medium tabular-nums text-slate-400 bg-white/[0.04] px-2 py-0.5 rounded-md border border-white/[0.08]"
+              className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border shadow-sm tracking-tight shrink-0 leading-none"
+              style={{
+                color: cat.accent,
+                background: cat.accentBg,
+                borderColor: cat.accentBorder,
+              }}
             >
-              {cat.count}
+              {cat.badge}
             </span>
-          </div>
+          )}
         </div>
 
-        {/* Description */}
-        <p className="text-[12.5px] sm:text-[13px] text-[#8A92A6] leading-relaxed line-clamp-2 mb-3">
-          {cat.desc}
-        </p>
+        <div className="flex items-center justify-between gap-1.5">
+          <p className="text-[11px] text-[#8A92A6] leading-tight truncate">
+            {cat.desc}
+          </p>
+          <span
+            className="shrink-0 text-[10px] font-mono font-medium tabular-nums text-slate-400 bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.08]"
+          >
+            {cat.count}
+          </span>
+        </div>
       </div>
 
-      {/* Footer: Explore link + arrow */}
-      <div className="pt-2.5 border-t border-white/[0.06] flex items-center justify-between text-xs">
-        <span 
-          className="font-medium tracking-wide transition-colors duration-200"
-          style={{ color: hovered ? cat.accent : "#64748b" }}
-        >
-          Explore category
-        </span>
-        <ArrowUpRight
-          className="w-4 h-4 transition-all duration-300"
-          style={{
-            color: cat.accent,
-            transform: hovered ? "translate(2px, -2px)" : "translate(0, 0)",
-            opacity: hovered ? 1 : 0.4,
-          }}
-        />
-      </div>
+      {/* Right arrow */}
+      <ArrowUpRight
+        className="w-3.5 h-3.5 shrink-0 transition-all duration-200"
+        style={{
+          color: cat.accent,
+          opacity: hovered ? 1 : 0.25,
+          transform: hovered ? "translate(2px, -2px)" : "translate(0, 0)",
+        }}
+      />
     </Link>
   );
 }
@@ -324,7 +314,8 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
 export default function CategoryGrid() {
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+      {/* 4 Cards per row (4 columns x 4 rows = 4 cards in each column) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 min-[880px]:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-3.5">
         {CATEGORIES.map((cat) => (
           <CategoryCard key={cat.id} cat={cat} />
         ))}
