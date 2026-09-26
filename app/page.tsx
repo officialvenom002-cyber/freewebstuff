@@ -6,7 +6,6 @@ import Logo from "@/components/ui/Logo";
 import SearchModal from "@/components/search/SearchModal";
 import SearchToggle from "@/components/search/SearchToggle";
 import ThemeSelector from "@/components/ui/ThemeSelector";
-import LiveUserPresence from "@/components/analytics/LiveUserPresence";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import Footer from "@/components/layout/Footer";
 import AdsterraBanner from "@/components/ads/AdsterraBanner";
@@ -253,9 +252,6 @@ export default function HomePage() {
 
           <div className="hero-content">
 
-            <div className="flex items-center justify-center mb-5 hero-title-anim">
-              <LiveUserPresence className="px-3.5 py-1 text-xs shadow-sm shadow-emerald-500/10" />
-            </div>
 
             <h1 className="hero-title hero-title-anim">
               Everything Free.
