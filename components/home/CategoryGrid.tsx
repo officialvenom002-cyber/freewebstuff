@@ -244,7 +244,7 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
   return (
     <Link
       href={cat.href}
-      className="group relative flex flex-col justify-between p-5 rounded-2xl border transition-all duration-300 overflow-hidden min-h-[178px]"
+      className="group relative flex flex-col justify-between p-4.5 sm:p-5 rounded-2xl border transition-all duration-300 overflow-hidden min-h-[190px] h-full"
       style={{
         background: hovered 
           ? "linear-gradient(165deg, rgba(20, 25, 34, 0.95) 0%, rgba(12, 15, 21, 0.98) 100%)" 
@@ -270,7 +270,7 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
       {/* Top row: Icon and Clean Counter Badge */}
       <div className="flex items-center justify-between gap-2 relative z-10">
         <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center border transition-all duration-300 group-hover:scale-105"
+          className="w-11 h-11 rounded-xl flex items-center justify-center border transition-all duration-300 group-hover:scale-105 shrink-0"
           style={{
             background: hovered ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0.03)",
             borderColor: hovered ? cat.accentBorder : "rgba(255, 255, 255, 0.08)",
@@ -281,36 +281,39 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
 
         {/* Minimalist count badge - no tacky viral tags */}
         <span
-          className="text-[11px] font-mono text-slate-400 bg-white/[0.03] px-2.5 py-1 rounded-full border border-white/[0.06] tracking-tight group-hover:border-white/10 transition-colors"
+          className="text-[11px] font-mono text-slate-400 bg-white/[0.03] px-2.5 py-1 rounded-full border border-white/[0.06] tracking-tight group-hover:border-white/10 transition-colors shrink-0"
         >
           {cat.count}
         </span>
       </div>
 
       {/* Middle row: Title & Description */}
-      <div className="my-2.5 relative z-10">
-        <h3 className="font-heading font-bold text-[15.5px] text-slate-100 leading-snug group-hover:text-white transition-colors">
+      <div className="my-2.5 relative z-10 min-w-0">
+        <h3 
+          className="font-heading font-bold text-[15px] sm:text-[15.5px] text-slate-100 leading-snug group-hover:text-white transition-colors truncate"
+          title={cat.name}
+        >
           {cat.name}
         </h3>
-        <p className="text-[12px] text-slate-400 group-hover:text-slate-300 leading-relaxed mt-1 line-clamp-2 transition-colors">
+        <p className="text-[12px] text-slate-400 group-hover:text-slate-300 leading-relaxed mt-1 line-clamp-2 transition-colors min-h-[36px]">
           {cat.desc}
         </p>
       </div>
 
       {/* Bottom row: Verified category label & smooth arrow button */}
-      <div className="flex items-center justify-between pt-2.5 border-t border-white/[0.05] relative z-10">
-        <div className="flex items-center gap-1.5">
+      <div className="flex items-center justify-between pt-2.5 border-t border-white/[0.05] relative z-10 gap-2">
+        <div className="flex items-center gap-1.5 min-w-0 pr-1">
           <span
-            className="w-1.5 h-1.5 rounded-full"
+            className="w-1.5 h-1.5 rounded-full shrink-0"
             style={{ background: cat.accent }}
           />
-          <span className="text-[11px] font-medium text-slate-400">
+          <span className="text-[11px] font-medium text-slate-400 truncate">
             {cat.label}
           </span>
         </div>
 
         <div
-          className="w-6 h-6 rounded-full flex items-center justify-center border transition-all duration-200"
+          className="w-6 h-6 rounded-full shrink-0 flex items-center justify-center border transition-all duration-200"
           style={{
             background: hovered ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.03)",
             borderColor: hovered ? "rgba(255, 255, 255, 0.18)" : "rgba(255, 255, 255, 0.07)",

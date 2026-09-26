@@ -100,64 +100,83 @@ export default function CategoriesPage() {
       </div>
 
       {/* Categories Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {categories.map((cat, idx) => {
           const Icon = iconMap[cat.icon] || Sparkles;
-          const delayMs = Math.min(idx * 50, 600);
+          const delayMs = Math.min(idx * 40, 500);
+          const visibleSubs = cat.subcategories ? cat.subcategories.slice(0, 4) : [];
+          const remainingCount = (cat.subcategories?.length || 0) - visibleSubs.length;
+
           return (
             <div
               key={cat.id}
-              className="animate-fade-up p-6 sm:p-7 rounded-2xl bg-surface border border-surface-border interactive-card flex flex-col justify-between group"
+              className="animate-fade-up p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-[#131720]/80 to-[#0c0e14]/90 border border-white/[0.07] hover:border-white/20 hover:shadow-[0_12px_28px_-6px_rgba(0,0,0,0.6)] flex flex-col justify-between group transition-all duration-200 hover:-translate-y-1 h-full min-h-[230px]"
               style={{ animationDelay: `${delayMs}ms` }}
             >
               <div>
                 <div className="flex items-center justify-between gap-3 mb-4">
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center border border-surface-border transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]"
+                    className="w-11 h-11 rounded-xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-105 shrink-0"
                     style={{ backgroundColor: `${cat.color}15`, borderColor: `${cat.color}35` }}
                   >
-                    <Icon className="w-6 h-6 transition-transform" style={{ color: cat.color }} />
+                    <Icon className="w-5 h-5 transition-transform" style={{ color: cat.color }} />
                   </div>
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-surface-secondary text-content-secondary border border-surface-border font-mono">
+                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-white/[0.04] text-slate-300 border border-white/[0.06] font-mono shrink-0">
                     {`${cat.resourceCount} ${cat.resourceCount === 1 ? "tool" : "tools"}`}
                   </span>
                 </div>
 
-                <Link href={`/categories/${cat.slug}`} prefetch={true}>
-                  <h2 className="font-heading font-bold text-lg text-content-primary group-hover:text-brand-400 transition-colors duration-200">
+                <Link href={`/categories/${cat.slug}`} prefetch={true} className="block min-w-0">
+                  <h2 
+                    className="font-heading font-bold text-[17px] text-white group-hover:text-sky-300 transition-colors duration-200 truncate"
+                    title={cat.name}
+                  >
                     {cat.name}
                   </h2>
                 </Link>
-                <p className="text-xs sm:text-[13px] text-content-muted mt-2 leading-relaxed">
+                <p className="text-xs sm:text-[12.5px] text-slate-400 mt-1.5 leading-relaxed line-clamp-2 min-h-[36px]">
                   {cat.description}
                 </p>
 
-                {/* Subcategories tags */}
-                {cat.subcategories && cat.subcategories.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-5">
-                    {cat.subcategories.map((sub) => (
+                {/* Subcategories tags (cleanly bounded) */}
+                {visibleSubs.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-4">
+                    {visibleSubs.map((sub) => (
                       <Link
                         key={sub.id}
                         href={`/categories/${cat.slug}?sub=${sub.id}`}
                         prefetch={true}
-                        className="text-xs px-2.5 py-1 rounded-lg bg-surface-secondary text-content-muted hover:text-content-primary hover:border-brand-500/30 border border-surface-border/60 transition-all duration-150 hover:bg-surface-hover font-medium"
+                        className="text-[11px] px-2 py-0.5 rounded-md bg-white/[0.03] text-slate-300 hover:text-white hover:bg-white/[0.08] border border-white/[0.06] transition-all duration-150 max-w-[130px] truncate"
+                        title={sub.name}
                       >
                         {sub.name}
                       </Link>
                     ))}
+                    {remainingCount > 0 && (
+                      <Link
+                        href={`/categories/${cat.slug}`}
+                        prefetch={true}
+                        className="text-[11px] px-2 py-0.5 rounded-md bg-white/[0.02] text-slate-400 hover:text-white border border-white/[0.04] transition-all duration-150"
+                      >
+                        +{remainingCount} more
+                      </Link>
+                    )}
                   </div>
                 )}
               </div>
 
-              <div className="pt-6 mt-5 border-t border-surface-border/50 flex items-center justify-between">
+              <div className="pt-4 mt-5 border-t border-white/[0.06] flex items-center justify-between">
                 <Link
                   href={`/categories/${cat.slug}`}
                   prefetch={true}
-                  className="text-xs font-semibold text-brand-400 hover:text-brand-300 transition-colors duration-150 flex items-center gap-1 group/link"
+                  className="text-xs font-semibold text-sky-400 hover:text-sky-300 transition-colors duration-150 flex items-center gap-1.5 group/link"
                 >
-                  <span>{`Explore ${cat.name}`}</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-1" />
+                  <span>Explore category</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-1 shrink-0" />
                 </Link>
+                <span className="text-[11px] text-slate-400 font-mono">
+                  {cat.subcategories?.length || 0} subtopics
+                </span>
               </div>
             </div>
           );
