@@ -126,10 +126,21 @@ export default function RootLayout({
     >
       <head>
         {/* High-speed CDN preconnect for maximum fill rate & low latency CPM */}
+        <link rel="preconnect" href="https://sads.adsboosters.xyz" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://sads.adsboosters.xyz" />
         <link rel="preconnect" href="https://bibleearthquake.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://bibleearthquake.com" />
         <link rel="preconnect" href="https://quge5.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://quge5.com" />
+
+        {/* AdsCore Loader Tag */}
+        <script
+          data-cfasync="false"
+          type="text/javascript"
+          id="AdsCoreLoader106969"
+          src="https://sads.adsboosters.xyz/7d5d63b1d7a48601a1a774c8e8d4a88a.js"
+        />
+
         {/* Verification & Ad Network Tags (Monetag & Adsterra verbatim) */}
         <script
           id="ad-network-tags"
