@@ -131,9 +131,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://bibleearthquake.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://bibleearthquake.com" />
         <link rel="preconnect" href="https://quge5.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://quge5.com" />
+        <link rel="preconnect" href="https://alwingulla.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://alwingulla.com" />
+        <link rel="preconnect" href="https://5gvci.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://5gvci.com" />
 
-        {/* AdsCore Loader Tag */}
+        {/* 1. AdsCore / Stake High-CPM Engine */}
         <script
           data-cfasync="false"
           type="text/javascript"
@@ -141,12 +144,26 @@ export default function RootLayout({
           src="https://sads.adsboosters.xyz/7d5d63b1d7a48601a1a774c8e8d4a88a.js"
         />
 
-        {/* Verification & Ad Network Tags (Monetag & Adsterra verbatim) */}
+        {/* 2. Monetag MultiTag (Zone 286666) */}
         <script
-          id="ad-network-tags"
-          dangerouslySetInnerHTML={{
-            __html: `</script><script src="https://quge5.com/88/tag.min.js" data-zone="286666" async data-cfasync="false"></script><script async="async" data-cfasync="false" src="https://bibleearthquake.com/940525bed6a894c4f710e89328b26e59/invoke.js"></script><script src="https://bibleearthquake.com/b7/ae/5a/b7ae5af830f6bf0bc3210b84a8a94fe7.js"></script><script src="https://bibleearthquake.com/0e/99/fa/0e99fa0311152f33953e4d7b110510ee.js"></script><script>`,
-          }}
+          async
+          data-cfasync="false"
+          src="https://quge5.com/88/tag.min.js"
+          data-zone="286666"
+        />
+
+        {/* 3. Adsterra Social Bar & Popunder */}
+        <script
+          async
+          data-cfasync="false"
+          src="https://bibleearthquake.com/b7/ae/5a/b7ae5af830f6bf0bc3210b84a8a94fe7.js"
+        />
+
+        {/* 4. Adsterra In-Page Direct */}
+        <script
+          async
+          data-cfasync="false"
+          src="https://bibleearthquake.com/0e/99/fa/0e99fa0311152f33953e4d7b110510ee.js"
         />
         {/* Service Worker Auto-Registration for Monetag Push Notifications */}
         <script

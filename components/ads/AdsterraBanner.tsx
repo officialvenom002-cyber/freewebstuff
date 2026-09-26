@@ -22,46 +22,44 @@ export default function AdsterraBanner() {
   }
 
   useEffect(() => {
-    // Reset trigger state on navigation
+    // Reset trigger state and clear container on route change for fresh impressions
     setHasTriggered(false);
+    if (bannerRef.current) {
+      bannerRef.current.innerHTML = "";
+    }
   }, [pathname]);
 
   useEffect(() => {
     if (hasTriggered || !bannerRef.current) return;
 
-    // Use IntersectionObserver to ensure 100% viewable impression
+    function injectScript() {
+      if (!bannerRef.current) return;
+      bannerRef.current.innerHTML = "";
+      const script = document.createElement("script");
+      script.async = true;
+      script.setAttribute("data-cfasync", "false");
+      script.src = "https://bibleearthquake.com/940525bed6a894c4f710e89328b26e59/invoke.js";
+      bannerRef.current.appendChild(script);
+      setHasTriggered(true);
+    }
+
+    // 600px rootMargin ensures early auction & instant 100% viewability
     if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver(
         (entries) => {
           const [entry] = entries;
           if (entry.isIntersecting) {
-            setHasTriggered(true);
+            injectScript();
             observer.disconnect();
-
-            if (bannerRef.current && !bannerRef.current.querySelector("script")) {
-              const script = document.createElement("script");
-              script.async = true;
-              script.setAttribute("data-cfasync", "false");
-              script.src = "https://bibleearthquake.com/940525bed6a894c4f710e89328b26e59/invoke.js";
-              bannerRef.current.appendChild(script);
-            }
           }
         },
-        { rootMargin: "250px" }
+        { rootMargin: "600px" }
       );
 
       observer.observe(bannerRef.current);
       return () => observer.disconnect();
     } else {
-      // Fallback for browsers without IntersectionObserver
-      if (bannerRef.current && !bannerRef.current.querySelector("script")) {
-        const script = document.createElement("script");
-        script.async = true;
-        script.setAttribute("data-cfasync", "false");
-        script.src = "https://bibleearthquake.com/940525bed6a894c4f710e89328b26e59/invoke.js";
-        bannerRef.current.appendChild(script);
-        setHasTriggered(true);
-      }
+      injectScript();
     }
   }, [hasTriggered, pathname]);
 
