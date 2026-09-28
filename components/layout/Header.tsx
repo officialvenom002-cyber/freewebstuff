@@ -128,11 +128,11 @@ export default function Header() {
               </kbd>
             </button>
 
-            {/* Support / Donate */}
+            {/* Support / Donate Toggle in Top Nav */}
             <Link
               href="/donate"
               prefetch={true}
-              className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-[12px] font-semibold tracking-tight transition-all duration-150 active:scale-95 border border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8]"
+              className="inline-flex items-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-lg text-[11px] sm:text-[12px] font-semibold tracking-tight transition-all duration-150 active:scale-95 border border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8] shrink-0"
               title="Support the project"
             >
               <Heart className="w-3.5 h-3.5 text-[#9CA3AF] fill-[#9CA3AF]/20" />
@@ -143,7 +143,7 @@ export default function Header() {
             <Link
               href="/submit"
               prefetch={true}
-              className="inline-flex items-center justify-center h-8 px-4 rounded-lg text-[12.5px] font-bold tracking-tight transition-all duration-150 active:scale-95"
+              className="hidden xs:inline-flex items-center justify-center h-8 px-3 sm:px-4 rounded-lg text-[12px] sm:text-[12.5px] font-bold tracking-tight transition-all duration-150 active:scale-95 shrink-0"
               style={{
                 background: "#8B7CFF",
                 color: "#0B0C0E",
