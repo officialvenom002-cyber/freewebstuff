@@ -201,6 +201,20 @@ export default function HomePage() {
         {mobileMenuOpen && (
           <div className="sm:hidden border-t border-white/10 bg-[#090e1c]/90 backdrop-blur-xl px-5 py-4 flex flex-col gap-3 animate-fade-in shadow-2xl">
             <Link 
+              href="/donate" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-medium text-white hover:text-sky-400 py-1.5 flex items-center justify-between"
+            >
+              <span>Support</span>
+            </Link>
+            <Link 
+              href="/beginners-guide" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
+            >
+              📖 Quick Start
+            </Link>
+            <Link 
               href="/categories" 
               onClick={() => setMobileMenuOpen(false)}
               className="text-sm font-medium text-white hover:text-sky-400 py-1.5 flex items-center justify-between"
@@ -214,20 +228,6 @@ export default function HomePage() {
               className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
             >
               Trending Tools
-            </Link>
-            <Link 
-              href="/donate" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-white hover:text-sky-400 py-1.5 flex items-center justify-between"
-            >
-              <span>Support</span>
-            </Link>
-            <Link 
-              href="/beginners-guide" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
-            >
-              📖 Quick Start
             </Link>
             <Link 
               href="/startpage" 

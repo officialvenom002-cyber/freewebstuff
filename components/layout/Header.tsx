@@ -9,6 +9,7 @@ import { Menu, X, Search } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Support", href: "/donate" },
+  { label: "Quick Start", href: "/beginners-guide" },
   { label: "Explore", href: "/search" },
   { label: "Categories", href: "/categories" },
   { label: "Trending", href: "/trending" },
