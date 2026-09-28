@@ -87,6 +87,12 @@ export default function HomePage() {
 
             <nav className="nav-links flex items-center gap-6 sm:gap-7">
               <Link 
+                href="/donate" 
+                className="text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap flex items-center gap-1.5"
+              >
+                <span>Support</span>
+              </Link>
+              <Link 
                 href="/beginners-guide" 
                 className="text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap flex items-center gap-1.5"
               >
@@ -208,6 +214,13 @@ export default function HomePage() {
               className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
             >
               Trending Tools
+            </Link>
+            <Link 
+              href="/donate" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-medium text-white hover:text-sky-400 py-1.5 flex items-center justify-between"
+            >
+              <span>Support</span>
             </Link>
             <Link 
               href="/beginners-guide" 
