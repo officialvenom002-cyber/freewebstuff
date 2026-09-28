@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "../ui/Logo";
 import SearchModal from "../search/SearchModal";
-import { Menu, X, Search, Heart } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Explore", href: "/search" },
@@ -128,17 +128,6 @@ export default function Header() {
               </kbd>
             </button>
 
-            {/* Support / Donate Toggle in Top Nav */}
-            <Link
-              href="/donate"
-              prefetch={true}
-              className="inline-flex items-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-lg text-[11px] sm:text-[12px] font-semibold tracking-tight transition-all duration-150 active:scale-95 border border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8] shrink-0"
-              title="Support the project"
-            >
-              <Heart className="w-3.5 h-3.5 text-[#9CA3AF] fill-[#9CA3AF]/20" />
-              <span>Support</span>
-            </Link>
-
             {/* Submit */}
             <Link
               href="/submit"
@@ -195,14 +184,6 @@ export default function Header() {
               </Link>
             ))}
             <div className="border-t border-[#1E2228] my-2" />
-            <Link
-              href="/donate"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-[14px] font-bold text-[#E2E4E8] bg-[#16181D] border border-[#2D313A] hover:bg-[#1C1F26] transition-colors"
-            >
-              <Heart className="w-4 h-4 text-[#9CA3AF] fill-[#9CA3AF]/20" />
-              Support FreeWebStuff
-            </Link>
             <Link
               href="/submit"
               onClick={() => setMobileMenuOpen(false)}

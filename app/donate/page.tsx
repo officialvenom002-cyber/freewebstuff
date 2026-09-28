@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   CreditCard, 
@@ -29,6 +29,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { DONATION_CONFIG } from "@/lib/config/donationConfig";
+import { TopSupporter } from "@/lib/db/siteConfig";
 
 type PaymentTab = "cards" | "paypal" | "crypto" | "upi";
 
@@ -37,6 +38,24 @@ export default function DonatePage() {
   const [selectedTier, setSelectedTier] = useState<number>(1);
   const [selectedCrypto, setSelectedCrypto] = useState<number>(0);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  // Dynamic live supporters state
+  const [liveSupporters, setLiveSupporters] = useState<TopSupporter[]>(DONATION_CONFIG.topSupporters || []);
+  const [isLoadingSupporters, setIsLoadingSupporters] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/supporters")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.supporters)) {
+          setLiveSupporters(data.supporters);
+        }
+      })
+      .catch((err) => {
+        console.error("Could not fetch live supporters:", err);
+      })
+      .finally(() => setIsLoadingSupporters(false));
+  }, []);
 
   const copyToClipboard = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
@@ -58,11 +77,25 @@ export default function DonatePage() {
     : "";
 
   const activeTierObj = DONATION_CONFIG.tiers[selectedTier] || DONATION_CONFIG.tiers[1];
-  const top1Supporter = DONATION_CONFIG.topSupporters.find((s) => s.isTop1) || DONATION_CONFIG.topSupporters[0];
-  const otherSupporters = DONATION_CONFIG.topSupporters.filter((s) => !s.isTop1);
+  const top1Supporter = liveSupporters.find((s) => s.isTop1) || liveSupporters[0] || null;
+  const otherSupporters = top1Supporter ? liveSupporters.filter((s) => s.id !== top1Supporter.id) : [];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 py-12 sm:py-24 space-y-20">
+    <div className="relative min-h-screen bg-[#090B0E] text-[#E5E7EB]">
+      {/* Matte tactile dot grid layer */}
+      <div 
+        className="pointer-events-none fixed inset-0 z-0 opacity-30"
+        style={{
+          backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+          maskImage: "radial-gradient(ellipse 90% 70% at 50% 0%, #000 50%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(ellipse 90% 70% at 50% 0%, #000 50%, transparent 100%)"
+        }}
+      />
+      {/* Soft ambient overhead matte light */}
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(148,163,184,0.05),transparent_70%)] z-0" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 py-12 sm:py-24 space-y-20">
       
       {/* ── 1. Hero Section ── */}
       <div className="text-center space-y-6">
@@ -158,7 +191,7 @@ export default function DonatePage() {
       {/* ── 2. Top Donator Spotlight & Hall of Fame (Wall of Honor) ── */}
       <div className="space-y-6">
         <div className="text-center sm:text-left space-y-1.5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-semibold bg-[#181B22] text-[#A1A5B0] border border-[#262A34]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-semibold bg-[#141822] text-[#A1A5B0] border border-[#232938]">
             <Crown className="w-3.5 h-3.5 text-[#E5E7EB]" />
             <span>Wall of Honor</span>
           </div>
@@ -174,114 +207,202 @@ export default function DonatePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           
           {/* #1 Supporter Hero Card */}
-          <div className="lg:col-span-5 p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#181B24] to-[#111318] border border-[#3A404F] shadow-2xl relative overflow-hidden flex flex-col justify-between">
-            <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-              <Crown className="w-32 h-32 text-white" />
-            </div>
-
-            <div className="space-y-5 relative z-10">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#EDEDEE] text-[#0C0D10] shadow-sm">
-                  <Flame className="w-3.5 h-3.5 fill-[#0C0D10]" />
-                  #1 Top Supporter
-                </span>
-                <span className="text-xs font-mono font-semibold text-[#A1A5B0]">
-                  {top1Supporter.date}
-                </span>
+          {top1Supporter ? (
+            <div className="lg:col-span-5 p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#181B24] to-[#111318] border border-[#3A404F] shadow-2xl relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                <Crown className="w-32 h-32 text-white" />
               </div>
 
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">
-                  {top1Supporter.name}
+              <div className="space-y-5 relative z-10">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#EDEDEE] text-[#0C0D10] shadow-sm">
+                    <Flame className="w-3.5 h-3.5 fill-[#0C0D10]" />
+                    #1 Top Supporter
+                  </span>
+                  <span className="text-xs font-mono font-semibold text-[#A1A5B0]">
+                    {top1Supporter.date}
+                  </span>
                 </div>
-                <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#A1A5B0] mt-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
-                  <span>{top1Supporter.tier} &bull; {top1Supporter.amount} Contributed</span>
-                </div>
-              </div>
 
-              {top1Supporter.message && (
-                <blockquote className="p-4 rounded-xl bg-[#0D0F13] border border-[#242832] text-xs sm:text-sm text-[#D1D5DB] italic leading-relaxed">
-                  &ldquo;{top1Supporter.message}&rdquo;
-                </blockquote>
-              )}
-
-              {top1Supporter.website && (
-                <div className="pt-1">
-                  <div className="text-[11px] font-semibold uppercase tracking-wider text-[#6E7380] mb-1.5">
-                    Promoted Website / Project
+                <div>
+                  <div className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">
+                    {top1Supporter.name}
                   </div>
-                  <a
-                    href={top1Supporter.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#14171E] hover:bg-[#1B1F28] border border-[#2B303C] text-xs font-semibold text-[#EDEDEE] transition-colors"
-                  >
-                    <Globe className="w-3.5 h-3.5 text-[#9CA3AF]" />
-                    <span>{top1Supporter.websiteName || top1Supporter.website}</span>
-                    <ExternalLink className="w-3 h-3 text-[#6E7380]" />
-                  </a>
+                  <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#A1A5B0] mt-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+                    <span>{top1Supporter.tier} &bull; {top1Supporter.amount} Contributed</span>
+                  </div>
                 </div>
-              )}
-            </div>
 
-            <div className="pt-6 mt-6 border-t border-[#252A36] text-[11px] text-[#8E939E] flex items-center justify-between">
-              <span>Pinned placement across category archives</span>
-              <span className="font-mono text-[#A1A5B0]">Verified Partner</span>
+                {top1Supporter.message && (
+                  <blockquote className="p-4 rounded-xl bg-[#0D0F13] border border-[#242832] text-xs sm:text-sm text-[#D1D5DB] italic leading-relaxed">
+                    &ldquo;{top1Supporter.message}&rdquo;
+                  </blockquote>
+                )}
+
+                {top1Supporter.website && (
+                  <div className="pt-1">
+                    <div className="text-[11px] font-semibold uppercase tracking-wider text-[#6E7380] mb-1.5">
+                      Promoted Website / Project
+                    </div>
+                    <a
+                      href={top1Supporter.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#14171E] hover:bg-[#1B1F28] border border-[#2B303C] text-xs font-semibold text-[#EDEDEE] transition-colors"
+                    >
+                      <Globe className="w-3.5 h-3.5 text-[#9CA3AF]" />
+                      <span>{top1Supporter.websiteName || top1Supporter.website}</span>
+                      <ExternalLink className="w-3 h-3 text-[#6E7380]" />
+                    </a>
+                  </div>
+                )}
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-[#252A36] text-[11px] text-[#8E939E] flex items-center justify-between">
+                <span>Pinned placement across category archives</span>
+                <span className="font-mono text-[#A1A5B0]">Verified Partner</span>
+              </div>
             </div>
-          </div>
+          ) : (
+            /* Blank #1 Spotlight (Open for Claim) */
+            <div className="lg:col-span-5 p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#13161F] to-[#0D0F14] border border-[#242A38] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_12px_36px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col justify-between group">
+              <div className="absolute top-0 right-0 p-8 opacity-[0.04] pointer-events-none">
+                <Crown className="w-32 h-32 text-white" />
+              </div>
+
+              <div className="space-y-5 relative z-10">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#1A1F2B] text-[#9CA3AF] border border-[#2B3346] shadow-sm">
+                    <Sparkles className="w-3.5 h-3.5 text-[#9CA3AF]" />
+                    #1 Spotlight Available
+                  </span>
+                  <span className="text-[11px] font-mono text-[#6E7380] uppercase tracking-wider">
+                    Claimable Now
+                  </span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <div className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">
+                    Claim the #1 Crown Spot
+                  </div>
+                  <p className="text-xs sm:text-[13px] text-[#8E939E] leading-relaxed">
+                    Be the premier supporter of FreeWebStuff. Your name, personal message, and do-follow website link will be permanently highlighted in this spotlight card.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-[#090B0E]/80 border border-[#1A1F29] space-y-2 text-xs text-[#9AA0AD]">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981] shrink-0" />
+                    <span>Pinned top spot across category archives</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981] shrink-0" />
+                    <span>High-authority clean backlink for your domain</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981] shrink-0" />
+                    <span>Custom Gold Verified badge on directory</span>
+                  </div>
+                </div>
+
+                <a
+                  href="#payment-methods"
+                  onClick={() => setActiveTab("cards")}
+                  className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[#EDEDEE] hover:bg-white text-[#0C0D10] font-bold text-xs sm:text-sm transition-all duration-150 active:scale-95 shadow-md cursor-pointer"
+                >
+                  <Crown className="w-4 h-4 text-[#0C0D10]" />
+                  <span>Become Our #1 Supporter</span>
+                </a>
+              </div>
+
+              <div className="pt-5 mt-6 border-t border-[#1C212D] text-[11px] text-[#6E7380] flex items-center justify-between font-mono">
+                <span>Slot: Open to first contributor</span>
+                <span className="text-[#9CA3AF]">Instant Live Feature</span>
+              </div>
+            </div>
+          )}
 
           {/* Honor Roll Leaderboard List */}
-          <div className="lg:col-span-7 p-6 sm:p-7 rounded-3xl bg-[#111317] border border-[#22252C] flex flex-col justify-between space-y-4">
+          <div className="lg:col-span-7 p-6 sm:p-7 rounded-3xl bg-[#0E1117] border border-[#1E232E] shadow-[inset_0_1px_1px_rgba(255,255,255,0.04),0_8px_24px_rgba(0,0,0,0.5)] flex flex-col justify-between space-y-4">
             <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs font-semibold text-[#A1A5B0] pb-2 border-b border-[#22252C]">
+              <div className="flex items-center justify-between text-xs font-semibold text-[#8E939E] pb-2 border-b border-[#1E232E]">
                 <span>Supporter</span>
                 <span>Tier &amp; Contribution</span>
               </div>
 
               <div className="space-y-2.5">
-                {otherSupporters.map((supporter) => (
-                  <div
-                    key={supporter.rank}
-                    className="p-3.5 rounded-2xl bg-[#14161C] border border-[#22252C] hover:border-[#353A47] transition-all flex items-center justify-between gap-3"
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-8 h-8 rounded-xl bg-[#1A1D24] border border-[#262A34] text-xs font-black text-[#EDEDEE] flex items-center justify-center shrink-0">
-                        #{supporter.rank}
+                {otherSupporters.length > 0 ? (
+                  otherSupporters.map((supporter) => (
+                    <div
+                      key={supporter.id || supporter.rank}
+                      className="p-3.5 rounded-2xl bg-[#121620] border border-[#1F2533] hover:border-[#353D50] transition-all flex items-center justify-between gap-3"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-8 h-8 rounded-xl bg-[#1A1F2C] border border-[#262E40] text-xs font-black text-[#EDEDEE] flex items-center justify-center shrink-0">
+                          #{supporter.rank}
+                        </div>
+
+                        <div className="min-w-0">
+                          <div className="font-bold text-xs sm:text-sm text-[#EDEDEE] flex items-center gap-2 truncate">
+                            <span>{supporter.name}</span>
+                            {supporter.website && (
+                              <a
+                                href={supporter.website}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] text-[#8E939E] hover:text-[#EDEDEE] inline-flex items-center gap-0.5"
+                                title="Visit supporter website"
+                              >
+                                <ExternalLink className="w-2.5 h-2.5" />
+                              </a>
+                            )}
+                          </div>
+                          <div className="text-[11px] text-[#6E7380] truncate mt-0.5">
+                            {supporter.message || supporter.websiteName || supporter.date}
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="min-w-0">
-                        <div className="font-bold text-xs sm:text-sm text-[#EDEDEE] flex items-center gap-2 truncate">
-                          <span>{supporter.name}</span>
-                          {supporter.website && (
-                            <a
-                              href={supporter.website}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[10px] text-[#8E939E] hover:text-[#EDEDEE] inline-flex items-center gap-0.5"
-                              title="Visit supporter website"
-                            >
-                              <ExternalLink className="w-2.5 h-2.5" />
-                            </a>
-                          )}
-                        </div>
-                        <div className="text-[11px] text-[#6E7380] truncate mt-0.5">
-                          {supporter.message || supporter.websiteName || supporter.date}
-                        </div>
+                      <div className="text-right shrink-0">
+                        <div className="font-bold text-xs sm:text-sm text-[#EDEDEE]">{supporter.amount}</div>
+                        <div className="text-[10px] font-medium text-[#8E939E]">{supporter.tier}</div>
                       </div>
                     </div>
-
-                    <div className="text-right shrink-0">
-                      <div className="font-bold text-xs sm:text-sm text-[#EDEDEE]">{supporter.amount}</div>
-                      <div className="text-[10px] font-medium text-[#8E939E]">{supporter.tier}</div>
+                  ))
+                ) : (
+                  /* Blank Open Ranking Slots */
+                  [2, 3, 4].map((slotRank) => (
+                    <div
+                      key={slotRank}
+                      className="p-3.5 rounded-2xl bg-[#10141C]/60 border border-[#1C222E] border-dashed flex items-center justify-between gap-3 text-xs"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-8 h-8 rounded-xl bg-[#161B26] border border-[#202738] text-xs font-mono font-bold text-[#6E7380] flex items-center justify-center shrink-0">
+                          #{slotRank}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-semibold text-zinc-300 flex items-center gap-2">
+                            <span>[ Open Supporter Spot ]</span>
+                          </div>
+                          <div className="text-[11px] text-zinc-500 font-mono mt-0.5">
+                            Available for next backer &bull; Website promotion eligible
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono bg-[#141822] text-zinc-400 border border-[#202738]">
+                          Open
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
 
             {/* How to get featured callout */}
-            <div className="p-3.5 rounded-xl bg-[#0D0F13] border border-[#22252C] flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs text-[#8E939E]">
+            <div className="p-3.5 rounded-xl bg-[#090B0E] border border-[#1A1F29] flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs text-[#8E939E]">
               <span>
                 Want your website, handle, or message featured on this Wall of Honor?
               </span>
@@ -357,7 +478,7 @@ export default function DonatePage() {
       </div>
 
       {/* ── 4. Main Payment Card (Seamless Single-Row Tabs) ── */}
-      <div className="bg-[#111317] border border-[#22252C] rounded-3xl overflow-hidden shadow-2xl">
+      <div id="payment-methods" className="bg-[#111317] border border-[#22252C] rounded-3xl overflow-hidden shadow-2xl">
         
         {/* Method Switcher Tabs (Seamless, Responsive Single-Row Bar) */}
         <div className="flex items-center overflow-x-auto no-scrollbar border-b border-[#22252C] bg-[#0C0D10] px-2 sm:px-6">
@@ -1026,6 +1147,7 @@ export default function DonatePage() {
         </div>
       </div>
 
+      </div>
     </div>
   );
 }

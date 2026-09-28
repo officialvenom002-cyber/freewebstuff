@@ -179,16 +179,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Support Us Button in Top Nav (Visible on Mobile & Desktop) */}
-          <Link
-            href="/donate"
-            className="inline-flex items-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-lg text-[11.5px] sm:text-[12px] font-semibold tracking-tight border border-[#2D313A] hover:border-[#424856] bg-[#14161C] hover:bg-[#1B1E26] text-[#E2E4E8] transition-all duration-150 active:scale-95 shrink-0"
-            title="Support FreeWebStuff"
-          >
-            <Heart className="w-3.5 h-3.5 text-[#9CA3AF]" />
-            <span>Support</span>
-          </Link>
-
           <button 
             type="button"
             className="mobile-menu" 
@@ -204,15 +194,6 @@ export default function HomePage() {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="sm:hidden border-t border-white/10 bg-[#090e1c]/90 backdrop-blur-xl px-5 py-4 flex flex-col gap-3 animate-fade-in shadow-2xl">
-            {/* Direct Support Button in Mobile Drawer */}
-            <Link 
-              href="/donate" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-[#E2E4E8] bg-[#16181D] border border-[#2D313A] hover:bg-[#1C1F26] transition-colors"
-            >
-              <Heart className="w-4 h-4 text-[#9CA3AF]" />
-              <span>Support FreeWebStuff</span>
-            </Link>
             <Link 
               href="/categories" 
               onClick={() => setMobileMenuOpen(false)}
@@ -278,13 +259,14 @@ export default function HomePage() {
             </h1>
 
             <div className="hero-actions hero-action-anim flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
+              <Link href="/donate" className="btn btn-secondary flex items-center gap-1.5 border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8]">
+                <Heart className="w-3.5 h-3.5 text-[#9CA3AF]" />
+                <span>Support</span>
+              </Link>
+
               <Link href="/beginners-guide" className="btn btn-primary">
                 Quick Start
                 <span>→</span>
-              </Link>
-
-              <Link href="/donate" className="btn btn-secondary flex items-center gap-1.5 border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8]">
-                <span>Support Us</span>
               </Link>
 
               <Link href="/submit" className="btn btn-secondary">

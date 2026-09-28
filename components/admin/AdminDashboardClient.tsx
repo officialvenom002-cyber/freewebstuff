@@ -27,7 +27,8 @@ import {
   Sparkles,
   Layers,
   Globe,
-  Star
+  Star,
+  Crown
 } from "lucide-react";
 
 interface CategoryMeta {
@@ -692,6 +693,15 @@ export default function AdminDashboardClient({ initialAuth }: { initialAuth: boo
               <Trash2 className="w-3.5 h-3.5" />
               <span>Cut Archive ({deletedWebsites.length})</span>
             </button>
+
+            <Link
+              href="/adminshobhit"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-heading font-semibold transition-all whitespace-nowrap cursor-pointer text-zinc-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10"
+              title="Open Top Supporters Leaderboard Manager"
+            >
+              <Crown className="w-3.5 h-3.5 text-zinc-300" />
+              <span>Top Supporters (Wall of Honor)</span>
+            </Link>
           </div>
         </div>
 

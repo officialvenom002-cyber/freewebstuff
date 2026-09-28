@@ -168,48 +168,16 @@ export const DONATION_CONFIG = {
     },
   },
 
-  // Hall of Fame / Top Donators Leaderboard
-  topSupporters: [
-    {
-      rank: 1,
-      name: "Anonymous Patron",
-      amount: "$150",
-      tier: "Legendary Backer",
-      date: "September 2026",
-      website: "https://freewebstuff.site",
-      websiteName: "Privacy First Initiative",
-      message: "Keep the web open, free, and tracker-less.",
-      isTop1: true,
-    },
-    {
-      rank: 2,
-      name: "CyberSentinel",
-      amount: "$75",
-      tier: "Diamond Supporter",
-      date: "September 2026",
-      website: "https://github.com",
-      websiteName: "Open Security Lab",
-      message: "Incredible resource for developers and creators worldwide.",
-    },
-    {
-      rank: 3,
-      name: "DevNerd99",
-      amount: "$50",
-      tier: "Gold Supporter",
-      date: "September 2026",
-      website: "https://freewebstuff.site",
-      websiteName: "Personal Portfolio",
-      message: "Proud to support independent hosting.",
-    },
-    {
-      rank: 4,
-      name: "WebCrafter",
-      amount: "$30",
-      tier: "Silver Supporter",
-      date: "August 2026",
-      website: "",
-      websiteName: "",
-      message: "Best bookmark hub on the internet!",
-    },
-  ],
+  // Hall of Fame / Top Donators Leaderboard (Empty by default, managed via Admin Panel)
+  topSupporters: [] as {
+    rank: number;
+    name: string;
+    amount: string;
+    tier: string;
+    date: string;
+    website?: string;
+    websiteName?: string;
+    message?: string;
+    isTop1?: boolean;
+  }[],
 };

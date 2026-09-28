@@ -9,10 +9,24 @@ export interface CustomWebsite {
   isStarred?: boolean;
 }
 
+export interface TopSupporter {
+  id: string;
+  rank: number;
+  name: string;
+  amount: string;
+  tier: string;
+  date: string;
+  website?: string;
+  websiteName?: string;
+  message?: string;
+  isTop1?: boolean;
+}
+
 export interface SiteCustomizations {
   categoryOrder: string[];
   deletedWebsites: string[]; // URLs of websites that have been cut/removed
   customWebsites: Record<string, CustomWebsite[]>; // categorySlug -> custom added websites
+  topSupporters?: TopSupporter[];
   lastUpdated: string;
 }
 
@@ -61,6 +75,7 @@ export function getSiteCustomizations(): SiteCustomizations {
         categoryOrder: Array.isArray(parsed.categoryOrder) && parsed.categoryOrder.length > 0 ? parsed.categoryOrder : DEFAULT_CATEGORY_ORDER,
         deletedWebsites: Array.isArray(parsed.deletedWebsites) ? parsed.deletedWebsites : [],
         customWebsites: parsed.customWebsites || {},
+        topSupporters: Array.isArray(parsed.topSupporters) ? parsed.topSupporters : [],
         lastUpdated: parsed.lastUpdated || new Date().toISOString(),
       };
       return memoryConfig;
@@ -73,6 +88,7 @@ export function getSiteCustomizations(): SiteCustomizations {
     categoryOrder: DEFAULT_CATEGORY_ORDER,
     deletedWebsites: [],
     customWebsites: {},
+    topSupporters: [],
     lastUpdated: new Date().toISOString(),
   };
 
@@ -107,6 +123,13 @@ export function saveSiteCustomizations(config: Partial<SiteCustomizations>): Sit
  */
 export function updateCategoryOrder(newOrder: string[]): SiteCustomizations {
   return saveSiteCustomizations({ categoryOrder: newOrder });
+}
+
+/**
+ * Updates the list of top supporters / wall of honor.
+ */
+export function updateTopSupporters(supporters: TopSupporter[]): SiteCustomizations {
+  return saveSiteCustomizations({ topSupporters: supporters });
 }
 
 /**
