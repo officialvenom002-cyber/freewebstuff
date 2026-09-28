@@ -105,4 +105,111 @@ export const DONATION_CONFIG = {
     { amount: "$25", label: "Champion", perk: "Helps verify 5,000+ new community links & tools" },
     { amount: "$100", label: "Patron", perk: "Covers dedicated proxy infrastructure & annual domain renewals" },
   ],
+
+  // Supporter Perks & Website Promotion Benefits
+  perks: [
+    {
+      id: "top-listing",
+      title: "Free Top Category Placement",
+      description: "Get your website or tool permanently pinned at the very top of its category with a 'Featured Partner' badge.",
+      badge: "Highest Value",
+      icon: "Award",
+    },
+    {
+      id: "homepage-spotlight",
+      title: "Homepage Promotion & Spotlight",
+      description: "Showcase your project on the FreeWebStuff homepage hero banner, seen by over 100,000+ monthly active visitors.",
+      badge: "Max Visibility",
+      icon: "Sparkles",
+    },
+    {
+      id: "verified-badge",
+      title: "Verified Creator Gold Badge",
+      description: "Distinctive verified creator badge next to your tool across global search, collections, and category archives.",
+      badge: "Authority",
+      icon: "ShieldCheck",
+    },
+    {
+      id: "seo-backlink",
+      title: "High-Authority Clean Backlink",
+      description: "Clean do-follow link to your product, open-source repository, or portfolio to supercharge your domain authority.",
+      badge: "SEO Boost",
+      icon: "Globe",
+    },
+    {
+      id: "fast-track",
+      title: "Instant 1-Hour Link Review",
+      description: "Skip the community queue — submitted tools and updates from supporters are verified and published within 1 hour.",
+      badge: "Instant",
+      icon: "Zap",
+    },
+    {
+      id: "vip-community",
+      title: "VIP Discord & Telegram Role",
+      description: "Exclusive @Supporter role, private channels, direct founder chat access, and early voting on upcoming platform features.",
+      badge: "Community",
+      icon: "Crown",
+    },
+  ],
+
+  // Community Channels for Supporter Role Claiming & Direct Chat
+  community: {
+    telegram: {
+      url: "https://t.me/+N7tYaUKT2q44NGU1",
+      handle: "FreeWebStuff Community",
+      members: "2,400+ Members",
+      tagline: "Instant tool drops, link alerts & direct founder chat",
+    },
+    discord: {
+      url: "https://discord.gg/mHpBcYJHM",
+      handle: "FreeWebStuff Discord",
+      members: "1,800+ Members",
+      tagline: "VIP Supporter lounge, tool requests & dev channels",
+    },
+  },
+
+  // Hall of Fame / Top Donators Leaderboard
+  topSupporters: [
+    {
+      rank: 1,
+      name: "Anonymous Patron",
+      amount: "$150",
+      tier: "Legendary Backer",
+      date: "September 2026",
+      website: "https://freewebstuff.site",
+      websiteName: "Privacy First Initiative",
+      message: "Keep the web open, free, and tracker-less.",
+      isTop1: true,
+    },
+    {
+      rank: 2,
+      name: "CyberSentinel",
+      amount: "$75",
+      tier: "Diamond Supporter",
+      date: "September 2026",
+      website: "https://github.com",
+      websiteName: "Open Security Lab",
+      message: "Incredible resource for developers and creators worldwide.",
+    },
+    {
+      rank: 3,
+      name: "DevNerd99",
+      amount: "$50",
+      tier: "Gold Supporter",
+      date: "September 2026",
+      website: "https://freewebstuff.site",
+      websiteName: "Personal Portfolio",
+      message: "Proud to support independent hosting.",
+    },
+    {
+      rank: 4,
+      name: "WebCrafter",
+      amount: "$30",
+      tier: "Silver Supporter",
+      date: "August 2026",
+      website: "",
+      websiteName: "",
+      message: "Best bookmark hub on the internet!",
+    },
+  ],
 };

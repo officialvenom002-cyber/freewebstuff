@@ -17,7 +17,16 @@ import {
   Sparkles,
   Lock,
   EyeOff,
-  UserCheck
+  UserCheck,
+  Crown,
+  Award,
+  Globe,
+  Zap,
+  MessageSquare,
+  Send,
+  Star,
+  Flame,
+  CheckCircle2
 } from "lucide-react";
 import { DONATION_CONFIG } from "@/lib/config/donationConfig";
 
@@ -44,37 +53,36 @@ export default function DonatePage() {
   const upiDeepLink = isUpiEnabled
     ? `upi://pay?pa=${encodeURIComponent(DONATION_CONFIG.upi.id)}&pn=${encodeURIComponent(DONATION_CONFIG.upi.recipientName)}&tn=${encodeURIComponent(DONATION_CONFIG.upi.note)}&cu=INR`
     : "";
-  const upiQrUrl = isUpiEnabled
-    ? `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&data=${encodeURIComponent(upiDeepLink)}`
-    : "";
   const cryptoQrUrl = currentCrypto
     ? `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&data=${encodeURIComponent(currentCrypto.address)}`
     : "";
 
   const activeTierObj = DONATION_CONFIG.tiers[selectedTier] || DONATION_CONFIG.tiers[1];
+  const top1Supporter = DONATION_CONFIG.topSupporters.find((s) => s.isTop1) || DONATION_CONFIG.topSupporters[0];
+  const otherSupporters = DONATION_CONFIG.topSupporters.filter((s) => !s.isTop1);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-8 py-12 sm:py-20 space-y-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-8 py-12 sm:py-24 space-y-20">
       
-      {/* ── Header / Hero Section ── */}
-      <div className="text-center space-y-5">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide bg-[#14161C] text-[#9CA3AF] border border-[#242832]">
-          <span className="w-2 h-2 rounded-full bg-[#9CA3AF]" />
-          <span>Independent &bull; Open Web Index &bull; Zero Tracker Ads</span>
+      {/* ── 1. Hero Section ── */}
+      <div className="text-center space-y-6">
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-[#14161C] text-[#A1A5B0] border border-[#252932] shadow-sm animate-fade-in">
+          <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+          <span>Independent &bull; Open Web Project &bull; Zero Tracker Ads</span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-sans font-black tracking-tight text-[#EDEDEE] leading-[1.1]">
-          Support FreeWebStuff
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-sans font-black tracking-tight text-[#EDEDEE] leading-[1.08]">
+          Fuel the Free Internet.
         </h1>
 
-        <p className="max-w-2xl mx-auto text-base sm:text-lg text-[#8E939E] leading-relaxed">
-          FreeWebStuff is completely free, non-profit, and open for everyone. 
-          Your contributions cover edge server hosting, automated 24/7 link verification bots, and keep over 15,000 tools active worldwide.
+        <p className="max-w-2xl mx-auto text-base sm:text-xl text-[#8E939E] leading-relaxed">
+          FreeWebStuff indexes over 15,000+ free tools, privacy software, and educational vaults without commercial paywalls. 
+          Your backing directly funds high-speed edge nodes, link verification bots, and platform upgrades.
         </p>
 
-        {/* ── Preset Tiers (Bigger, Bold, Matte) ── */}
-        <div className="pt-4 max-w-3xl mx-auto space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {/* ── Preset Tiers in Matte Finish ── */}
+        <div className="pt-4 max-w-4xl mx-auto space-y-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
             {DONATION_CONFIG.tiers.map((tier, idx) => {
               const isSelected = selectedTier === idx;
               return (
@@ -82,10 +90,10 @@ export default function DonatePage() {
                   key={tier.amount}
                   type="button"
                   onClick={() => setSelectedTier(idx)}
-                  className={`relative p-4 sm:p-5 rounded-2xl border text-left transition-all duration-150 ${
+                  className={`relative p-5 rounded-2xl border text-left transition-all duration-200 cursor-pointer ${
                     isSelected 
-                      ? "bg-[#181B22] border-[#4E5566] ring-1 ring-[#60697D] shadow-lg"
-                      : "bg-[#111317] border-[#22252C] hover:border-[#353A47] hover:bg-[#15171E]"
+                      ? "bg-[#181B22] border-[#52596A] ring-1 ring-[#646C80] shadow-xl scale-[1.02]"
+                      : "bg-[#111317] border-[#22252C] hover:border-[#383D4A] hover:bg-[#14171E] hover:-translate-y-0.5"
                   }`}
                 >
                   {tier.popular && (
@@ -94,7 +102,7 @@ export default function DonatePage() {
                     </span>
                   )}
                   <div className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">{tier.amount}</div>
-                  <div className="text-xs sm:text-sm font-semibold text-[#A1A5B0] mt-0.5">{tier.label}</div>
+                  <div className="text-xs sm:text-sm font-semibold text-[#A1A5B0] mt-1">{tier.label}</div>
                   <div className="text-xs text-[#6E7380] mt-2 line-clamp-2 leading-snug">
                     {tier.perk}
                   </div>
@@ -103,17 +111,23 @@ export default function DonatePage() {
             })}
           </div>
 
-          {/* Quick Action Bar */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-[#111317] border border-[#22252C] flex flex-col md:flex-row items-center justify-between gap-3 text-xs sm:text-sm">
-            <span className="text-[#8E939E] text-center md:text-left">
-              Selected: <strong className="text-[#EDEDEE] font-bold">{activeTierObj.amount} ({activeTierObj.label})</strong> &mdash; {activeTierObj.perk}
-            </span>
-            <div className="flex flex-wrap items-center justify-center gap-2 shrink-0">
+          {/* Quick Action Checkout Bar */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#111317] border border-[#22252C] flex flex-col md:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+            <div className="text-center md:text-left space-y-0.5">
+              <div className="text-[#8E939E]">
+                Selected Tier: <strong className="text-[#EDEDEE] font-bold">{activeTierObj.amount} ({activeTierObj.label})</strong>
+              </div>
+              <div className="text-[11px] sm:text-xs text-[#6E7380]">
+                {activeTierObj.perk} &bull; Includes Supporter VIP Perks
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
               <a
                 href={DONATION_CONFIG.kofi.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#EDEDEE] hover:bg-[#F5F5F7] text-[#0C0D10] font-bold text-xs transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#EDEDEE] hover:bg-[#F5F5F7] text-[#0C0D10] font-bold text-xs sm:text-sm transition-all duration-150 active:scale-95 shadow-sm"
               >
                 <span>Give on Ko-fi</span>
                 <ExternalLink className="w-3.5 h-3.5 text-[#5A606E]" />
@@ -122,7 +136,7 @@ export default function DonatePage() {
                 href={DONATION_CONFIG.buyMeACoffee.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#181B22] hover:bg-[#20242D] text-[#D8DBE2] border border-[#2A2E38] font-bold text-xs transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#181B22] hover:bg-[#20242D] text-[#D8DBE2] border border-[#2A2E38] font-bold text-xs sm:text-sm transition-all duration-150 active:scale-95"
               >
                 <span>Buy Me a Coffee</span>
                 <ExternalLink className="w-3.5 h-3.5 text-[#6E7380]" />
@@ -131,7 +145,7 @@ export default function DonatePage() {
                 href={DONATION_CONFIG.paypal.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#181B22] hover:bg-[#20242D] text-[#D8DBE2] border border-[#2A2E38] font-bold text-xs transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#181B22] hover:bg-[#20242D] text-[#D8DBE2] border border-[#2A2E38] font-bold text-xs sm:text-sm transition-all duration-150 active:scale-95"
               >
                 <span>PayPal</span>
                 <ExternalLink className="w-3.5 h-3.5 text-[#6E7380]" />
@@ -141,15 +155,216 @@ export default function DonatePage() {
         </div>
       </div>
 
-      {/* ── Main Donation Card ── */}
+      {/* ── 2. Top Donator Spotlight & Hall of Fame (Wall of Honor) ── */}
+      <div className="space-y-6">
+        <div className="text-center sm:text-left space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-semibold bg-[#181B22] text-[#A1A5B0] border border-[#262A34]">
+            <Crown className="w-3.5 h-3.5 text-[#E5E7EB]" />
+            <span>Wall of Honor</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">
+            Top Supporters &amp; Backers
+          </h2>
+          <p className="text-sm text-[#8E939E]">
+            Meet the generous backers keeping FreeWebStuff independent. Backers receive homepage shoutouts, custom verified badges, and top site promotions.
+          </p>
+        </div>
+
+        {/* Grid: #1 Spotlight Card + Honor Leaderboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          
+          {/* #1 Supporter Hero Card */}
+          <div className="lg:col-span-5 p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#181B24] to-[#111318] border border-[#3A404F] shadow-2xl relative overflow-hidden flex flex-col justify-between">
+            <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+              <Crown className="w-32 h-32 text-white" />
+            </div>
+
+            <div className="space-y-5 relative z-10">
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#EDEDEE] text-[#0C0D10] shadow-sm">
+                  <Flame className="w-3.5 h-3.5 fill-[#0C0D10]" />
+                  #1 Top Supporter
+                </span>
+                <span className="text-xs font-mono font-semibold text-[#A1A5B0]">
+                  {top1Supporter.date}
+                </span>
+              </div>
+
+              <div>
+                <div className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">
+                  {top1Supporter.name}
+                </div>
+                <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#A1A5B0] mt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+                  <span>{top1Supporter.tier} &bull; {top1Supporter.amount} Contributed</span>
+                </div>
+              </div>
+
+              {top1Supporter.message && (
+                <blockquote className="p-4 rounded-xl bg-[#0D0F13] border border-[#242832] text-xs sm:text-sm text-[#D1D5DB] italic leading-relaxed">
+                  &ldquo;{top1Supporter.message}&rdquo;
+                </blockquote>
+              )}
+
+              {top1Supporter.website && (
+                <div className="pt-1">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-[#6E7380] mb-1.5">
+                    Promoted Website / Project
+                  </div>
+                  <a
+                    href={top1Supporter.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#14171E] hover:bg-[#1B1F28] border border-[#2B303C] text-xs font-semibold text-[#EDEDEE] transition-colors"
+                  >
+                    <Globe className="w-3.5 h-3.5 text-[#9CA3AF]" />
+                    <span>{top1Supporter.websiteName || top1Supporter.website}</span>
+                    <ExternalLink className="w-3 h-3 text-[#6E7380]" />
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <div className="pt-6 mt-6 border-t border-[#252A36] text-[11px] text-[#8E939E] flex items-center justify-between">
+              <span>Pinned placement across category archives</span>
+              <span className="font-mono text-[#A1A5B0]">Verified Partner</span>
+            </div>
+          </div>
+
+          {/* Honor Roll Leaderboard List */}
+          <div className="lg:col-span-7 p-6 sm:p-7 rounded-3xl bg-[#111317] border border-[#22252C] flex flex-col justify-between space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-xs font-semibold text-[#A1A5B0] pb-2 border-b border-[#22252C]">
+                <span>Supporter</span>
+                <span>Tier &amp; Contribution</span>
+              </div>
+
+              <div className="space-y-2.5">
+                {otherSupporters.map((supporter) => (
+                  <div
+                    key={supporter.rank}
+                    className="p-3.5 rounded-2xl bg-[#14161C] border border-[#22252C] hover:border-[#353A47] transition-all flex items-center justify-between gap-3"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-8 h-8 rounded-xl bg-[#1A1D24] border border-[#262A34] text-xs font-black text-[#EDEDEE] flex items-center justify-center shrink-0">
+                        #{supporter.rank}
+                      </div>
+
+                      <div className="min-w-0">
+                        <div className="font-bold text-xs sm:text-sm text-[#EDEDEE] flex items-center gap-2 truncate">
+                          <span>{supporter.name}</span>
+                          {supporter.website && (
+                            <a
+                              href={supporter.website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[10px] text-[#8E939E] hover:text-[#EDEDEE] inline-flex items-center gap-0.5"
+                              title="Visit supporter website"
+                            >
+                              <ExternalLink className="w-2.5 h-2.5" />
+                            </a>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-[#6E7380] truncate mt-0.5">
+                          {supporter.message || supporter.websiteName || supporter.date}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="text-right shrink-0">
+                      <div className="font-bold text-xs sm:text-sm text-[#EDEDEE]">{supporter.amount}</div>
+                      <div className="text-[10px] font-medium text-[#8E939E]">{supporter.tier}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* How to get featured callout */}
+            <div className="p-3.5 rounded-xl bg-[#0D0F13] border border-[#22252C] flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs text-[#8E939E]">
+              <span>
+                Want your website, handle, or message featured on this Wall of Honor?
+              </span>
+              <a
+                href={DONATION_CONFIG.community.telegram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#EDEDEE] hover:text-white shrink-0 underline decoration-[#4A5060]"
+              >
+                <span>Message on Telegram / Discord</span>
+                <ArrowRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── 3. Exclusive Supporter Perks (Website Benefits Grid) ── */}
+      <div className="space-y-6">
+        <div className="text-center sm:text-left space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-semibold bg-[#181B22] text-[#A1A5B0] border border-[#262A34]">
+            <Award className="w-3.5 h-3.5 text-[#E5E7EB]" />
+            <span>Website Promotion Benefits</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">
+            How We Reward Our Supporters
+          </h2>
+          <p className="text-sm text-[#8E939E]">
+            We value your backing. In return, all project supporters receive real, tangible perks across our platform.
+          </p>
+        </div>
+
+        {/* 6 Perks Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {DONATION_CONFIG.perks.map((perk) => (
+            <div
+              key={perk.id}
+              className="p-6 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-[#383E4D] hover:bg-[#14161C] transition-all duration-200 flex flex-col justify-between space-y-4 group shadow-sm hover:shadow-lg"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-[#181B22] border border-[#252932] flex items-center justify-center text-[#E5E7EB] group-hover:scale-105 transition-transform">
+                    {perk.icon === "Award" && <Award className="w-5 h-5 text-[#9CA3AF]" />}
+                    {perk.icon === "Sparkles" && <Sparkles className="w-5 h-5 text-[#9CA3AF]" />}
+                    {perk.icon === "ShieldCheck" && <ShieldCheck className="w-5 h-5 text-[#9CA3AF]" />}
+                    {perk.icon === "Globe" && <Globe className="w-5 h-5 text-[#9CA3AF]" />}
+                    {perk.icon === "Zap" && <Zap className="w-5 h-5 text-[#9CA3AF]" />}
+                    {perk.icon === "Crown" && <Crown className="w-5 h-5 text-[#9CA3AF]" />}
+                  </div>
+
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-[#181B22] text-[#A1A5B0] border border-[#252932]">
+                    {perk.badge}
+                  </span>
+                </div>
+
+                <h3 className="text-base font-bold text-[#EDEDEE] group-hover:text-white transition-colors">
+                  {perk.title}
+                </h3>
+
+                <p className="text-xs sm:text-[13px] text-[#8E939E] leading-relaxed">
+                  {perk.description}
+                </p>
+              </div>
+
+              <div className="pt-3 border-t border-[#1C1F26] flex items-center justify-between text-[11px] text-[#6E7380]">
+                <span>Automatic on $10+ contribution</span>
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── 4. Main Payment Card (Seamless Single-Row Tabs) ── */}
       <div className="bg-[#111317] border border-[#22252C] rounded-3xl overflow-hidden shadow-2xl">
         
-        {/* Method Switcher Tabs (Seamless, Responsive, Single-Row Bar) */}
+        {/* Method Switcher Tabs (Seamless, Responsive Single-Row Bar) */}
         <div className="flex items-center overflow-x-auto no-scrollbar border-b border-[#22252C] bg-[#0C0D10] px-2 sm:px-6">
           <button
             type="button"
             onClick={() => setActiveTab("cards")}
-            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 ${
+            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 cursor-pointer ${
               activeTab === "cards"
                 ? "border-[#EDEDEE] text-[#EDEDEE] bg-[#14161C]"
                 : "border-transparent text-[#717684] hover:text-[#C5C9D3] hover:bg-[#101216]"
@@ -162,7 +377,7 @@ export default function DonatePage() {
           <button
             type="button"
             onClick={() => setActiveTab("paypal")}
-            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 ${
+            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 cursor-pointer ${
               activeTab === "paypal"
                 ? "border-[#EDEDEE] text-[#EDEDEE] bg-[#14161C]"
                 : "border-transparent text-[#717684] hover:text-[#C5C9D3] hover:bg-[#101216]"
@@ -175,7 +390,7 @@ export default function DonatePage() {
           <button
             type="button"
             onClick={() => setActiveTab("crypto")}
-            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 ${
+            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 cursor-pointer ${
               activeTab === "crypto"
                 ? "border-[#EDEDEE] text-[#EDEDEE] bg-[#14161C]"
                 : "border-transparent text-[#717684] hover:text-[#C5C9D3] hover:bg-[#101216]"
@@ -188,7 +403,7 @@ export default function DonatePage() {
           <button
             type="button"
             onClick={() => setActiveTab("upi")}
-            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 ${
+            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 cursor-pointer ${
               activeTab === "upi"
                 ? "border-[#EDEDEE] text-[#EDEDEE] bg-[#14161C]"
                 : "border-transparent text-[#717684] hover:text-[#C5C9D3] hover:bg-[#101216]"
@@ -373,8 +588,8 @@ export default function DonatePage() {
                     </div>
                   </div>
 
-                  {/* Coin Selector Pills (Bigger, Spaced) */}
-                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-1">
+                  {/* Coin Selector Pills */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 pt-1">
                     {DONATION_CONFIG.crypto.map((coin, idx) => {
                       const isSelected = selectedCrypto === idx;
                       return (
@@ -382,7 +597,7 @@ export default function DonatePage() {
                           key={coin.symbol}
                           type="button"
                           onClick={() => setSelectedCrypto(idx)}
-                          className={`flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl text-xs sm:text-sm font-bold transition-all text-left ${
+                          className={`flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl text-xs sm:text-sm font-bold transition-all text-left cursor-pointer ${
                             isSelected
                               ? "bg-[#1C1F27] text-[#EDEDEE] border border-[#4E5566] ring-1 ring-[#60697D] shadow-md"
                               : "bg-[#14161C] text-[#8E939E] border border-[#242831] hover:text-[#C5C9D3] hover:bg-[#181B22]"
@@ -398,12 +613,12 @@ export default function DonatePage() {
                     })}
                   </div>
 
-                  {/* Interactive Selected Coin Details Card (Spacious & Clean) */}
+                  {/* Interactive Selected Coin Details Card */}
                   <div className="p-6 sm:p-8 rounded-3xl bg-[#0D0F12] border border-[#242831]">
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                       
                       {/* Big QR Viewfinder Container */}
-                      <div className="md:col-span-5 flex flex-col items-center justify-center p-6 rounded-2xl bg-[#14161C] border border-[#242831]">
+                      <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 rounded-2xl bg-[#14161C] border border-[#242831]">
                         <div className="p-4 bg-white rounded-2xl shadow-xl">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
@@ -411,7 +626,7 @@ export default function DonatePage() {
                             alt={`${currentCrypto.symbol} QR Code`}
                             width={220}
                             height={220}
-                            className="w-48 h-48 sm:w-52 sm:h-52 block"
+                            className="w-44 h-44 sm:w-52 sm:h-52 block"
                           />
                         </div>
                         <div className="mt-4 flex items-center gap-2 text-xs sm:text-sm text-[#8E939E] font-medium text-center">
@@ -421,9 +636,8 @@ export default function DonatePage() {
                       </div>
 
                       {/* Details & Copy Container */}
-                      <div className="md:col-span-7 space-y-5">
+                      <div className="lg:col-span-7 space-y-5">
                         
-                        {/* Token Header & Network badge */}
                         <div className="space-y-2">
                           <div className="flex items-center justify-between">
                             <h4 className="text-xl sm:text-2xl font-black text-[#EDEDEE] tracking-tight">
@@ -460,7 +674,7 @@ export default function DonatePage() {
                               <button
                                 type="button"
                                 onClick={() => copyToClipboard(currentCrypto.address, currentCrypto.symbol)}
-                                className="flex-1 flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-xs sm:text-sm font-bold bg-[#EDEDEE] hover:bg-[#F5F5F7] text-[#0C0D10] transition-colors shadow-sm active:scale-95"
+                                className="flex-1 flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-xs sm:text-sm font-bold bg-[#EDEDEE] hover:bg-[#F5F5F7] text-[#0C0D10] transition-colors shadow-sm active:scale-95 cursor-pointer"
                               >
                                 {copiedKey === currentCrypto.symbol ? (
                                   <>
@@ -495,7 +709,7 @@ export default function DonatePage() {
                     </div>
                   </div>
 
-                  {/* All Addresses at a Glance (Spacious Table) */}
+                  {/* All Addresses at a Glance */}
                   <div className="pt-2">
                     <div className="p-5 sm:p-6 rounded-2xl bg-[#0D0F12] border border-[#22252C] space-y-4">
                       <div className="flex items-center justify-between text-xs sm:text-sm">
@@ -516,7 +730,7 @@ export default function DonatePage() {
                               <span className="w-2.5 h-2.5 rounded-full bg-[#8E939E] shrink-0" />
                               <span className="text-xs sm:text-sm font-bold text-[#EDEDEE] shrink-0">{coin.symbol}</span>
                               <span className="text-xs text-[#717684] truncate hidden sm:inline">({coin.network})</span>
-                              <code className="text-xs font-mono text-[#6E7380] truncate max-w-[200px] sm:max-w-[360px]">
+                              <code className="text-xs font-mono text-[#6E7380] truncate max-w-[160px] sm:max-w-[360px]">
                                 {coin.address}
                               </code>
                             </div>
@@ -525,7 +739,7 @@ export default function DonatePage() {
                               <button
                                 type="button"
                                 onClick={() => copyToClipboard(coin.address, `quick-${coin.symbol}`)}
-                                className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#1C1F26] hover:bg-[#252831] text-[#D8DBE2] border border-[#2B2F3A] transition-colors flex items-center gap-1.5"
+                                className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#1C1F26] hover:bg-[#252831] text-[#D8DBE2] border border-[#2B2F3A] transition-colors flex items-center gap-1.5 cursor-pointer"
                               >
                                 {copiedKey === `quick-${coin.symbol}` ? (
                                   <>
@@ -561,7 +775,7 @@ export default function DonatePage() {
             </div>
           )}
 
-          {/* ── TAB 4: UPI & Identity Protection Guide ── */}
+          {/* ── TAB 4: UPI & Private Identity Protection ── */}
           {activeTab === "upi" && (
             <div className="space-y-8">
               <div className="space-y-2 text-center sm:text-left">
@@ -574,7 +788,7 @@ export default function DonatePage() {
                 </h3>
                 <p className="text-sm text-[#8E939E] max-w-2xl leading-relaxed">
                   Standard personal UPI reveals your registered full legal bank name and phone number to every payer. 
-                  Below are the official ways to support FreeWebStuff without compromising your privacy or personal identity.
+                  Below are the recommended ways to support FreeWebStuff without compromising your privacy or personal identity.
                 </p>
               </div>
 
@@ -619,7 +833,7 @@ export default function DonatePage() {
                   <button
                     type="button"
                     onClick={() => setActiveTab("crypto")}
-                    className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#1C1F26] hover:bg-[#252831] text-[#D8DBE2] border border-[#2B2F3A] font-bold text-xs transition-colors"
+                    className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#1C1F26] hover:bg-[#252831] text-[#D8DBE2] border border-[#2B2F3A] font-bold text-xs transition-colors cursor-pointer"
                   >
                     <span>View Crypto Wallets</span>
                     <ArrowRight className="w-3.5 h-3.5 text-[#6E7380]" />
@@ -639,7 +853,7 @@ export default function DonatePage() {
                     </p>
                   </div>
                   <div className="py-2.5 px-3 rounded-xl bg-[#0E1014] border border-[#1E2129] text-[11px] text-[#717684] text-center font-medium">
-                    Contact us to suggest a gateway
+                    Free setup on Google Pay for Business
                   </div>
                 </div>
 
@@ -650,7 +864,109 @@ export default function DonatePage() {
         </div>
       </div>
 
-      {/* ── Impact Section (Spacious, Clean Matte) ── */}
+      {/* ── 5. Immersive Telegram & Discord Community Section ── */}
+      <div className="space-y-6">
+        <div className="text-center sm:text-left space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-semibold bg-[#181B22] text-[#A1A5B0] border border-[#262A34]">
+            <MessageSquare className="w-3.5 h-3.5 text-[#E5E7EB]" />
+            <span>Community &amp; VIP Supporter Lounge</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">
+            Connect with Us on Telegram &amp; Discord
+          </h2>
+          <p className="text-sm text-[#8E939E]">
+            Join over 4,000+ members. Get early access to new category additions, claim your VIP Supporter role, and chat directly with creators.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          
+          {/* Telegram Card */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-[#111317] border border-[#22252C] hover:border-[#383F50] transition-all flex flex-col justify-between space-y-6 group shadow-lg">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-[#171A22] border border-[#282E3B] flex items-center justify-center text-[#E5E7EB] group-hover:scale-105 transition-transform">
+                  <Send className="w-6 h-6 text-[#9CA3AF]" />
+                </div>
+
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#161922] text-[#A1A5B0] border border-[#262B38]">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+                  <span>{DONATION_CONFIG.community.telegram.members}</span>
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold text-[#EDEDEE] group-hover:text-white transition-colors">
+                  {DONATION_CONFIG.community.telegram.handle}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#8E939E] mt-1.5 leading-relaxed">
+                  {DONATION_CONFIG.community.telegram.tagline}. Fast-paced alerts on new mirror links, tool releases, and platform status.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2 pt-1 text-[11px] text-[#717684]">
+                <span className="px-2.5 py-1 rounded-lg bg-[#0E1014] border border-[#1E2129]">Instant Link Drops</span>
+                <span className="px-2.5 py-1 rounded-lg bg-[#0E1014] border border-[#1E2129]">Founder DM Access</span>
+                <span className="px-2.5 py-1 rounded-lg bg-[#0E1014] border border-[#1E2129]">Supporter Badge</span>
+              </div>
+            </div>
+
+            <a
+              href={DONATION_CONFIG.community.telegram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-5 rounded-2xl bg-[#EDEDEE] hover:bg-[#F5F5F7] text-[#0C0D10] font-bold text-sm transition-all duration-150 active:scale-95 shadow-sm"
+            >
+              <span>Join Telegram Channel</span>
+              <ExternalLink className="w-4 h-4 text-[#5A606E]" />
+            </a>
+          </div>
+
+          {/* Discord Card */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-[#111317] border border-[#22252C] hover:border-[#383F50] transition-all flex flex-col justify-between space-y-6 group shadow-lg">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-[#171A22] border border-[#282E3B] flex items-center justify-center text-[#E5E7EB] group-hover:scale-105 transition-transform">
+                  <MessageSquare className="w-6 h-6 text-[#9CA3AF]" />
+                </div>
+
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#161922] text-[#A1A5B0] border border-[#262B38]">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+                  <span>{DONATION_CONFIG.community.discord.members}</span>
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold text-[#EDEDEE] group-hover:text-white transition-colors">
+                  {DONATION_CONFIG.community.discord.handle}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#8E939E] mt-1.5 leading-relaxed">
+                  {DONATION_CONFIG.community.discord.tagline}. Exclusive VIP role room, feature polls, dev support, and bug reporting.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2 pt-1 text-[11px] text-[#717684]">
+                <span className="px-2.5 py-1 rounded-lg bg-[#0E1014] border border-[#1E2129]">VIP Supporter Role</span>
+                <span className="px-2.5 py-1 rounded-lg bg-[#0E1014] border border-[#1E2129]">Tool Voting</span>
+                <span className="px-2.5 py-1 rounded-lg bg-[#0E1014] border border-[#1E2129]">Private Dev Lounge</span>
+              </div>
+            </div>
+
+            <a
+              href={DONATION_CONFIG.community.discord.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-5 rounded-2xl bg-[#1C1F26] hover:bg-[#252831] text-[#D8DBE2] hover:text-white border border-[#2B303C] font-bold text-sm transition-all duration-150 active:scale-95 shadow-sm"
+            >
+              <span>Join Discord Server</span>
+              <ExternalLink className="w-4 h-4 text-[#6E7380]" />
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── 6. Platform Impact Pillars ── */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-6 sm:p-7 rounded-2xl bg-[#111317] border border-[#22252C] space-y-3">
           <div className="w-10 h-10 rounded-xl bg-[#181B22] border border-[#242831] text-[#9CA3AF] flex items-center justify-center">
@@ -658,7 +974,7 @@ export default function DonatePage() {
           </div>
           <h4 className="text-base font-bold text-[#EDEDEE]">Edge Infrastructure</h4>
           <p className="text-xs sm:text-sm text-[#8E939E] leading-relaxed">
-            Funds fast, sub-50ms search query response times and instant autocomplete caching globally.
+            Funds ultra-fast sub-50ms search query response times and instant autocomplete caching globally.
           </p>
         </div>
 
@@ -683,7 +999,7 @@ export default function DonatePage() {
         </div>
       </div>
 
-      {/* ── Non-Financial Contributions ── */}
+      {/* ── 7. Non-Financial Contributions ── */}
       <div className="p-6 sm:p-8 rounded-3xl bg-[#111317] border border-[#22252C] flex flex-col sm:flex-row items-center justify-between gap-5">
         <div className="space-y-1.5 text-center sm:text-left">
           <h4 className="text-base sm:text-lg font-bold text-[#EDEDEE] flex items-center justify-center sm:justify-start gap-2">
@@ -709,6 +1025,7 @@ export default function DonatePage() {
           </Link>
         </div>
       </div>
+
     </div>
   );
 }
