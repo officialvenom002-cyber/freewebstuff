@@ -57,7 +57,7 @@ export const DONATION_CONFIG = {
       network: "TRON (TRC-20)",
       address: "TQGCXTG2PDEjvWXhacvxsv48E4BnzxPvJe",
       note: "Recommended for USDT & lowest transfer fees (<$1). Please send only TRC-20 tokens.",
-      iconColor: "#26A17B",
+      iconColor: "#A1A7B5",
       explorerUrl: "https://tronscan.org/#/address/TQGCXTG2PDEjvWXhacvxsv48E4BnzxPvJe",
     },
     {
@@ -66,7 +66,7 @@ export const DONATION_CONFIG = {
       network: "Solana Network",
       address: "3CKrHLV3TeggSyYok8MvrCY34B5b2G73HRGA22BZRCgd",
       note: "Ultra-fast 400ms confirmation & near-zero gas fee. Supports SOL & SPL tokens.",
-      iconColor: "#14F195",
+      iconColor: "#B4BAC7",
       explorerUrl: "https://solscan.io/account/3CKrHLV3TeggSyYok8MvrCY34B5b2G73HRGA22BZRCgd",
     },
     {
@@ -75,7 +75,7 @@ export const DONATION_CONFIG = {
       network: "Bitcoin Network",
       address: "1CY7JZgw6XjXBPpDFjQRc9r9HzAc1uEdhk",
       note: "Supports standard Bitcoin transfers from all wallets, exchanges, and cold storage worldwide.",
-      iconColor: "#F7931A",
+      iconColor: "#C7CBD4",
       explorerUrl: "https://www.blockchain.com/explorer/addresses/btc/1CY7JZgw6XjXBPpDFjQRc9r9HzAc1uEdhk",
     },
     {
@@ -84,7 +84,7 @@ export const DONATION_CONFIG = {
       network: "Ethereum Mainnet / Arbitrum (ERC-20)",
       address: "0x6fec5ab2f5d5dd8f1761cc4a91e0ebbaccba4c62",
       note: "Supports ETH and standard ERC-20 tokens, as well as Arbitrum / Polygon L2 networks.",
-      iconColor: "#627EEA",
+      iconColor: "#9CA3AF",
       explorerUrl: "https://etherscan.io/address/0x6fec5ab2f5d5dd8f1761cc4a91e0ebbaccba4c62",
     },
     {
@@ -93,7 +93,7 @@ export const DONATION_CONFIG = {
       network: "BNB Smart Chain (BEP-20)",
       address: "0x6fec5ab2f5d5dd8f1761cc4a91e0ebbaccba4c62",
       note: "Supports BNB and BEP-20 tokens (BSC USDT, BUSD, etc.) with low BSC transaction fees.",
-      iconColor: "#F3BA2F",
+      iconColor: "#ACB2BF",
       explorerUrl: "https://bscscan.com/address/0x6fec5ab2f5d5dd8f1761cc4a91e0ebbaccba4c62",
     },
   ] as CryptoWallet[],

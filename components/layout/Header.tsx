@@ -133,10 +133,10 @@ export default function Header() {
             <Link
               href="/donate"
               prefetch={true}
-              className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-[12px] font-semibold tracking-tight transition-all duration-150 active:scale-95 border border-[#FF6B8B]/30 hover:border-[#FF6B8B]/70 bg-[#FF6B8B]/10 hover:bg-[#FF6B8B]/20 text-[#FF6B8B]"
+              className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-[12px] font-semibold tracking-tight transition-all duration-150 active:scale-95 border border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8]"
               title="Support the project"
             >
-              <Heart className="w-3.5 h-3.5 fill-[#FF6B8B]/40" />
+              <Heart className="w-3.5 h-3.5 text-[#9CA3AF] fill-[#9CA3AF]/20" />
               <span>Support</span>
             </Link>
 
@@ -194,8 +194,8 @@ export default function Header() {
               >
                 <span>{link.label}</span>
                 {link.href === "/donate" && (
-                  <span className="text-xs px-2 py-0.5 rounded-md bg-[#FF6B8B]/10 text-[#FF6B8B] font-semibold border border-[#FF6B8B]/25">
-                    ❤️ Help Us
+                  <span className="text-[11px] px-2 py-0.5 rounded-md bg-[#1C1F26] text-[#A1A5B0] font-medium border border-[#2D313A]">
+                    Help Us
                   </span>
                 )}
               </Link>
@@ -204,9 +204,9 @@ export default function Header() {
             <Link
               href="/donate"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-[14px] font-bold text-[#FF6B8B] bg-[#FF6B8B]/10 border border-[#FF6B8B]/30 hover:bg-[#FF6B8B]/20 transition-colors"
+              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-[14px] font-bold text-[#E2E4E8] bg-[#16181D] border border-[#2D313A] hover:bg-[#1C1F26] transition-colors"
             >
-              <Heart className="w-4 h-4 fill-[#FF6B8B]" />
+              <Heart className="w-4 h-4 text-[#9CA3AF] fill-[#9CA3AF]/20" />
               Support FreeWebStuff
             </Link>
             <Link

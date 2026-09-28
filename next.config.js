@@ -67,21 +67,21 @@ const nextConfig = {
           },
         ],
       },
-      // Content pages: do not cache HTML pages so ad tags, scripts, and updates appear instantly
+      // Content pages: cache at edge for 1 hour with stale-while-revalidate to eliminate high function invocations & origin transfer
       {
         source: "/((?!api/|_next/static|_next/image|favicon|logo|images|shobhitadmin|adminshobhit|sw\\.js|service-worker\\.js).*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0",
+            value: "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
           },
           {
             key: "CDN-Cache-Control",
-            value: "no-store",
+            value: "public, s-maxage=3600, stale-while-revalidate=86400",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "no-store",
+            value: "public, s-maxage=3600, stale-while-revalidate=86400",
           },
         ],
       },

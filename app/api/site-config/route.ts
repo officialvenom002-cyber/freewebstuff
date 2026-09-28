@@ -7,7 +7,7 @@ export async function GET() {
   const config = getSiteCustomizations();
   return NextResponse.json(config, {
     headers: {
-      "Cache-Control": "public, s-maxage=5, stale-while-revalidate=10",
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
     },
   });
 }
