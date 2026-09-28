@@ -257,7 +257,7 @@ export default function HomePage() {
               </span>
             </h1>
 
-            <div className="hero-actions hero-action-anim">
+            <div className="hero-actions hero-action-anim flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
               <Link href="/beginners-guide" className="btn btn-primary">
                 Quick Start
                 <span>→</span>

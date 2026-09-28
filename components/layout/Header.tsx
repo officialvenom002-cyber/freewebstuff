@@ -12,7 +12,6 @@ const NAV_LINKS = [
   { label: "Categories", href: "/categories" },
   { label: "Trending", href: "/trending" },
   { label: "Collections", href: "/collections" },
-  { label: "Donate", href: "/donate" },
 ];
 
 export default function Header() {
@@ -193,11 +192,6 @@ export default function Header() {
                 className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[14px] font-medium text-[#F2F3F5] hover:bg-[#15181C] transition-colors"
               >
                 <span>{link.label}</span>
-                {link.href === "/donate" && (
-                  <span className="text-[11px] px-2 py-0.5 rounded-md bg-[#1C1F26] text-[#A1A5B0] font-medium border border-[#2D313A]">
-                    Help Us
-                  </span>
-                )}
               </Link>
             ))}
             <div className="border-t border-[#1E2228] my-2" />

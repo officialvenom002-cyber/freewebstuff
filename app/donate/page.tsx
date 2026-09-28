@@ -144,12 +144,12 @@ export default function DonatePage() {
       {/* ── Main Donation Card ── */}
       <div className="bg-[#111317] border border-[#22252C] rounded-3xl overflow-hidden shadow-2xl">
         
-        {/* Method Switcher Tabs (Bigger, Spaced, Clear Active State) */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-[#22252C] bg-[#0C0D10]">
+        {/* Method Switcher Tabs (Seamless, Responsive, Single-Row Bar) */}
+        <div className="flex items-center overflow-x-auto no-scrollbar border-b border-[#22252C] bg-[#0C0D10] px-2 sm:px-6">
           <button
             type="button"
             onClick={() => setActiveTab("cards")}
-            className={`flex items-center justify-center gap-2.5 py-4 px-4 text-xs sm:text-sm font-bold transition-all border-b-2 ${
+            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 ${
               activeTab === "cards"
                 ? "border-[#EDEDEE] text-[#EDEDEE] bg-[#14161C]"
                 : "border-transparent text-[#717684] hover:text-[#C5C9D3] hover:bg-[#101216]"
@@ -162,7 +162,7 @@ export default function DonatePage() {
           <button
             type="button"
             onClick={() => setActiveTab("paypal")}
-            className={`flex items-center justify-center gap-2.5 py-4 px-4 text-xs sm:text-sm font-bold transition-all border-b-2 ${
+            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 ${
               activeTab === "paypal"
                 ? "border-[#EDEDEE] text-[#EDEDEE] bg-[#14161C]"
                 : "border-transparent text-[#717684] hover:text-[#C5C9D3] hover:bg-[#101216]"
@@ -175,7 +175,7 @@ export default function DonatePage() {
           <button
             type="button"
             onClick={() => setActiveTab("crypto")}
-            className={`flex items-center justify-center gap-2.5 py-4 px-4 text-xs sm:text-sm font-bold transition-all border-b-2 ${
+            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 ${
               activeTab === "crypto"
                 ? "border-[#EDEDEE] text-[#EDEDEE] bg-[#14161C]"
                 : "border-transparent text-[#717684] hover:text-[#C5C9D3] hover:bg-[#101216]"
@@ -188,7 +188,7 @@ export default function DonatePage() {
           <button
             type="button"
             onClick={() => setActiveTab("upi")}
-            className={`flex items-center justify-center gap-2.5 py-4 px-4 text-xs sm:text-sm font-bold transition-all border-b-2 ${
+            className={`flex items-center justify-center gap-2.5 py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold whitespace-nowrap transition-all border-b-2 shrink-0 ${
               activeTab === "upi"
                 ? "border-[#EDEDEE] text-[#EDEDEE] bg-[#14161C]"
                 : "border-transparent text-[#717684] hover:text-[#C5C9D3] hover:bg-[#101216]"
@@ -456,7 +456,7 @@ export default function DonatePage() {
                               {currentCrypto.address}
                             </code>
 
-                            <div className="flex items-center gap-2.5 pt-1">
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 pt-1">
                               <button
                                 type="button"
                                 onClick={() => copyToClipboard(currentCrypto.address, currentCrypto.symbol)}
@@ -480,7 +480,7 @@ export default function DonatePage() {
                                   href={currentCrypto.explorerUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-[#1C1F26] hover:bg-[#252831] text-[#9CA3AF] hover:text-[#EDEDEE] border border-[#2C303B] transition-colors shrink-0"
+                                  className="inline-flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-[#1C1F26] hover:bg-[#252831] text-[#9CA3AF] hover:text-[#EDEDEE] border border-[#2C303B] transition-colors shrink-0"
                                   title="Verify address on blockchain explorer"
                                 >
                                   <span>Explorer</span>
