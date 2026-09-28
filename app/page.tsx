@@ -263,8 +263,12 @@ export default function HomePage() {
                 <span>→</span>
               </Link>
 
+              <Link href="/donate" className="btn btn-secondary flex items-center gap-1.5 border-[#FF6B8B]/40 hover:border-[#FF6B8B] hover:bg-[#FF6B8B]/10">
+                <span className="text-[#FF6B8B]">❤️</span> Support Us
+              </Link>
+
               <Link href="/submit" className="btn btn-secondary">
-                Contribute
+                Submit Link
               </Link>
 
               <a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="btn btn-secondary flex items-center gap-1.5 border-[#229ED9]/40 hover:border-[#229ED9] hover:bg-[#229ED9]/10">

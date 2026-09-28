@@ -5,13 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "../ui/Logo";
 import SearchModal from "../search/SearchModal";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, Heart } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Explore", href: "/search" },
   { label: "Categories", href: "/categories" },
   { label: "Trending", href: "/trending" },
   { label: "Collections", href: "/collections" },
+  { label: "Donate", href: "/donate" },
 ];
 
 export default function Header() {
@@ -128,6 +129,17 @@ export default function Header() {
               </kbd>
             </button>
 
+            {/* Support / Donate */}
+            <Link
+              href="/donate"
+              prefetch={true}
+              className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-[12px] font-semibold tracking-tight transition-all duration-150 active:scale-95 border border-[#FF6B8B]/30 hover:border-[#FF6B8B]/70 bg-[#FF6B8B]/10 hover:bg-[#FF6B8B]/20 text-[#FF6B8B]"
+              title="Support the project"
+            >
+              <Heart className="w-3.5 h-3.5 fill-[#FF6B8B]/40" />
+              <span>Support</span>
+            </Link>
+
             {/* Submit */}
             <Link
               href="/submit"
@@ -180,10 +192,23 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[14px] font-medium text-[#F2F3F5] hover:bg-[#15181C] transition-colors"
               >
-                {link.label}
+                <span>{link.label}</span>
+                {link.href === "/donate" && (
+                  <span className="text-xs px-2 py-0.5 rounded-md bg-[#FF6B8B]/10 text-[#FF6B8B] font-semibold border border-[#FF6B8B]/25">
+                    ❤️ Help Us
+                  </span>
+                )}
               </Link>
             ))}
             <div className="border-t border-[#1E2228] my-2" />
+            <Link
+              href="/donate"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-[14px] font-bold text-[#FF6B8B] bg-[#FF6B8B]/10 border border-[#FF6B8B]/30 hover:bg-[#FF6B8B]/20 transition-colors"
+            >
+              <Heart className="w-4 h-4 fill-[#FF6B8B]" />
+              Support FreeWebStuff
+            </Link>
             <Link
               href="/submit"
               onClick={() => setMobileMenuOpen(false)}

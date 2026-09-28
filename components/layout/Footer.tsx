@@ -56,6 +56,7 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm text-content-muted">
               <li><a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Telegram</a></li>
               <li><a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Discord</a></li>
+              <li><Link href="/donate" className="hover:text-pink-400 transition-colors flex items-center gap-1.5"><Heart className="w-3.5 h-3.5 fill-pink-500/30 text-pink-400" /><span>Donate &amp; Support</span></Link></li>
               <li><Link href="/submit" className="hover:text-brand-400 transition-colors">Submit a Resource</Link></li>
               <li><Link href="/report" className="hover:text-brand-400 transition-colors">Report Broken Link</Link></li>
               <li><Link href="/guidelines" className="hover:text-brand-400 transition-colors">Inclusion Guidelines</Link></li>
