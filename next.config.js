@@ -69,7 +69,7 @@ const nextConfig = {
       },
       // Content pages: cache at edge for 1 hour with stale-while-revalidate to eliminate high function invocations & origin transfer
       {
-        source: "/((?!api/|_next/static|_next/image|favicon|logo|images|shobhitadmin|adminshobhit|sw\\.js|service-worker\\.js).*)",
+        source: "/((?!api/|_next/static|_next/image|favicon|logo|images|shobhitadmin|adminshobhit|support|donate|sw\\.js|service-worker\\.js).*)",
         headers: [
           {
             key: "Cache-Control",
@@ -82,6 +82,24 @@ const nextConfig = {
           {
             key: "Cloudflare-CDN-Cache-Control",
             value: "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      // Support & Donate pages: never cache stale so updates and ad-free experience reflect instantly
+      {
+        source: "/(support|donate)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0",
+          },
+          {
+            key: "CDN-Cache-Control",
+            value: "no-store",
+          },
+          {
+            key: "Cloudflare-CDN-Cache-Control",
+            value: "no-store",
           },
         ],
       },
