@@ -15,6 +15,7 @@
   1. **Instant Fuzzy Search:** Client-side Fuse.js search with pre-warmed JSON cache for sub-50ms query response.
   2. **Community Verification:** Automated daily link health bots and user report systems to weed out dead links and malware.
   3. **Privacy-Respecting Experience:** Clean UI, zero invasive tracking, and dedicated ad-free zones.
+  4. **The 75% Compassion Pledge:** 75% of all donor contributions are directly utilized for humanitarian relief (hot meals for the poor, food & medical treatment for stray dogs, and winter blankets for homeless families), with 25% sustaining server infrastructure.
 
 ---
 

@@ -26,12 +26,71 @@ import {
   Send,
   Star,
   Flame,
-  CheckCircle2
+  CheckCircle2,
+  Heart
 } from "lucide-react";
 import { DONATION_CONFIG } from "@/lib/config/donationConfig";
 import { TopSupporter } from "@/lib/db/siteConfig";
 
 type PaymentTab = "cards" | "paypal" | "crypto" | "upi";
+
+function PawIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <circle cx="12" cy="14" r="3.5" fill="currentColor" fillOpacity="0.25" />
+      <circle cx="7" cy="9.5" r="2.2" fill="currentColor" fillOpacity="0.25" />
+      <circle cx="10.2" cy="5.5" r="2" fill="currentColor" fillOpacity="0.25" />
+      <circle cx="13.8" cy="5.5" r="2" fill="currentColor" fillOpacity="0.25" />
+      <circle cx="17" cy="9.5" r="2.2" fill="currentColor" fillOpacity="0.25" />
+    </svg>
+  );
+}
+
+function FoodBowlIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M4 11h16a1 1 0 0 1 1 1c0 5-4.03 9-9 9s-9-4-9-9a1 1 0 0 1 1-1Z" fill="currentColor" fillOpacity="0.2" />
+      <path d="M6 7.5c1-1.2 2-1.2 3 0" />
+      <path d="M10.5 6.5c1-1.2 2-1.2 3 0" />
+      <path d="M15 7.5c1-1.2 2-1.2 3 0" />
+    </svg>
+  );
+}
+
+function HandHeartIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" fill="currentColor" fillOpacity="0.2" />
+    </svg>
+  );
+}
+
+const TIER_IMPACT_DETAILS = [
+  {
+    amount: "$3",
+    charityAmount: "$2.25",
+    serverAmount: "$0.75",
+    summary: "Provides 3 wholesome hot meals for hungry street dwellers or fresh food for 3 stray dogs + covers search bot upkeep for 1 week.",
+  },
+  {
+    amount: "$10",
+    charityAmount: "$7.50",
+    serverAmount: "$2.50",
+    summary: "Feeds an impoverished family warm nutritious meals OR nourishes 10+ street dogs with food & medicine + funds 1 month server hosting.",
+  },
+  {
+    amount: "$25",
+    charityAmount: "$18.75",
+    serverAmount: "$6.25",
+    summary: "Distributes thick winter fleece blankets, 20+ hot meals to homeless elders, veterinary first-aid for injured street animals, and verifies 5,000+ links.",
+  },
+  {
+    amount: "$100",
+    charityAmount: "$75.00",
+    serverAmount: "$25.00",
+    summary: "Sponsors an entire weekend community food drive feeding 75+ poor individuals, 50+ stray dogs, and covers annual edge proxy & domain renewals.",
+  },
+];
 
 export default function DonatePage() {
   const [activeTab, setActiveTab] = useState<PaymentTab>("cards");
@@ -79,6 +138,7 @@ export default function DonatePage() {
     : "";
 
   const activeTierObj = DONATION_CONFIG.tiers[selectedTier] || DONATION_CONFIG.tiers[1];
+  const currentTierImpact = TIER_IMPACT_DETAILS[selectedTier] || TIER_IMPACT_DETAILS[1];
   const top1Supporter = liveSupporters.find((s) => s.isTop1) || liveSupporters[0] || null;
   const otherSupporters = top1Supporter ? liveSupporters.filter((s) => s.id !== top1Supporter.id) : [];
 
@@ -101,18 +161,18 @@ export default function DonatePage() {
       
       {/* ── 1. Hero Section ── */}
       <div className="text-center space-y-6">
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-[#14161C] text-[#A1A5B0] border border-[#252932] shadow-sm animate-fade-in">
-          <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
-          <span>Independent &bull; Open Web Project &bull; Zero Tracker Ads</span>
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-gradient-to-r from-emerald-500/15 via-rose-500/15 to-amber-500/15 text-[#EDEDEE] border border-emerald-500/30 shadow-sm animate-fade-in">
+          <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 animate-pulse" />
+          <span>75% Donated to Food for the Poor &amp; Stray Dogs &bull; 25% Open Web Servers &bull; 100% Ad-Free</span>
         </div>
 
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-sans font-black tracking-tight text-[#EDEDEE] leading-[1.08]">
-          Fuel the Free Internet.
+          Fuel the Free Web.<br className="hidden sm:inline" /> Feed a Soul.
         </h1>
 
         <p className="max-w-2xl mx-auto text-base sm:text-xl text-[#8E939E] leading-relaxed">
-          FreeWebStuff indexes over 15,000+ free tools, privacy software, and educational vaults without commercial paywalls. 
-          Your backing directly funds high-speed edge nodes, link verification bots, and platform upgrades.
+          FreeWebStuff indexes over 20,000+ free tools and educational vaults without paywalls. 
+          When you contribute, <strong>75% goes directly toward buying warm meals for homeless families, feeding hungry street dogs, and emergency relief</strong>, while 25% sustains our high-speed edge nodes.
         </p>
 
         {/* ── Preset Tiers in Matte Finish ── */}
@@ -151,6 +211,9 @@ export default function DonatePage() {
             <div className="text-center md:text-left space-y-0.5">
               <div className="text-[#8E939E]">
                 Selected Tier: <strong className="text-[#EDEDEE] font-bold">{activeTierObj.amount} ({activeTierObj.label})</strong>
+                <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  75% ({currentTierImpact.charityAmount}) for Food &amp; Rescue
+                </span>
               </div>
               <div className="text-[11px] sm:text-xs text-[#6E7380]">
                 {activeTierObj.perk} &bull; Includes Supporter VIP Perks
@@ -188,6 +251,176 @@ export default function DonatePage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* ── 2. The 75% Social Impact Pledge Section ── */}
+      <div className="relative rounded-3xl bg-gradient-to-b from-[#131722] via-[#0F1219] to-[#0A0C10] border border-[#262C3D] p-6 sm:p-10 shadow-2xl overflow-hidden space-y-8 group transition-all duration-300">
+        {/* Ambient subtle glow background */}
+        <div className="pointer-events-none absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
+
+        {/* Section Heading & Stat Badge */}
+        <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide bg-gradient-to-r from-emerald-500/15 via-rose-500/15 to-amber-500/15 text-[#EDEDEE] border border-emerald-500/30 shadow-sm animate-pulse">
+              <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
+              <span>The 75% Compassion Pledge &bull; Tech with a Soul</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-black tracking-tight text-[#EDEDEE] leading-tight">
+              75% of Every Donation Feeds the Hungry &amp; Rescues Stray Animals.
+            </h2>
+
+            <p className="text-sm sm:text-base text-[#9DA2B0] leading-relaxed">
+              We believe free software and open knowledge should actively heal the real world. 
+              <strong> 75% of all funds received are directly used to buy warm meals for homeless people, feed hungry street dogs, and distribute survival blankets to families living in poverty.</strong> 
+              The remaining 25% keeps FreeWebStuff fast, independent, and 100% ad-free on this page.
+            </p>
+          </div>
+
+          {/* Impact ratio visual badge */}
+          <div className="shrink-0 p-5 rounded-2xl bg-[#0B0D12] border border-[#202534] flex flex-col items-center justify-center text-center space-y-1 shadow-inner min-w-[180px]">
+            <div className="text-3xl sm:text-4xl font-black bg-gradient-to-r from-emerald-400 via-rose-400 to-amber-400 bg-clip-text text-transparent">
+              75% / 25%
+            </div>
+            <div className="text-xs font-semibold text-[#8E939E]">
+              Charity &bull; Servers Split
+            </div>
+          </div>
+        </div>
+
+        {/* 75 / 25 Visual Progress Split Meter */}
+        <div className="relative z-10 space-y-3">
+          <div className="w-full h-5 rounded-full bg-[#0D0F14] border border-[#222736] p-0.5 overflow-hidden flex shadow-inner">
+            {/* 75% Charity segment */}
+            <div 
+              className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-rose-500 to-amber-500 shadow-[0_0_16px_rgba(16,185,129,0.4)] transition-all duration-700 ease-out"
+              style={{ width: "75%" }}
+            />
+            {/* 25% Server segment */}
+            <div 
+              className="h-full rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 transition-all duration-700 ease-out ml-1"
+              style={{ width: "25%" }}
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-[#8E939E] gap-2 pt-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-emerald-400 to-rose-400 shrink-0 shadow-sm" />
+              <span className="font-semibold text-[#EDEDEE]">75% ($0.75 per $1)</span>
+              <span>&mdash; Food for Poor, Stray Dog Feeding &amp; Winter Relief</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-cyan-500 shrink-0" />
+              <span className="font-semibold text-[#EDEDEE]">25% ($0.25 per $1)</span>
+              <span>&mdash; Edge Servers, Domain &amp; Link Health Bots</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 3 Pillars of Compassion Grid */}
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          
+          {/* Pillar 1: Food for Poor */}
+          <div className="group/card p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-emerald-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-md hover:shadow-emerald-500/10">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover/card:scale-110 transition-transform duration-300">
+                  <FoodBowlIcon className="w-6 h-6 text-emerald-400" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                  Zero Hunger
+                </span>
+              </div>
+
+              <h3 className="text-lg font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
+                Warm Meals for the Poor &amp; Hungry
+              </h3>
+
+              <p className="text-xs sm:text-[13px] text-[#8E939E] leading-relaxed">
+                Daily freshly prepared, nutritious warm meals distributed directly to homeless elders, daily wage workers, and impoverished street children who struggle for a single square meal.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-[#1C212D] text-[11px] text-[#A1A5B0] flex items-center justify-between">
+              <span>Direct field distribution</span>
+              <span className="font-semibold text-emerald-400">Fresh hot food</span>
+            </div>
+          </div>
+
+          {/* Pillar 2: Food for Dogs & Stray Animals */}
+          <div className="group/card p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-rose-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-md hover:shadow-rose-500/10">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center group-hover/card:scale-110 transition-transform duration-300">
+                <PawIcon className="w-6 h-6 text-rose-400" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20">
+                Animal Welfare
+              </span>
+
+              <h3 className="text-lg font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
+                Food &amp; Care for Stray Dogs &amp; Animals
+              </h3>
+
+              <p className="text-xs sm:text-[13px] text-[#8E939E] leading-relaxed">
+                Street dogs and animals endure starvation, extreme weather, and accidents. We provide daily wholesome feeding, clean water bowls, emergency wound treatment, and winter jackets.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-[#1C212D] text-[11px] text-[#A1A5B0] flex items-center justify-between">
+              <span>Daily street feeding rounds</span>
+              <span className="font-semibold text-rose-400">Medicine &amp; Nutrition</span>
+            </div>
+          </div>
+
+          {/* Pillar 3: Winter Relief & Basic Essentials */}
+          <div className="group/card p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-amber-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-md hover:shadow-amber-500/10">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center group-hover/card:scale-110 transition-transform duration-300">
+                <HandHeartIcon className="w-6 h-6 text-amber-400" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                Community Aid
+              </span>
+
+              <h3 className="text-lg font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
+                Blankets, Clothes &amp; Essential Aid
+              </h3>
+
+              <p className="text-xs sm:text-[13px] text-[#8E939E] leading-relaxed">
+                Distributing thick fleece blankets to rough sleepers during harsh winter cold waves, dry grocery ration kits, clean drinking water, and school supplies for children in poverty.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-[#1C212D] text-[11px] text-[#A1A5B0] flex items-center justify-between">
+              <span>Zero administrative waste</span>
+              <span className="font-semibold text-amber-400">100% On-Ground</span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Dynamic Tier Impact Banner */}
+        <div className="relative z-10 p-4 sm:p-5 rounded-2xl bg-[#0A0D12] border border-[#1E2433] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500/20 to-rose-500/20 border border-emerald-500/30 flex items-center justify-center text-[#EDEDEE] shrink-0">
+              <Sparkles className="w-4 h-4 text-emerald-400" />
+            </div>
+            <div>
+              <div className="font-bold text-[#EDEDEE]">
+                Impact for your selected {activeTierObj.amount} ({activeTierObj.label}) tier:
+              </div>
+              <div className="text-[#8E939E] text-xs">
+                {currentTierImpact.summary}
+              </div>
+            </div>
+          </div>
+
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#141822] border border-[#232938] text-xs font-semibold text-emerald-400 shrink-0">
+            <span>75% = {currentTierImpact.charityAmount} directly to food &amp; relief</span>
+          </div>
+        </div>
+
       </div>
 
       {/* ── 2. Top Donator Spotlight & Hall of Fame (Wall of Honor) ── */}
@@ -1112,12 +1345,12 @@ export default function DonatePage() {
         </div>
 
         <div className="p-6 sm:p-7 rounded-2xl bg-[#111317] border border-[#22252C] space-y-3">
-          <div className="w-10 h-10 rounded-xl bg-[#181B22] border border-[#242831] text-[#9CA3AF] flex items-center justify-center">
-            <Layers className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-[#181B22] border border-[#242831] text-emerald-400 flex items-center justify-center">
+            <Heart className="w-5 h-5 fill-emerald-500/20 text-emerald-400" />
           </div>
-          <h4 className="text-base font-bold text-[#EDEDEE]">Zero Ads, Zero Trackers</h4>
+          <h4 className="text-base font-bold text-[#EDEDEE]">75% Real-World Relief</h4>
           <p className="text-xs sm:text-sm text-[#8E939E] leading-relaxed">
-            Keeps the platform clean, privacy-respecting, and free of sponsored commercial rankings.
+            Feeds the hungry, provides warm food for stray dogs, and distributes blankets to homeless families in need.
           </p>
         </div>
       </div>
