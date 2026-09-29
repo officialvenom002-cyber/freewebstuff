@@ -40,7 +40,9 @@ export default function DonatePage() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   // Dynamic live supporters state
-  const [liveSupporters, setLiveSupporters] = useState<TopSupporter[]>(DONATION_CONFIG.topSupporters || []);
+  const [liveSupporters, setLiveSupporters] = useState<TopSupporter[]>(
+    ((DONATION_CONFIG.topSupporters || []) as unknown) as TopSupporter[]
+  );
   const [isLoadingSupporters, setIsLoadingSupporters] = useState(true);
 
   useEffect(() => {

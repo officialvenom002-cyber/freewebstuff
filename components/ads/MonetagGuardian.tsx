@@ -21,9 +21,53 @@ export default function MonetagGuardian() {
 
     sessionStartRef.current = Date.now();
 
-    // 100% ad-free on admin dashboards
-    if (pathname.includes("admin") || pathname.includes("shobhit")) {
-      return;
+    // 100% ad-free on admin dashboards and support / donation pages
+    const isAdFree =
+      pathname.includes("admin") ||
+      pathname.includes("shobhit") ||
+      pathname === "/support" ||
+      pathname.startsWith("/support/") ||
+      pathname === "/donate" ||
+      pathname.startsWith("/donate/");
+
+    if (isAdFree) {
+      // Remove any lingering floating ad banners, popover elements or social bars
+      try {
+        const floatingAds = document.querySelectorAll(
+          '[id^="at-"], [class*="adsterra"], [id*="adsterra"], [class*="monetag"], [id*="monetag"], .at-cv-lightbox, [id^="container-940525"]'
+        );
+        floatingAds.forEach((el) => el.remove());
+      } catch {}
+
+      // Intercept window.open and strictly block any external ad popups while preserving legit links
+      const originalOpen = window.open;
+      window.open = function (url?: string | URL, target?: string, features?: string) {
+        const urlStr = String(url || "");
+
+        // Whitelisted legit destinations (Ko-fi, PayPal, BuyMeACoffee, Telegram, Discord, internal)
+        const isLegitimate =
+          urlStr.startsWith("/") ||
+          urlStr.includes("freewebstuff.site") ||
+          urlStr.includes("localhost") ||
+          urlStr.includes("ko-fi.com") ||
+          urlStr.includes("buymeacoffee.com") ||
+          urlStr.includes("paypal.me") ||
+          urlStr.includes("paypal.com") ||
+          urlStr.includes("t.me") ||
+          urlStr.includes("discord.gg") ||
+          urlStr.includes("qrserver.com");
+
+        if (isLegitimate) {
+          return originalOpen.call(window, url, target, features);
+        }
+
+        // Silently block any third-party ad script popup / popunder on support page
+        return null;
+      };
+
+      return () => {
+        window.open = originalOpen;
+      };
     }
 
     const STORAGE_KEY = "fwsf_ad_caps_v2";

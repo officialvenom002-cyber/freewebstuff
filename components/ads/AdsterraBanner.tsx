@@ -16,8 +16,15 @@ export default function AdsterraBanner() {
   const bannerRef = useRef<HTMLDivElement>(null);
   const [hasTriggered, setHasTriggered] = useState(false);
 
-  // 100% ad-free on admin dashboard
-  if (pathname.includes("admin") || pathname.includes("shobhit")) {
+  // 100% ad-free on admin dashboard and support/donate pages
+  if (
+    pathname.includes("admin") ||
+    pathname.includes("shobhit") ||
+    pathname === "/support" ||
+    pathname.startsWith("/support/") ||
+    pathname === "/donate" ||
+    pathname.startsWith("/donate/")
+  ) {
     return null;
   }
 

@@ -5,6 +5,7 @@ import Script from "next/script";
 import ClientLayout from "@/components/layout/ClientLayout";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MonetagGuardian from "@/components/ads/MonetagGuardian";
+import AdScripts from "@/components/ads/AdScripts";
 import { generateWebSiteSchema } from "@/lib/seo/schema";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -136,35 +137,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://5gvci.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://5gvci.com" />
 
-        {/* 1. AdsCore / Stake High-CPM Engine */}
-        <script
-          data-cfasync="false"
-          type="text/javascript"
-          id="AdsCoreLoader106969"
-          src="https://sads.adsboosters.xyz/7d5d63b1d7a48601a1a774c8e8d4a88a.js"
-        />
 
-        {/* 2. Monetag MultiTag (Zone 286666) */}
-        <script
-          async
-          data-cfasync="false"
-          src="https://quge5.com/88/tag.min.js"
-          data-zone="286666"
-        />
-
-        {/* 3. Adsterra Social Bar & Popunder */}
-        <script
-          async
-          data-cfasync="false"
-          src="https://bibleearthquake.com/b7/ae/5a/b7ae5af830f6bf0bc3210b84a8a94fe7.js"
-        />
-
-        {/* 4. Adsterra In-Page Direct */}
-        <script
-          async
-          data-cfasync="false"
-          src="https://bibleearthquake.com/0e/99/fa/0e99fa0311152f33953e4d7b110510ee.js"
-        />
         {/* Service Worker Auto-Registration for Monetag Push Notifications */}
         <script
           id="monetag-sw-register"
@@ -222,6 +195,7 @@ export default function RootLayout({
         </div>
         <GoogleAnalytics />
         <MonetagGuardian />
+        <AdScripts />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
