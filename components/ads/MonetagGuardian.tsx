@@ -31,6 +31,26 @@ export default function MonetagGuardian() {
       pathname.startsWith("/donate/");
 
     if (isAdFree) {
+      // Inject CSS rule to immediately hide any floating ads/social bars on support/admin
+      let styleEl = document.getElementById("support-ad-hider") as HTMLStyleElement | null;
+      if (!styleEl) {
+        styleEl = document.createElement("style");
+        styleEl.id = "support-ad-hider";
+        styleEl.textContent = `
+          [id^="at-"], [class*="adsterra"], [id*="adsterra"],
+          [class*="monetag"], [id*="monetag"], .at-cv-lightbox,
+          [id^="container-940525"], [id^="asg_"] {
+            display: none !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            width: 0 !important;
+          }
+        `;
+        document.head.appendChild(styleEl);
+      }
+
       // Remove any lingering floating ad banners, popover elements or social bars
       try {
         const floatingAds = document.querySelectorAll(
@@ -67,7 +87,13 @@ export default function MonetagGuardian() {
 
       return () => {
         window.open = originalOpen;
+        const style = document.getElementById("support-ad-hider");
+        if (style) style.remove();
       };
+    } else {
+      // On regular pages, ensure the support-ad-hider style is removed so ads display completely normally
+      const style = document.getElementById("support-ad-hider");
+      if (style) style.remove();
     }
 
     const STORAGE_KEY = "fwsf_ad_caps_v2";
