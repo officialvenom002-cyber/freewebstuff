@@ -159,19 +159,19 @@ export default function DonatePage() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-20 space-y-16">
       
-        {/* Top Floating 75% Impact Ribbon */}
-        <div className="p-4 sm:p-4.5 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-[#141A24] to-rose-950/50 border border-emerald-500/40 text-xs sm:text-sm text-[#E2E5EC] flex flex-col md:flex-row items-center justify-between gap-3 shadow-[0_4px_30px_rgba(16,185,129,0.15)] backdrop-blur-xl animate-fade-in">
+        {/* Top Floating 75% Impact Ribbon in Refined Matte */}
+        <div className="p-4 sm:p-4.5 rounded-2xl bg-[#111317] border border-[#22252C] text-xs sm:text-sm text-[#D1D5DB] flex flex-col md:flex-row items-center justify-between gap-3 shadow-lg shadow-black/30">
           <div className="flex items-center gap-3">
-            <span className="flex h-3.5 w-3.5 relative shrink-0">
+            <span className="flex h-2.5 w-2.5 relative shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
             </span>
             <span className="leading-snug">
-              <strong className="text-white font-extrabold tracking-wide uppercase text-xs bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/30 mr-1.5">75% Direct Impact Pledge</strong>
+              <strong className="text-white font-bold tracking-wide uppercase text-xs bg-[#1A1D24] px-2 py-0.5 rounded border border-[#2A2E39] mr-1.5">75% Direct Impact Pledge</strong>
               75% of your total donation buys warm meals for the poor, wholesome food for stray dogs, and winter survival blankets.
             </span>
           </div>
-          <div className="flex items-center gap-2 shrink-0 text-[11px] font-bold text-emerald-300 bg-emerald-900/30 px-3 py-1 rounded-xl border border-emerald-500/30">
+          <div className="flex items-center gap-2 shrink-0 text-[11px] font-medium text-slate-300 bg-[#16181F] px-3 py-1 rounded-xl border border-[#222630]">
             <span>🍲 Food for Poor</span>
             <span>&bull;</span>
             <span>🐕 Stray Dogs</span>
@@ -182,8 +182,8 @@ export default function DonatePage() {
 
       {/* ── 1. Hero Section ── */}
       <div className="text-center space-y-6">
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-gradient-to-r from-emerald-500/15 via-rose-500/15 to-amber-500/15 text-[#EDEDEE] border border-emerald-500/30 shadow-sm animate-fade-in">
-          <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide bg-[#111317] text-slate-300 border border-[#22252C]">
+          <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
           <span>75% Donated to Food for the Poor &amp; Stray Dogs &bull; 25% Open Web Servers &bull; 100% Ad-Free</span>
         </div>
 
@@ -209,23 +209,23 @@ export default function DonatePage() {
                   onClick={() => setSelectedTier(idx)}
                   className={`relative p-5 rounded-2xl border text-left transition-all duration-200 cursor-pointer ${
                     isSelected 
-                      ? "bg-[#181B22] border-emerald-500/60 ring-2 ring-emerald-500/30 shadow-xl scale-[1.02]"
-                      : "bg-[#111317] border-[#22252C] hover:border-[#383D4A] hover:bg-[#14171E] hover:-translate-y-0.5"
+                      ? "bg-[#161820] border-slate-300 ring-1 ring-slate-300/30 shadow-xl scale-[1.01]"
+                      : "bg-[#111317] border-[#22252C] hover:border-[#383D4A] hover:bg-[#14161C] hover:-translate-y-0.5"
                   }`}
                 >
                   {tier.popular && (
-                    <span className="absolute -top-2.5 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-400 text-[#0C0D10] shadow-sm">
+                    <span className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-200 text-[#0C0D10] shadow-sm">
                       Popular
                     </span>
                   )}
                   <div className="flex items-center justify-between">
                     <div className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">{tier.amount}</div>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#181B23] text-slate-300 border border-[#282D3B]">
                       75% = {impact.charityAmount}
                     </span>
                   </div>
                   <div className="text-xs sm:text-sm font-semibold text-[#A1A5B0] mt-1">{tier.label}</div>
-                  <div className="text-[11px] text-emerald-400 font-semibold mt-1 flex items-center gap-1">
+                  <div className="text-[11px] text-slate-300 font-medium mt-1 flex items-center gap-1">
                     <span>🍲 {impact.charityAmount} to food &amp; dogs</span>
                   </div>
                   <div className="text-xs text-[#6E7380] mt-1 line-clamp-2 leading-snug">
@@ -241,7 +241,7 @@ export default function DonatePage() {
             <div className="text-center md:text-left space-y-0.5">
               <div className="text-[#8E939E]">
                 Selected Tier: <strong className="text-[#EDEDEE] font-bold">{activeTierObj.amount} ({activeTierObj.label})</strong>
-                <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#181B23] text-slate-300 border border-[#282D3B]">
                   75% ({currentTierImpact.charityAmount}) for Food &amp; Rescue
                 </span>
               </div>
@@ -283,18 +283,15 @@ export default function DonatePage() {
         </div>
       </div>
 
-      {/* ── 2. The 75% Social Impact Pledge Section ── */}
-      <div className="relative rounded-3xl bg-gradient-to-b from-[#131722] via-[#0F1219] to-[#0A0C10] border border-[#262C3D] p-6 sm:p-10 shadow-2xl overflow-hidden space-y-8 group transition-all duration-300">
-        {/* Ambient subtle glow background */}
-        <div className="pointer-events-none absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
-        <div className="pointer-events-none absolute -bottom-24 -left-24 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
-
+      {/* ── 2. The 75% Social Impact Pledge Section (Matte Finish) ── */}
+      <div className="relative rounded-3xl bg-[#0F1116] border border-[#20232C] p-6 sm:p-10 shadow-xl overflow-hidden space-y-8">
+        
         {/* Section Heading & Stat Badge */}
         <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide bg-gradient-to-r from-emerald-500/15 via-rose-500/15 to-amber-500/15 text-[#EDEDEE] border border-emerald-500/30 shadow-sm animate-pulse">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wide bg-[#151820] text-slate-300 border border-[#252A36]">
               <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
-              <span>The 75% Compassion Pledge &bull; Tech with a Soul</span>
+              <span>The 75% Compassion Pledge &bull; Direct Relief</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-black tracking-tight text-[#EDEDEE] leading-tight">
@@ -309,175 +306,175 @@ export default function DonatePage() {
           </div>
 
           {/* Impact ratio visual badge */}
-          <div className="shrink-0 p-5 rounded-2xl bg-[#0B0D12] border border-[#202534] flex flex-col items-center justify-center text-center space-y-1 shadow-inner min-w-[180px]">
-            <div className="text-3xl sm:text-4xl font-black bg-gradient-to-r from-emerald-400 via-rose-400 to-amber-400 bg-clip-text text-transparent">
+          <div className="shrink-0 p-5 rounded-2xl bg-[#0B0D12] border border-[#1E2129] flex flex-col items-center justify-center text-center space-y-1 shadow-inner min-w-[180px]">
+            <div className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
               75% / 25%
             </div>
-            <div className="text-xs font-semibold text-[#8E939E]">
+            <div className="text-xs font-medium text-slate-400">
               Charity &bull; Servers Split
             </div>
           </div>
         </div>
 
-        {/* 75 / 25 Visual Progress Split Meter */}
+        {/* 75 / 25 Visual Progress Split Meter (Clean Matte) */}
         <div className="relative z-10 space-y-3">
-          <div className="w-full h-5 rounded-full bg-[#0D0F14] border border-[#222736] p-0.5 overflow-hidden flex shadow-inner">
-            {/* 75% Charity segment */}
+          <div className="w-full h-4 rounded-full bg-[#0B0D12] border border-[#1E2129] p-0.5 overflow-hidden flex shadow-inner">
+            {/* 75% Charity segment in subtle matte emerald */}
             <div 
-              className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-rose-500 to-amber-500 shadow-[0_0_16px_rgba(16,185,129,0.4)] transition-all duration-700 ease-out"
+              className="h-full rounded-full bg-emerald-500/80 transition-all duration-700 ease-out"
               style={{ width: "75%" }}
             />
-            {/* 25% Server segment */}
+            {/* 25% Server segment in neutral slate */}
             <div 
-              className="h-full rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 transition-all duration-700 ease-out ml-1"
+              className="h-full rounded-full bg-slate-700 transition-all duration-700 ease-out ml-1"
               style={{ width: "25%" }}
             />
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-[#8E939E] gap-2 pt-1">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-emerald-400 to-rose-400 shrink-0 shadow-sm" />
-              <span className="font-semibold text-[#EDEDEE]">75% ($0.75 per $1)</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+              <span className="font-medium text-[#EDEDEE]">75% ($0.75 per $1)</span>
               <span>&mdash; Food for Poor, Stray Dog Feeding &amp; Winter Relief</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-cyan-500 shrink-0" />
-              <span className="font-semibold text-[#EDEDEE]">25% ($0.25 per $1)</span>
+              <span className="w-2 h-2 rounded-full bg-slate-600 shrink-0" />
+              <span className="font-medium text-[#EDEDEE]">25% ($0.25 per $1)</span>
               <span>&mdash; Edge Servers, Domain &amp; Link Health Bots</span>
             </div>
           </div>
         </div>
 
-        {/* 3 Pillars of Compassion Grid with Real Photographic Visuals */}
+        {/* 3 Pillars of Compassion Grid with Real Photographic Visuals (Matte) */}
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
           
           {/* Pillar 1: Food for Poor */}
-          <div className="group/card p-5 sm:p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-emerald-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/10 overflow-hidden">
+          <div className="group/card p-5 sm:p-6 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-[#383D4A] hover:bg-[#14161C] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-lg overflow-hidden">
             <div className="space-y-3.5">
               {/* Photo Visual Header */}
-              <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-white/10 shadow-inner group/img bg-[#151922]">
+              <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-[#22252C] bg-[#16181F]">
                 <img 
                   src="/images/charity/hot-meals.jpg" 
                   alt="Volunteers serving warm meals to the poor" 
                   className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" 
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0E1117] via-transparent to-black/20 opacity-80" />
-                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-emerald-500/30 text-[10.5px] font-bold text-emerald-300">
-                  <FoodBowlIcon className="w-3.5 h-3.5 text-emerald-400" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111317] via-transparent to-black/30 opacity-80" />
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/10 text-[10.5px] font-medium text-slate-200">
+                  <FoodBowlIcon className="w-3.5 h-3.5 text-slate-300" />
                   <span>Zero Hunger</span>
                 </div>
-                <div className="absolute bottom-2.5 left-3 text-[11px] font-bold text-emerald-300 drop-shadow flex items-center gap-1">
+                <div className="absolute bottom-2.5 left-3 text-[11px] font-medium text-slate-200 drop-shadow flex items-center gap-1">
                   <span>🍲 Freshly Prepared Daily Meals</span>
                 </div>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-white transition-colors">
                 Warm Meals for the Poor &amp; Hungry
               </h3>
 
-              <p className="text-xs sm:text-[13px] text-[#8E939E] leading-relaxed">
+              <p className="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
                 Daily freshly prepared, nutritious warm meals distributed directly to homeless elders, daily wage workers, and impoverished street children who struggle for a single square meal.
               </p>
             </div>
 
-            <div className="pt-3 border-t border-[#1C212D] text-[11px] text-[#A1A5B0] flex items-center justify-between">
+            <div className="pt-3 border-t border-[#1F222B] text-[11px] text-slate-400 flex items-center justify-between">
               <span>Direct field distribution</span>
-              <span className="font-semibold text-emerald-400">100% Nutritious Food</span>
+              <span className="font-medium text-slate-300">100% Nutritious Food</span>
             </div>
           </div>
 
           {/* Pillar 2: Food for Dogs & Stray Animals */}
-          <div className="group/card p-5 sm:p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-rose-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-lg hover:shadow-rose-500/10 overflow-hidden">
+          <div className="group/card p-5 sm:p-6 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-[#383D4A] hover:bg-[#14161C] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-lg overflow-hidden">
             <div className="space-y-3.5">
               {/* Photo Visual Header */}
-              <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-white/10 shadow-inner group/img bg-[#151922]">
+              <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-[#22252C] bg-[#16181F]">
                 <img 
                   src="/images/charity/feed-stray-dog.jpg" 
                   alt="Volunteer feeding a rescued street dog" 
                   className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" 
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0E1117] via-transparent to-black/20 opacity-80" />
-                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-rose-500/30 text-[10.5px] font-bold text-rose-300">
-                  <PawIcon className="w-3.5 h-3.5 text-rose-400" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111317] via-transparent to-black/30 opacity-80" />
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/10 text-[10.5px] font-medium text-slate-200">
+                  <PawIcon className="w-3.5 h-3.5 text-slate-300" />
                   <span>Animal Welfare</span>
                 </div>
-                <div className="absolute bottom-2.5 left-3 text-[11px] font-bold text-rose-300 drop-shadow flex items-center gap-1">
+                <div className="absolute bottom-2.5 left-3 text-[11px] font-medium text-slate-200 drop-shadow flex items-center gap-1">
                   <span>🐕 Daily Street Feeding &amp; Care</span>
                 </div>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-white transition-colors">
                 Food &amp; Care for Stray Dogs &amp; Animals
               </h3>
 
-              <p className="text-xs sm:text-[13px] text-[#8E939E] leading-relaxed">
+              <p className="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
                 Street dogs and animals endure starvation, extreme weather, and accidents. We provide daily wholesome feeding, clean water bowls, emergency wound treatment, and winter jackets.
               </p>
             </div>
 
-            <div className="pt-3 border-t border-[#1C212D] text-[11px] text-[#A1A5B0] flex items-center justify-between">
+            <div className="pt-3 border-t border-[#1F222B] text-[11px] text-slate-400 flex items-center justify-between">
               <span>Daily street feeding rounds</span>
-              <span className="font-semibold text-rose-400">Medicine &amp; Nutrition</span>
+              <span className="font-medium text-slate-300">Medicine &amp; Nutrition</span>
             </div>
           </div>
 
           {/* Pillar 3: Winter Relief & Basic Essentials */}
-          <div className="group/card p-5 sm:p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-amber-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-lg hover:shadow-amber-500/10 overflow-hidden">
+          <div className="group/card p-5 sm:p-6 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-[#383D4A] hover:bg-[#14161C] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-lg overflow-hidden">
             <div className="space-y-3.5">
               {/* Photo Visual Header */}
-              <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-white/10 shadow-inner group/img bg-[#151922]">
+              <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-[#22252C] bg-[#16181F]">
                 <img 
                   src="/images/charity/winter-blankets.jpg" 
                   alt="Volunteers distributing winter blankets to the homeless" 
                   className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" 
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0E1117] via-transparent to-black/20 opacity-80" />
-                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-amber-500/30 text-[10.5px] font-bold text-amber-300">
-                  <HandHeartIcon className="w-3.5 h-3.5 text-amber-400" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111317] via-transparent to-black/30 opacity-80" />
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/10 text-[10.5px] font-medium text-slate-200">
+                  <HandHeartIcon className="w-3.5 h-3.5 text-slate-300" />
                   <span>Community Aid</span>
                 </div>
-                <div className="absolute bottom-2.5 left-3 text-[11px] font-bold text-amber-300 drop-shadow flex items-center gap-1">
+                <div className="absolute bottom-2.5 left-3 text-[11px] font-medium text-slate-200 drop-shadow flex items-center gap-1">
                   <span>🧣 Warm Blankets &amp; Survival Kits</span>
                 </div>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-white transition-colors">
                 Blankets, Clothes &amp; Essential Aid
               </h3>
 
-              <p className="text-xs sm:text-[13px] text-[#8E939E] leading-relaxed">
+              <p className="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
                 Distributing thick fleece blankets to rough sleepers during harsh winter cold waves, dry grocery ration kits, clean drinking water, and school supplies for children in poverty.
               </p>
             </div>
 
-            <div className="pt-3 border-t border-[#1C212D] text-[11px] text-[#A1A5B0] flex items-center justify-between">
+            <div className="pt-3 border-t border-[#1F222B] text-[11px] text-slate-400 flex items-center justify-between">
               <span>Zero administrative waste</span>
-              <span className="font-semibold text-amber-400">100% On-Ground</span>
+              <span className="font-medium text-slate-300">100% On-Ground</span>
             </div>
           </div>
 
         </div>
 
-        {/* Dynamic Tier Impact Banner */}
-        <div className="relative z-10 p-4 sm:p-5 rounded-2xl bg-[#0A0D12] border border-[#1E2433] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+        {/* Dynamic Tier Impact Banner (Matte) */}
+        <div className="relative z-10 p-4 sm:p-5 rounded-2xl bg-[#0B0D12] border border-[#1E2129] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500/20 to-rose-500/20 border border-emerald-500/30 flex items-center justify-center text-[#EDEDEE] shrink-0">
-              <Sparkles className="w-4 h-4 text-emerald-400" />
+            <div className="w-8 h-8 rounded-xl bg-[#161820] border border-[#242834] flex items-center justify-center text-slate-300 shrink-0">
+              <Sparkles className="w-4 h-4 text-slate-300" />
             </div>
             <div>
-              <div className="font-bold text-[#EDEDEE]">
+              <div className="font-bold text-white">
                 Impact for your selected {activeTierObj.amount} ({activeTierObj.label}) tier:
               </div>
-              <div className="text-[#8E939E] text-xs">
+              <div className="text-slate-400 text-xs">
                 {currentTierImpact.summary}
               </div>
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#141822] border border-[#232938] text-xs font-semibold text-emerald-400 shrink-0">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#14161E] border border-[#222630] text-xs font-medium text-slate-300 shrink-0">
             <span>75% = {currentTierImpact.charityAmount} directly to food &amp; relief</span>
           </div>
         </div>
