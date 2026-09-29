@@ -7,7 +7,6 @@ import SearchModal from "@/components/search/SearchModal";
 import SearchToggle from "@/components/search/SearchToggle";
 import ThemeSelector from "@/components/ui/ThemeSelector";
 import CategoryGrid from "@/components/home/CategoryGrid";
-import CharityPledgeCard from "@/components/home/CharityPledgeCard";
 import Footer from "@/components/layout/Footer";
 import AdsterraBanner from "@/components/ads/AdsterraBanner";
 import { 
@@ -17,7 +16,9 @@ import {
   Bookmark,
   Rocket,
   Send,
-  Heart
+  Heart,
+  ArrowRight,
+  ShieldCheck
 } from "lucide-react";
 
 export default function HomePage() {
@@ -298,27 +299,76 @@ export default function HomePage() {
 
           </div>
 
-          {/* CUSTOM GRAPHICAL HERO LOGO */}
-          <div className="hero-visual hero-visual-anim">
+          {/* RIGHT-SIDE HERO SECTION: 75% CHARITY & FEED A DOG (REPLACES FLOATING GLOBE) */}
+          <div className="relative w-full max-w-[490px] mx-auto lg:ml-auto">
+            {/* Ambient subtle glow matching dark matte aesthetic */}
+            <div className="absolute -inset-1 bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-sky-500/15 rounded-3xl blur-xl opacity-70 pointer-events-none" />
 
-            <div className="space-glow"></div>
+            <div className="relative rounded-2xl bg-[#11141B]/95 backdrop-blur-md border border-white/10 p-5 sm:p-6 shadow-2xl shadow-black/60 transition-all duration-200 hover:border-emerald-500/35">
+              
+              {/* Top Tag & Ad-Free Badge */}
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wide uppercase bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                  </span>
+                  75% Direct Relief Pledge
+                </span>
+                <span className="text-[10.5px] font-medium text-slate-400 flex items-center gap-1 bg-white/[0.04] px-2 py-0.5 rounded-md border border-white/5">
+                  <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                  100% Ad-Free Support
+                </span>
+              </div>
 
-            <div className="planet-floor"></div>
+              {/* Title & Compassion message */}
+              <h3 className="text-lg sm:text-xl font-heading font-bold text-white tracking-tight leading-snug">
+                Feed Stray Dogs &amp; Help the Poor 🐕
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300/90 mt-1.5 leading-relaxed">
+                <strong className="text-emerald-300 font-semibold">75% of every dollar donated</strong> goes straight to daily food for street dogs, warm meals for the needy, and winter blankets.
+              </p>
 
-            <div className="orbit"></div>
-            <div className="orbit-two"></div>
+              {/* 3 Impact Visual Mini-Pills */}
+              <div className="grid grid-cols-3 gap-2 my-3.5">
+                <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+                  <span className="text-lg mb-0.5">🍲</span>
+                  <span className="text-[11px] font-medium text-slate-200">Hot Meals</span>
+                  <span className="text-[9.5px] text-slate-400">For the homeless</span>
+                </div>
+                <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+                  <span className="text-lg mb-0.5">🐕</span>
+                  <span className="text-[11px] font-medium text-slate-200">Stray Dogs</span>
+                  <span className="text-[9.5px] text-slate-400">Food &amp; care</span>
+                </div>
+                <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+                  <span className="text-lg mb-0.5">🧣</span>
+                  <span className="text-[11px] font-medium text-slate-200">Blankets</span>
+                  <span className="text-[9.5px] text-slate-400">Winter warmth</span>
+                </div>
+              </div>
 
-            <div className="planet"></div>
+              {/* 1-Click Redirect Button to /support */}
+              <Link 
+                href="/support"
+                className="w-full py-2.5 px-4 rounded-xl font-heading font-bold text-xs sm:text-sm bg-gradient-to-r from-emerald-500 via-emerald-400 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-[#07130E] flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/35 hover:-translate-y-0.5 transition-all duration-150"
+              >
+                <Heart className="w-4 h-4 fill-[#07130E]" />
+                <span>Feed a Dog &amp; Support Us</span>
+                <ArrowRight className="w-3.5 h-3.5 ml-0.5" />
+              </Link>
 
-            <div className="orbit-dot dot-one"></div>
-            <div className="orbit-dot dot-two"></div>
+              <div className="mt-2.5 flex items-center justify-between text-[11px] text-slate-400/80 px-1">
+                <span>Direct community aid</span>
+                <Link href="/support" className="text-emerald-400 hover:text-emerald-300 font-medium inline-flex items-center gap-0.5 transition-colors">
+                  Support in 1-Click →
+                </Link>
+              </div>
 
+            </div>
           </div>
 
         </section>
-
-        {/* 75% CHARITY PLEDGE & FEED THE DOG HERO CARD */}
-        <CharityPledgeCard />
 
         {/* CATEGORIES */}
         <section className="categories max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-10" id="categories">

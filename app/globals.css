@@ -358,6 +358,14 @@ button {
   gap: 36px;
 }
 
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 24px 0 16px;
+  }
+}
+
 .hero-content {
   position: relative;
   z-index: 5;
