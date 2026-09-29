@@ -299,48 +299,48 @@ export default function HomePage() {
           </div>
 
           {/* RIGHT-SIDE HERO SECTION: PURE BORDERLESS MERGER INTO LAYOUT */}
-          <div className="hero-charity flex flex-col justify-center py-2 lg:pl-6 text-left">
+          <div className="hero-charity flex flex-col justify-center py-2 lg:pl-8 text-left space-y-3.5">
             
             {/* Top Indicator */}
-            <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-semibold tracking-wide uppercase">
+            <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-semibold tracking-wider uppercase">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
               </span>
-              <span>75% Compassion &amp; Relief Pledge</span>
+              <span>75% Relief Pledge</span>
             </div>
 
             {/* Title */}
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-heading font-extrabold text-white tracking-tight mt-2 leading-snug">
+            <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-white tracking-tight leading-snug">
               Feed Stray Dogs &amp; Help the Poor 🐕
             </h2>
 
-            {/* Subtext */}
-            <p className="text-slate-300 text-sm sm:text-[15px] leading-relaxed mt-2.5 max-w-xl">
-              <strong className="text-emerald-300 font-semibold">75% of every dollar donated</strong> directly buys daily nutritious food for street dogs, warm meals for the homeless, and winter blankets for people in need.
+            {/* Shortened Subtext */}
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-lg">
+              <strong className="text-emerald-300 font-semibold">75% of all donations</strong> fund hot meals for the homeless, food for street dogs, and winter blankets.
             </p>
 
-            {/* Borderless Impact Items */}
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-4 text-xs text-slate-300">
+            {/* Properly Spaced Impact Keywords */}
+            <div className="flex flex-wrap items-center gap-6 sm:gap-8 pt-1 text-sm text-slate-300">
               <div className="flex items-center gap-2">
-                <span className="text-base sm:text-lg">🍲</span>
-                <span><strong className="text-white">Hot Meals</strong> for homeless</span>
+                <span className="text-lg">🍲</span>
+                <span className="font-semibold text-white">Hot Meals</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-base sm:text-lg">🐕</span>
-                <span><strong className="text-white">Stray Dogs</strong> food &amp; care</span>
+                <span className="text-lg">🐕</span>
+                <span className="font-semibold text-white">Stray Dogs</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-base sm:text-lg">🧣</span>
-                <span><strong className="text-white">Blankets</strong> for winter warmth</span>
+                <span className="text-lg">🧣</span>
+                <span className="font-semibold text-white">Blankets</span>
               </div>
             </div>
 
             {/* 1-Click Action Button to /support */}
-            <div className="mt-5 flex items-center gap-3">
+            <div className="pt-2">
               <Link 
                 href="/support"
-                className="btn btn-primary bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold px-6 h-11 border-none shadow-[0_0_24px_rgba(16,185,129,0.28)] hover:shadow-[0_0_32px_rgba(16,185,129,0.45)] transition-all flex items-center gap-2 rounded-xl"
+                className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-sm transition-all shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/35 hover:-translate-y-0.5"
               >
                 <Heart className="w-4 h-4 fill-slate-950 text-slate-950" />
                 <span>Feed a Dog &amp; Support Us</span>
