@@ -17,8 +17,7 @@ import {
   Rocket,
   Send,
   Heart,
-  ArrowRight,
-  ShieldCheck
+  ArrowRight
 } from "lucide-react";
 
 export default function HomePage() {
@@ -299,73 +298,56 @@ export default function HomePage() {
 
           </div>
 
-          {/* RIGHT-SIDE HERO SECTION: 75% CHARITY & FEED A DOG (REPLACES FLOATING GLOBE) */}
-          <div className="relative w-full max-w-[490px] mx-auto lg:ml-auto">
-            {/* Ambient subtle glow matching dark matte aesthetic */}
-            <div className="absolute -inset-1 bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-sky-500/15 rounded-3xl blur-xl opacity-70 pointer-events-none" />
+          {/* RIGHT-SIDE HERO SECTION: PURE BORDERLESS MERGER INTO LAYOUT */}
+          <div className="hero-charity flex flex-col justify-center py-2 lg:pl-6 text-left">
+            
+            {/* Top Indicator */}
+            <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-semibold tracking-wide uppercase">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              </span>
+              <span>75% Compassion &amp; Relief Pledge</span>
+            </div>
 
-            <div className="relative rounded-2xl bg-[#11141B]/95 backdrop-blur-md border border-white/10 p-5 sm:p-6 shadow-2xl shadow-black/60 transition-all duration-200 hover:border-emerald-500/35">
-              
-              {/* Top Tag & Ad-Free Badge */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wide uppercase bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-                  </span>
-                  75% Direct Relief Pledge
-                </span>
-                <span className="text-[10.5px] font-medium text-slate-400 flex items-center gap-1 bg-white/[0.04] px-2 py-0.5 rounded-md border border-white/5">
-                  <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                  100% Ad-Free Support
-                </span>
+            {/* Title */}
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-heading font-extrabold text-white tracking-tight mt-2 leading-snug">
+              Feed Stray Dogs &amp; Help the Poor 🐕
+            </h2>
+
+            {/* Subtext */}
+            <p className="text-slate-300 text-sm sm:text-[15px] leading-relaxed mt-2.5 max-w-xl">
+              <strong className="text-emerald-300 font-semibold">75% of every dollar donated</strong> directly buys daily nutritious food for street dogs, warm meals for the homeless, and winter blankets for people in need.
+            </p>
+
+            {/* Borderless Impact Items */}
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-4 text-xs text-slate-300">
+              <div className="flex items-center gap-2">
+                <span className="text-base sm:text-lg">🍲</span>
+                <span><strong className="text-white">Hot Meals</strong> for homeless</span>
               </div>
-
-              {/* Title & Compassion message */}
-              <h3 className="text-lg sm:text-xl font-heading font-bold text-white tracking-tight leading-snug">
-                Feed Stray Dogs &amp; Help the Poor 🐕
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300/90 mt-1.5 leading-relaxed">
-                <strong className="text-emerald-300 font-semibold">75% of every dollar donated</strong> goes straight to daily food for street dogs, warm meals for the needy, and winter blankets.
-              </p>
-
-              {/* 3 Impact Visual Mini-Pills */}
-              <div className="grid grid-cols-3 gap-2 my-3.5">
-                <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
-                  <span className="text-lg mb-0.5">🍲</span>
-                  <span className="text-[11px] font-medium text-slate-200">Hot Meals</span>
-                  <span className="text-[9.5px] text-slate-400">For the homeless</span>
-                </div>
-                <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
-                  <span className="text-lg mb-0.5">🐕</span>
-                  <span className="text-[11px] font-medium text-slate-200">Stray Dogs</span>
-                  <span className="text-[9.5px] text-slate-400">Food &amp; care</span>
-                </div>
-                <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
-                  <span className="text-lg mb-0.5">🧣</span>
-                  <span className="text-[11px] font-medium text-slate-200">Blankets</span>
-                  <span className="text-[9.5px] text-slate-400">Winter warmth</span>
-                </div>
+              <div className="flex items-center gap-2">
+                <span className="text-base sm:text-lg">🐕</span>
+                <span><strong className="text-white">Stray Dogs</strong> food &amp; care</span>
               </div>
+              <div className="flex items-center gap-2">
+                <span className="text-base sm:text-lg">🧣</span>
+                <span><strong className="text-white">Blankets</strong> for winter warmth</span>
+              </div>
+            </div>
 
-              {/* 1-Click Redirect Button to /support */}
+            {/* 1-Click Action Button to /support */}
+            <div className="mt-5 flex items-center gap-3">
               <Link 
                 href="/support"
-                className="w-full py-2.5 px-4 rounded-xl font-heading font-bold text-xs sm:text-sm bg-gradient-to-r from-emerald-500 via-emerald-400 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-[#07130E] flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/35 hover:-translate-y-0.5 transition-all duration-150"
+                className="btn btn-primary bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold px-6 h-11 border-none shadow-[0_0_24px_rgba(16,185,129,0.28)] hover:shadow-[0_0_32px_rgba(16,185,129,0.45)] transition-all flex items-center gap-2 rounded-xl"
               >
-                <Heart className="w-4 h-4 fill-[#07130E]" />
+                <Heart className="w-4 h-4 fill-slate-950 text-slate-950" />
                 <span>Feed a Dog &amp; Support Us</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-0.5" />
+                <ArrowRight className="w-4 h-4" />
               </Link>
-
-              <div className="mt-2.5 flex items-center justify-between text-[11px] text-slate-400/80 px-1">
-                <span>Direct community aid</span>
-                <Link href="/support" className="text-emerald-400 hover:text-emerald-300 font-medium inline-flex items-center gap-0.5 transition-colors">
-                  Support in 1-Click →
-                </Link>
-              </div>
-
             </div>
+
           </div>
 
         </section>
