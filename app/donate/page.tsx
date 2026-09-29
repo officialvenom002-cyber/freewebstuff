@@ -157,8 +157,29 @@ export default function DonatePage() {
       {/* Soft ambient overhead matte light */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(148,163,184,0.05),transparent_70%)] z-0" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 py-12 sm:py-24 space-y-20">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-20 space-y-16">
       
+        {/* Top Floating 75% Impact Ribbon */}
+        <div className="p-4 sm:p-4.5 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-[#141A24] to-rose-950/50 border border-emerald-500/40 text-xs sm:text-sm text-[#E2E5EC] flex flex-col md:flex-row items-center justify-between gap-3 shadow-[0_4px_30px_rgba(16,185,129,0.15)] backdrop-blur-xl animate-fade-in">
+          <div className="flex items-center gap-3">
+            <span className="flex h-3.5 w-3.5 relative shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+            </span>
+            <span className="leading-snug">
+              <strong className="text-white font-extrabold tracking-wide uppercase text-xs bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/30 mr-1.5">75% Direct Impact Pledge</strong>
+              75% of your total donation buys warm meals for the poor, wholesome food for stray dogs, and winter survival blankets.
+            </span>
+          </div>
+          <div className="flex items-center gap-2 shrink-0 text-[11px] font-bold text-emerald-300 bg-emerald-900/30 px-3 py-1 rounded-xl border border-emerald-500/30">
+            <span>🍲 Food for Poor</span>
+            <span>&bull;</span>
+            <span>🐕 Stray Dogs</span>
+            <span>&bull;</span>
+            <span>🤝 Blankets</span>
+          </div>
+        </div>
+
       {/* ── 1. Hero Section ── */}
       <div className="text-center space-y-6">
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-gradient-to-r from-emerald-500/15 via-rose-500/15 to-amber-500/15 text-[#EDEDEE] border border-emerald-500/30 shadow-sm animate-fade-in">
@@ -180,6 +201,7 @@ export default function DonatePage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
             {DONATION_CONFIG.tiers.map((tier, idx) => {
               const isSelected = selectedTier === idx;
+              const impact = TIER_IMPACT_DETAILS[idx] || TIER_IMPACT_DETAILS[1];
               return (
                 <button
                   key={tier.amount}
@@ -187,18 +209,26 @@ export default function DonatePage() {
                   onClick={() => setSelectedTier(idx)}
                   className={`relative p-5 rounded-2xl border text-left transition-all duration-200 cursor-pointer ${
                     isSelected 
-                      ? "bg-[#181B22] border-[#52596A] ring-1 ring-[#646C80] shadow-xl scale-[1.02]"
+                      ? "bg-[#181B22] border-emerald-500/60 ring-2 ring-emerald-500/30 shadow-xl scale-[1.02]"
                       : "bg-[#111317] border-[#22252C] hover:border-[#383D4A] hover:bg-[#14171E] hover:-translate-y-0.5"
                   }`}
                 >
                   {tier.popular && (
-                    <span className="absolute -top-2.5 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#EDEDEE] text-[#0C0D10] shadow-sm">
+                    <span className="absolute -top-2.5 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-400 text-[#0C0D10] shadow-sm">
                       Popular
                     </span>
                   )}
-                  <div className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">{tier.amount}</div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-2xl sm:text-3xl font-black text-[#EDEDEE] tracking-tight">{tier.amount}</div>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                      75% = {impact.charityAmount}
+                    </span>
+                  </div>
                   <div className="text-xs sm:text-sm font-semibold text-[#A1A5B0] mt-1">{tier.label}</div>
-                  <div className="text-xs text-[#6E7380] mt-2 line-clamp-2 leading-snug">
+                  <div className="text-[11px] text-emerald-400 font-semibold mt-1 flex items-center gap-1">
+                    <span>🍲 {impact.charityAmount} to food &amp; dogs</span>
+                  </div>
+                  <div className="text-xs text-[#6E7380] mt-1 line-clamp-2 leading-snug">
                     {tier.perk}
                   </div>
                 </button>

@@ -7,6 +7,7 @@ import SearchModal from "@/components/search/SearchModal";
 import SearchToggle from "@/components/search/SearchToggle";
 import ThemeSelector from "@/components/ui/ThemeSelector";
 import CategoryGrid from "@/components/home/CategoryGrid";
+import CharityPledgeCard from "@/components/home/CharityPledgeCard";
 import Footer from "@/components/layout/Footer";
 import AdsterraBanner from "@/components/ads/AdsterraBanner";
 import { 
@@ -272,9 +273,9 @@ export default function HomePage() {
             </h1>
 
             <div className="hero-actions hero-action-anim flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
-              <Link href="/donate" className="btn btn-secondary flex items-center gap-1.5 border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8]">
-                <Heart className="w-3.5 h-3.5 text-[#9CA3AF]" />
-                <span>Support</span>
+              <Link href="/support" className="btn btn-secondary flex items-center gap-1.5 border-emerald-500/40 hover:border-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold shadow-sm transition-all duration-150">
+                <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 animate-pulse" />
+                <span>Feed Dogs &amp; Support</span>
               </Link>
 
               <Link href="/beginners-guide" className="btn btn-primary">
@@ -315,6 +316,9 @@ export default function HomePage() {
           </div>
 
         </section>
+
+        {/* 75% CHARITY PLEDGE & FEED THE DOG HERO CARD */}
+        <CharityPledgeCard />
 
         {/* CATEGORIES */}
         <section className="categories max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-10" id="categories">
