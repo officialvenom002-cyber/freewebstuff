@@ -348,22 +348,31 @@ export default function DonatePage() {
           </div>
         </div>
 
-        {/* 3 Pillars of Compassion Grid */}
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+        {/* 3 Pillars of Compassion Grid with Real Photographic Visuals */}
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
           
           {/* Pillar 1: Food for Poor */}
-          <div className="group/card p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-emerald-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-md hover:shadow-emerald-500/10">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover/card:scale-110 transition-transform duration-300">
-                  <FoodBowlIcon className="w-6 h-6 text-emerald-400" />
+          <div className="group/card p-5 sm:p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-emerald-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/10 overflow-hidden">
+            <div className="space-y-3.5">
+              {/* Photo Visual Header */}
+              <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-white/10 shadow-inner group/img bg-[#151922]">
+                <img 
+                  src="/images/charity/hot-meals.jpg" 
+                  alt="Volunteers serving warm meals to the poor" 
+                  className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" 
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0E1117] via-transparent to-black/20 opacity-80" />
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-emerald-500/30 text-[10.5px] font-bold text-emerald-300">
+                  <FoodBowlIcon className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Zero Hunger</span>
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-                  Zero Hunger
-                </span>
+                <div className="absolute bottom-2.5 left-3 text-[11px] font-bold text-emerald-300 drop-shadow flex items-center gap-1">
+                  <span>🍲 Freshly Prepared Daily Meals</span>
+                </div>
               </div>
 
-              <h3 className="text-lg font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
                 Warm Meals for the Poor &amp; Hungry
               </h3>
 
@@ -374,21 +383,32 @@ export default function DonatePage() {
 
             <div className="pt-3 border-t border-[#1C212D] text-[11px] text-[#A1A5B0] flex items-center justify-between">
               <span>Direct field distribution</span>
-              <span className="font-semibold text-emerald-400">Fresh hot food</span>
+              <span className="font-semibold text-emerald-400">100% Nutritious Food</span>
             </div>
           </div>
 
           {/* Pillar 2: Food for Dogs & Stray Animals */}
-          <div className="group/card p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-rose-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-md hover:shadow-rose-500/10">
-            <div className="space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center group-hover/card:scale-110 transition-transform duration-300">
-                <PawIcon className="w-6 h-6 text-rose-400" />
+          <div className="group/card p-5 sm:p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-rose-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-lg hover:shadow-rose-500/10 overflow-hidden">
+            <div className="space-y-3.5">
+              {/* Photo Visual Header */}
+              <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-white/10 shadow-inner group/img bg-[#151922]">
+                <img 
+                  src="/images/charity/feed-stray-dog.jpg" 
+                  alt="Volunteer feeding a rescued street dog" 
+                  className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" 
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0E1117] via-transparent to-black/20 opacity-80" />
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-rose-500/30 text-[10.5px] font-bold text-rose-300">
+                  <PawIcon className="w-3.5 h-3.5 text-rose-400" />
+                  <span>Animal Welfare</span>
+                </div>
+                <div className="absolute bottom-2.5 left-3 text-[11px] font-bold text-rose-300 drop-shadow flex items-center gap-1">
+                  <span>🐕 Daily Street Feeding &amp; Care</span>
+                </div>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20">
-                Animal Welfare
-              </span>
 
-              <h3 className="text-lg font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
                 Food &amp; Care for Stray Dogs &amp; Animals
               </h3>
 
@@ -404,16 +424,27 @@ export default function DonatePage() {
           </div>
 
           {/* Pillar 3: Winter Relief & Basic Essentials */}
-          <div className="group/card p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-amber-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-md hover:shadow-amber-500/10">
-            <div className="space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center group-hover/card:scale-110 transition-transform duration-300">
-                <HandHeartIcon className="w-6 h-6 text-amber-400" />
+          <div className="group/card p-5 sm:p-6 rounded-2xl bg-[#0E1117] border border-[#202533] hover:border-amber-500/50 hover:bg-[#121620] transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-lg hover:shadow-amber-500/10 overflow-hidden">
+            <div className="space-y-3.5">
+              {/* Photo Visual Header */}
+              <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-white/10 shadow-inner group/img bg-[#151922]">
+                <img 
+                  src="/images/charity/winter-blankets.jpg" 
+                  alt="Volunteers distributing winter blankets to the homeless" 
+                  className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" 
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0E1117] via-transparent to-black/20 opacity-80" />
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-amber-500/30 text-[10.5px] font-bold text-amber-300">
+                  <HandHeartIcon className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Community Aid</span>
+                </div>
+                <div className="absolute bottom-2.5 left-3 text-[11px] font-bold text-amber-300 drop-shadow flex items-center gap-1">
+                  <span>🧣 Warm Blankets &amp; Survival Kits</span>
+                </div>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20">
-                Community Aid
-              </span>
 
-              <h3 className="text-lg font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
+              <h3 className="text-lg sm:text-xl font-bold text-[#EDEDEE] group-hover/card:text-white transition-colors">
                 Blankets, Clothes &amp; Essential Aid
               </h3>
 
