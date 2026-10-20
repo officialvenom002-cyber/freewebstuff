@@ -3,6 +3,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import Header from "./Header";
+import TopSupportBanner from "@/components/TopSupportBanner";
 import Footer from "./Footer";
 import AdsterraBanner from "@/components/ads/AdsterraBanner";
 
@@ -27,6 +28,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   return (
     <>
+      <TopSupportBanner />
       {!isHome && !isAdmin && <Header />}
       <main className="flex-1 w-full flex flex-col will-change-auto">
         {children}
