@@ -21,14 +21,16 @@ export default function MonetagGuardian() {
 
     sessionStartRef.current = Date.now();
 
-    // 100% ad-free on admin dashboards and support / donation pages
+    // 100% ad-free on admin dashboards and support / donation / payment pages
     const isAdFree =
       pathname.includes("admin") ||
       pathname.includes("shobhit") ||
       pathname === "/support" ||
       pathname.startsWith("/support/") ||
       pathname === "/donate" ||
-      pathname.startsWith("/donate/");
+      pathname.startsWith("/donate/") ||
+      pathname === "/benefits" ||
+      pathname.startsWith("/benefits/");
 
     if (isAdFree) {
       // Inject CSS rule to immediately hide any floating ads/social bars on support/admin
@@ -37,9 +39,12 @@ export default function MonetagGuardian() {
         styleEl = document.createElement("style");
         styleEl.id = "support-ad-hider";
         styleEl.textContent = `
-          [id^="at-"], [class*="adsterra"], [id*="adsterra"],
+          [id^="at-"], [id^="at_"], [class*="adsterra"], [id*="adsterra"],
           [class*="monetag"], [id*="monetag"], .at-cv-lightbox,
-          [id^="container-940525"], [id^="asg_"] {
+          [id^="container-940525"], [id^="asg_"],
+          iframe[src*="adsboosters"], iframe[src*="quge5"],
+          iframe[src*="bibleearthquake"], iframe[src*="alwingulla"],
+          iframe[src*="5gvci"], div[id^="AdsCore"] {
             display: none !important;
             visibility: hidden !important;
             pointer-events: none !important;
@@ -51,13 +56,22 @@ export default function MonetagGuardian() {
         document.head.appendChild(styleEl);
       }
 
-      // Remove any lingering floating ad banners, popover elements or social bars
-      try {
-        const floatingAds = document.querySelectorAll(
-          '[id^="at-"], [class*="adsterra"], [id*="adsterra"], [class*="monetag"], [id*="monetag"], .at-cv-lightbox, [id^="container-940525"]'
-        );
-        floatingAds.forEach((el) => el.remove());
-      } catch {}
+      const purgeAds = () => {
+        try {
+          const floatingAds = document.querySelectorAll(
+            '[id^="at-"], [id^="at_"], [class*="adsterra"], [id*="adsterra"], [class*="monetag"], [id*="monetag"], .at-cv-lightbox, [id^="container-940525"], [id^="asg_"], iframe[src*="adsboosters"], iframe[src*="quge5"], iframe[src*="bibleearthquake"], iframe[src*="alwingulla"], iframe[src*="5gvci"], div[id^="AdsCore"]'
+          );
+          floatingAds.forEach((el) => el.remove());
+        } catch {}
+      };
+
+      purgeAds();
+
+      // MutationObserver to remove dynamically injected ad nodes in real time
+      const observer = new MutationObserver(() => {
+        purgeAds();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
 
       // Intercept window.open and strictly block any external ad popups while preserving legit links
       const originalOpen = window.open;
@@ -86,6 +100,7 @@ export default function MonetagGuardian() {
       };
 
       return () => {
+        observer.disconnect();
         window.open = originalOpen;
         const style = document.getElementById("support-ad-hider");
         if (style) style.remove();

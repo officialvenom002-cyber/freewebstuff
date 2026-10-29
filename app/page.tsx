@@ -16,8 +16,7 @@ import {
   Bookmark,
   Rocket,
   Send,
-  Heart,
-  ArrowRight
+  Heart
 } from "lucide-react";
 
 export default function HomePage() {
@@ -273,9 +272,9 @@ export default function HomePage() {
             </h1>
 
             <div className="hero-actions hero-action-anim flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
-              <Link href="/support" className="btn btn-secondary flex items-center gap-1.5 border-emerald-500/40 hover:border-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold shadow-sm transition-all duration-150">
-                <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 animate-pulse" />
-                <span>Feed Dogs &amp; Support</span>
+              <Link href="/support" className="btn btn-secondary flex items-center gap-1.5 border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8]">
+                <Heart className="w-3.5 h-3.5 text-rose-500" />
+                <span>Support</span>
               </Link>
 
               <Link href="/beginners-guide" className="btn btn-primary">
@@ -298,56 +297,20 @@ export default function HomePage() {
 
           </div>
 
-          {/* RIGHT-SIDE HERO SECTION: PURE BORDERLESS MERGER INTO LAYOUT */}
-          <div className="hero-charity flex flex-col justify-center py-3 lg:pl-10 text-left">
-            
-            {/* Top Indicator */}
-            <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-semibold tracking-wider uppercase mb-2.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-              </span>
-              <span>75% Relief Pledge</span>
-            </div>
+          {/* CUSTOM GRAPHICAL HERO LOGO */}
+          <div className="hero-visual hero-visual-anim">
 
-            {/* Title */}
-            <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-heading font-bold text-white tracking-normal leading-snug mb-3">
-              Feed Stray Dogs &amp; Help the Poor 🐕
-            </h2>
+            <div className="space-glow"></div>
 
-            {/* Shortened Subtext with proper line-height and explicit word spacing */}
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed tracking-normal max-w-lg mb-5">
-              <span className="text-emerald-400 font-semibold">75% of all donations</span>
-              {" "}directly fund hot meals for the homeless, street dog food, and winter blankets.
-            </p>
+            <div className="planet-floor"></div>
 
-            {/* Properly Spaced Impact Keywords */}
-            <div className="flex flex-wrap items-center gap-6 sm:gap-8 text-sm text-slate-200 mb-6">
-              <div className="flex items-center gap-2.5">
-                <span className="text-lg">🍲</span>
-                <span className="font-medium text-white tracking-wide">Hot Meals</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <span className="text-lg">🐕</span>
-                <span className="font-medium text-white tracking-wide">Stray Dogs</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <span className="text-lg">🧣</span>
-                <span className="font-medium text-white tracking-wide">Blankets</span>
-              </div>
-            </div>
+            <div className="orbit"></div>
+            <div className="orbit-two"></div>
 
-            {/* 1-Click Action Button to /support */}
-            <div>
-              <Link 
-                href="/support"
-                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-sm transition-all shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/35 hover:-translate-y-0.5"
-              >
-                <Heart className="w-4 h-4 fill-slate-950 text-slate-950" />
-                <span>Feed a Dog &amp; Support Us</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            <div className="planet"></div>
+
+            <div className="orbit-dot dot-one"></div>
+            <div className="orbit-dot dot-two"></div>
 
           </div>
 

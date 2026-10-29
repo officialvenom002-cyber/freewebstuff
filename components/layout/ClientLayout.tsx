@@ -11,7 +11,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isAdmin = pathname.startsWith("/shobhitadmin") || pathname.startsWith("/admin");
-  const isSupport = pathname === "/support" || pathname.startsWith("/support/") || pathname === "/donate" || pathname.startsWith("/donate/");
+  const isSupport =
+    pathname === "/support" ||
+    pathname.startsWith("/support/") ||
+    pathname === "/donate" ||
+    pathname.startsWith("/donate/") ||
+    pathname === "/benefits" ||
+    pathname.startsWith("/benefits/");
 
   React.useEffect(() => {
     // Warm up the all-categories data in the background browser cache
