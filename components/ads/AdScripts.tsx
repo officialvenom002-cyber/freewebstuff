@@ -78,6 +78,16 @@ export default function AdScripts() {
 
   return (
     <>
+      {/* Preconnect only on ad-enabled routes */}
+      <link rel="preconnect" href="https://sads.adsboosters.xyz" crossOrigin="anonymous" />
+      <link rel="dns-prefetch" href="https://sads.adsboosters.xyz" />
+      <link rel="preconnect" href="https://bibleearthquake.com" crossOrigin="anonymous" />
+      <link rel="dns-prefetch" href="https://bibleearthquake.com" />
+      <link rel="preconnect" href="https://quge5.com" crossOrigin="anonymous" />
+      <link rel="preconnect" href="https://alwingulla.com" crossOrigin="anonymous" />
+      <link rel="dns-prefetch" href="https://alwingulla.com" />
+      <link rel="preconnect" href="https://5gvci.com" crossOrigin="anonymous" />
+
       {/* 1. AdsCore / Stake High-CPM Engine */}
       <Script
         id="AdsCoreLoader106969"

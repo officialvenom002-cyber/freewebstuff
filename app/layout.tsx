@@ -127,14 +127,6 @@ export default function RootLayout({
     >
       <head>
         {/* High-speed CDN preconnect for maximum fill rate & low latency CPM */}
-        <link rel="preconnect" href="https://sads.adsboosters.xyz" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://sads.adsboosters.xyz" />
-        <link rel="preconnect" href="https://bibleearthquake.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://bibleearthquake.com" />
-        <link rel="preconnect" href="https://quge5.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://alwingulla.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://alwingulla.com" />
-        <link rel="preconnect" href="https://5gvci.com" crossOrigin="anonymous" />
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-3T4ZJ0VR0G"
