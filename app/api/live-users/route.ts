@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 // In-memory active user presence registry
@@ -43,7 +43,9 @@ export async function GET(req: NextRequest) {
     },
     {
       headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate",
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+        "CDN-Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+        "Cloudflare-CDN-Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
       },
     }
   );

@@ -14,6 +14,7 @@ export default function LiveUserPresence({ className = "", compact = false }: Li
     let isMounted = true;
 
     const pingLiveUser = async () => {
+      if (document.hidden) return; // Don't burn requests when tab is hidden in background
       try {
         const res = await fetch("/api/live-users", { method: "GET" });
         if (res.ok) {
@@ -28,11 +29,19 @@ export default function LiveUserPresence({ className = "", compact = false }: Li
     };
 
     pingLiveUser();
-    const interval = setInterval(pingLiveUser, 30000); // 30s heartbeat
+    const interval = setInterval(pingLiveUser, 60000); // 60s heartbeat
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        pingLiveUser();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       isMounted = false;
       clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
