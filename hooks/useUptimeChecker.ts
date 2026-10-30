@@ -191,13 +191,7 @@ export function setSiteHealthOverride(
  * - Reacts immediately when a site goes down or comes back up.
  */
 export function useUptimeChecker(urls: string[]): Record<string, SiteResult> {
-  const [results, setResults] = useState<Record<string, SiteResult>>(() => {
-    const cached = getSyncCachedHealthMap();
-    if (cached) {
-      return resolveUrlsMap(urls, cached);
-    }
-    return {};
-  });
+  const [results, setResults] = useState<Record<string, SiteResult>>({});
 
   useEffect(() => {
     let isMounted = true;
