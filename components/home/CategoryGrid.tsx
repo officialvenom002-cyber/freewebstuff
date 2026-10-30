@@ -347,22 +347,13 @@ const CATEGORIES: CategoryMeta[] = [
 ];
 
 function CategoryCard({ cat }: { cat: CategoryMeta }) {
-  const router = useRouter();
   const [hovered, setHovered] = React.useState(false);
   const IconComponent = cat.icon;
-
-  const handleClick = (e: React.MouseEvent) => {
-    // If middle click or Cmd/Ctrl/Shift click, allow browser default new tab
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-    e.preventDefault();
-    router.push(cat.href);
-  };
 
   return (
     <Link
       href={cat.href}
-      prefetch={false}
-      onClick={handleClick}
+      prefetch={true}
       className="group relative flex flex-col justify-between p-4.5 sm:p-5 rounded-2xl border transition-all duration-300 overflow-hidden min-h-[190px] h-full cursor-pointer select-none active:scale-[0.985]"
       style={{
         background: hovered 

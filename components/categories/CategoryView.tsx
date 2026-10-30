@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { useUptimeChecker, SiteResult, setSiteHealthOverride } from "@/hooks/useUptimeChecker";
 import { Category, Resource } from "@/lib/types";
-import { pageview, event as trackGAEvent } from "@/lib/analytics/gtag";
 
 const FMHY_SIDEBAR_WIKI = [
   { slug: "beginners-guide", name: "Quick Start",             emoji: "📖", isPage: true,     href: "/beginners-guide" },
@@ -78,24 +77,6 @@ interface CategoryCacheData {
 }
 
 let globalDeletedSet: Set<string> | null = null;
-import { fetchLiveVaultBoxes } from "@/lib/vault/vaultLoader";
-
-let globalAllCategoriesCache: Record<string, CategoryCacheData> | null = null;
-let globalFetchPromise: Promise<Record<string, CategoryCacheData>> | null = null;
-
-function loadAllCategoriesCache(): Promise<Record<string, CategoryCacheData>> {
-  if (globalAllCategoriesCache) return Promise.resolve(globalAllCategoriesCache);
-  if (globalFetchPromise) return globalFetchPromise;
-
-  globalFetchPromise = fetchLiveVaultBoxes()
-    .then((data: Record<string, any>) => {
-      globalAllCategoriesCache = data as Record<string, CategoryCacheData>;
-      return globalAllCategoriesCache;
-    })
-    .catch(() => ({}));
-
-  return globalFetchPromise;
-}
 
 export default function CategoryView({
   category,
@@ -144,7 +125,7 @@ export default function CategoryView({
       window.removeEventListener("resize", handleResize);
       clearTimeout(timer);
     };
-  }, [activeCategory.slug, activeBoxes]);
+  }, [activeCategory.slug, activeBoxes.length]);
 
   const [selectedPill, setSelectedPill] = useState<string>("all");
   const [searchQuery, setSearchQuery]   = useState("");
@@ -152,52 +133,16 @@ export default function CategoryView({
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [deletedSet, setDeletedSet] = useState<Set<string>>(() => globalDeletedSet || new Set());
 
-  // Background-preload all category boxes so clicking any sidebar item is instant (0ms)
-  useEffect(() => {
-    loadAllCategoriesCache().then((cache) => {
-      if ((!activeBoxes || activeBoxes.length === 0) && cache[activeCategory.slug]) {
-        setActiveBoxes(cache[activeCategory.slug].boxes);
-      }
-    });
-  }, [activeCategory.slug, activeBoxes]);
-
   // Sync if prop category changes from external navigation
   useEffect(() => {
     setActiveCategory(category);
     if (initialBoxesProp && initialBoxesProp.length > 0) {
       setActiveBoxes(initialBoxesProp);
-    } else if (globalAllCategoriesCache && globalAllCategoriesCache[category.slug]) {
-      setActiveBoxes(globalAllCategoriesCache[category.slug].boxes);
     }
     setSelectedPill("all");
     setSearchQuery("");
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [category.slug, initialBoxesProp]);
-
-  // Support browser Back/Forward buttons instantaneously
-  useEffect(() => {
-    const handlePopState = () => {
-      const match = window.location.pathname.match(/\/categories\/([^/?#]+)/);
-      if (match && match[1]) {
-        const targetSlug = match[1];
-        if (globalAllCategoriesCache && globalAllCategoriesCache[targetSlug]) {
-          const item = globalAllCategoriesCache[targetSlug];
-          setActiveCategory({
-            id: item.id || targetSlug,
-            name: item.name,
-            slug: item.slug,
-            description: item.description,
-          });
-          setActiveBoxes(item.boxes);
-          setSelectedPill("all");
-          setSearchQuery("");
-          window.scrollTo({ top: 0, behavior: "instant" });
-        }
-      }
-    };
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
 
   // Fetch site-config deleted websites once
   useEffect(() => {
@@ -218,66 +163,6 @@ export default function CategoryView({
       })
       .catch(() => {});
   }, []);
-
-  // Instant 0ms category switch handler
-  const handleCategorySwitch = (
-    item: { slug: string; name: string; href: string; isPage?: boolean },
-    e: React.MouseEvent
-  ) => {
-    if (item.isPage) return; // Allow normal link navigation for /beginners-guide
-
-    const cached = globalAllCategoriesCache?.[item.slug];
-    if (cached) {
-      e.preventDefault();
-      setActiveCategory({
-        id: cached.id || item.slug,
-        name: cached.name,
-        slug: cached.slug,
-        description: cached.description,
-      });
-      setActiveBoxes(cached.boxes);
-      setSelectedPill("all");
-      setSearchQuery("");
-      window.history.pushState({ slug: item.slug }, "", item.href);
-      const newTitle = `${cached.name} Directory 2026 — Best Free Tools, Websites & Software | FreeWebStuff`;
-      document.title = newTitle;
-      pageview(item.href, newTitle);
-      trackGAEvent("category_switch", {
-        category_name: cached.name,
-        category_slug: item.slug,
-      });
-      window.scrollTo({ top: 0, behavior: "instant" });
-      return;
-    }
-
-    // If cache not yet resolved, fetch and switch seamlessly without a multi-second page load
-    e.preventDefault();
-    loadAllCategoriesCache().then((cache) => {
-      const target = cache[item.slug];
-      if (target) {
-        setActiveCategory({
-          id: target.id || item.slug,
-          name: target.name,
-          slug: target.slug,
-          description: target.description,
-        });
-        setActiveBoxes(target.boxes);
-        setSelectedPill("all");
-        setSearchQuery("");
-        window.history.pushState({ slug: item.slug }, "", item.href);
-        const newTitle = `${target.name} Directory 2026 — Best Free Tools, Websites & Software | FreeWebStuff`;
-        document.title = newTitle;
-        pageview(item.href, newTitle);
-        trackGAEvent("category_switch", {
-          category_name: target.name,
-          category_slug: item.slug,
-        });
-        window.scrollTo({ top: 0, behavior: "instant" });
-      } else {
-        window.location.href = item.href;
-      }
-    });
-  };
 
   const initialSections: PrivacySection[] = useMemo(() => {
     if (initialSectionsProp && initialSectionsProp.length > 0) return initialSectionsProp;
@@ -427,8 +312,6 @@ export default function CategoryView({
                     key={item.slug} 
                     href={item.href} 
                     prefetch={true}
-                    onClick={(e) => handleCategorySwitch(item, e)}
-                    onMouseEnter={() => loadAllCategoriesCache()}
                     className={`flex items-center gap-2.5 py-2 px-3 rounded-xl text-[13.5px] font-sans tracking-tight transition-all duration-150 truncate cursor-pointer ${
                       isActive
                         ? "bg-sky-500/12 text-sky-300 font-semibold border border-sky-500/25 shadow-sm"
@@ -455,8 +338,6 @@ export default function CategoryView({
                     key={item.slug} 
                     href={item.href} 
                     prefetch={true}
-                    onClick={(e) => handleCategorySwitch(item, e)}
-                    onMouseEnter={() => loadAllCategoriesCache()}
                     className={`flex items-center gap-2.5 py-2 px-3 rounded-xl text-[13.5px] font-sans tracking-tight transition-all duration-150 truncate cursor-pointer ${
                       isActive
                         ? "bg-sky-500/12 text-sky-300 font-semibold border border-sky-500/25 shadow-sm"
@@ -649,7 +530,7 @@ export default function CategoryView({
               </button>
             </div>
           ) : (
-            <div className="columns-1 md:columns-2 xl:columns-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-start">
               {filteredBoxes.map((box) => {
                 const ac = ACCENT_MAP[box.accent] || ACCENT_MAP.sky;
                 return (
@@ -804,7 +685,7 @@ function OfflineBoxWebsiteItem({ site }: { site: WebsiteEntry & { originalBoxTit
   );
 }
 
-function BoxWebsiteList({ box, ac, uptimeMap }: BoxWebsiteListProps) {
+const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }: BoxWebsiteListProps) {
   const [downOpen, setDownOpen] = useState(false);
 
   // If this is the dedicated offline box, render the offline list directly
@@ -949,4 +830,4 @@ function BoxWebsiteList({ box, ac, uptimeMap }: BoxWebsiteListProps) {
       )}
     </div>
   );
-}
+});
