@@ -134,6 +134,13 @@ export default function CategoryView({
     startTransition(() => {
       setSelectedPill(slug);
     });
+    const container = document.getElementById("category-boxes-container");
+    if (container) {
+      const targetTop = container.getBoundingClientRect().top + window.scrollY - 120;
+      if (window.scrollY > targetTop) {
+        window.scrollTo({ top: targetTop, behavior: "smooth" });
+      }
+    }
   };
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -272,27 +279,33 @@ export default function CategoryView({
   const filteredBoxes = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
 
-    // If viewing exclusively offline sites
-    if (selectedPill === "offline-sites") {
-      if (!offlineBox) return [];
-      let websites = offlineBox.websites;
-      if (filterStarredOnly) websites = websites.filter((w) => w.isStarred);
-      if (q) websites = websites.filter((w) => w.name.toLowerCase().includes(q) || offlineBox.title.toLowerCase().includes(q));
-      return [{ ...offlineBox, websites }].filter((b) => b.websites.length > 0);
+    // If a specific subcategory pill is clicked:
+    // Place the selected category at the very TOP, while keeping all other categories below it!
+    let orderedBoxes = cleanTypedBoxes;
+    if (selectedPill !== "all" && selectedPill !== "offline-sites") {
+      const selectedIndex = cleanTypedBoxes.findIndex((b) => b.slug === selectedPill);
+      if (selectedIndex !== -1) {
+        const selected = cleanTypedBoxes[selectedIndex];
+        const others = cleanTypedBoxes.filter((_, i) => i !== selectedIndex);
+        orderedBoxes = [selected, ...others];
+      }
     }
 
-    // Filter through live clean boxes
-    const filtered = cleanTypedBoxes.map((box) => {
-      if (selectedPill !== "all" && box.slug !== selectedPill) return null;
-      if (!filterStarredOnly && !q) return box;
-      let websites = box.websites;
-      if (filterStarredOnly) websites = websites.filter((w) => w.isStarred);
-      if (q) websites = websites.filter((w) => w.name.toLowerCase().includes(q) || box.title.toLowerCase().includes(q));
-      return { ...box, websites };
-    }).filter((box): box is TypedBox => box !== null && (box.websites.length > 0 || (!filterStarredOnly && !q)));
+    const filtered = orderedBoxes
+      .map((box) => {
+        if (!filterStarredOnly && !q) return box;
+        let websites = box.websites;
+        if (filterStarredOnly) websites = websites.filter((w) => w.isStarred);
+        if (q) websites = websites.filter((w) => w.name.toLowerCase().includes(q) || box.title.toLowerCase().includes(q));
+        return { ...box, websites };
+      })
+      .filter((box): box is TypedBox => box !== null && (box.websites.length > 0 || (!filterStarredOnly && !q)));
 
-    // When "all" is selected, also append the offlineBox at the bottom if offline sites exist
-    if (selectedPill === "all" && offlineBox && !filterStarredOnly && !q) {
+    // Include offline box
+    if (offlineBox && !filterStarredOnly && !q) {
+      if (selectedPill === "offline-sites") {
+        return [offlineBox, ...filtered];
+      }
       filtered.push(offlineBox);
     }
 
@@ -534,16 +547,23 @@ export default function CategoryView({
               </button>
             </div>
           ) : (
-            <div className="columns-1 md:columns-2 xl:columns-3 gap-4">
+            <div id="category-boxes-container" className="columns-1 md:columns-2 xl:columns-3 gap-4">
               {filteredBoxes.map((box) => {
                 const ac = ACCENT_MAP[box.accent] || ACCENT_MAP.sky;
+                const isSelected = selectedPill === box.slug;
                 return (
                   <section
                     key={box.id}
                     id={box.slug}
-                    className={`category-box-card break-inside-avoid mb-4 w-full rounded-2xl bg-[#0c0f17] border border-[#1b2130] shadow-md flex flex-col overflow-hidden transition-all duration-200 ${ac.border} ${ac.glow} group hover:shadow-xl hover:border-opacity-70`}
+                    className={`category-box-card break-inside-avoid mb-4 w-full rounded-2xl bg-[#0c0f17] border shadow-md flex flex-col overflow-hidden transition-all duration-200 ${
+                      isSelected
+                        ? "border-sky-500/60 ring-2 ring-sky-500/25 shadow-2xl scale-[1.002]"
+                        : "border-[#1b2130] hover:border-opacity-70"
+                    } ${ac.border} ${ac.glow} group hover:shadow-xl`}
                     style={{
-                      boxShadow: "0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.03)",
+                      boxShadow: isSelected
+                        ? "0 8px 30px -4px rgba(56, 189, 248, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08)"
+                        : "0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.03)",
                     }}
                   >
                     {/* Box Header */}
