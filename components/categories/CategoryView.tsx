@@ -7,6 +7,7 @@ import {
   ArrowUp, 
   Search, 
   X,
+  ChevronLeft,
   ChevronRight,
   WifiOff,
   ChevronDown,
@@ -103,9 +104,47 @@ export default function CategoryView({
   initialSectionsProp,
 }: CategoryViewProps) {
   const mainRef = useRef<HTMLDivElement>(null);
-
+  const pillsRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState<Category>(category);
   const [activeBoxes, setActiveBoxes] = useState<TypedBox[]>(() => initialBoxesProp || []);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkPillsScroll = () => {
+    const el = pillsRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 6);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 6);
+  };
+
+  const slidePills = (direction: "left" | "right") => {
+    if (!pillsRef.current) return;
+    const scrollAmount = Math.max(300, Math.floor(pillsRef.current.clientWidth * 0.65));
+    pillsRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+    setTimeout(checkPillsScroll, 320);
+  };
+
+  const handlePillsWheel = (e: React.WheelEvent) => {
+    if (!pillsRef.current) return;
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      pillsRef.current.scrollLeft += e.deltaY;
+      checkPillsScroll();
+    }
+  };
+
+  useEffect(() => {
+    checkPillsScroll();
+    const handleResize = () => checkPillsScroll();
+    window.addEventListener("resize", handleResize);
+    const timer = setTimeout(checkPillsScroll, 200);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timer);
+    };
+  }, [activeCategory.slug, activeBoxes]);
 
   const [selectedPill, setSelectedPill] = useState<string>("all");
   const [searchQuery, setSearchQuery]   = useState("");
@@ -502,54 +541,99 @@ export default function CategoryView({
             </div>
           </div>
 
-          {/* Type Filter Pills Bar */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 no-scrollbar">
-            <button
-              onClick={() => setSelectedPill("all")}
-              className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-all duration-200 tracking-[-0.01em] ${
-                selectedPill === "all"
-                  ? "bg-white text-zinc-950 font-bold shadow-sm"
-                  : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
-              }`}
-            >
-              All ({cleanTypedBoxes.length})
-            </button>
-            {cleanTypedBoxes.map((box) => {
-              const ac = ACCENT_MAP[box.accent] || ACCENT_MAP.sky;
-              const isActive = selectedPill === box.slug;
-              return (
+          {/* Type Filter Pills Slider Bar */}
+          <div className="relative group/pills mb-4 flex items-center">
+            {/* Left slide button with gradient fade */}
+            {canScrollLeft && (
+              <div className="absolute left-0 top-0 bottom-0 z-20 flex items-center pr-5 bg-gradient-to-r from-[#0B0C0E] via-[#0B0C0E]/95 to-transparent">
                 <button
-                  key={box.id}
-                  onClick={() => setSelectedPill(box.slug)}
-                  className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 tracking-[-0.01em] ${
-                    isActive
-                      ? `${ac.pillActive} font-bold shadow-sm`
-                      : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
-                  }`}
+                  type="button"
+                  onClick={() => slidePills("left")}
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#161c28] hover:bg-[#20283a] border border-white/15 text-white flex items-center justify-center shadow-xl transition-all hover:scale-110 active:scale-95 cursor-pointer"
+                  aria-label="Slide subcategories left"
+                  title="Slide left"
                 >
-                  <span className="text-sm select-none">{box.emoji}</span>
-                  <span>{box.title}</span>
-                  <span className={`text-[10.5px] font-mono font-medium px-1.5 rounded-full ${isActive ? "bg-black/20 text-white/90" : "bg-[#1a2233] text-zinc-500"}`}>
-                    {box.websites.length}
-                  </span>
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
-              );
-            })}
-            {offlineCount > 0 && (
+              </div>
+            )}
+
+            {/* Scrollable Pills Container */}
+            <div
+              ref={pillsRef}
+              onScroll={checkPillsScroll}
+              onWheel={handlePillsWheel}
+              className="flex items-center gap-1.5 overflow-x-auto pb-1.5 no-scrollbar scroll-smooth w-full select-none"
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}
+            >
               <button
-                onClick={() => setSelectedPill("offline-sites")}
-                className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 tracking-[-0.01em] ${
-                  selectedPill === "offline-sites"
-                    ? "bg-red-500 text-white font-bold shadow-sm"
-                    : "bg-red-500/10 text-red-400 hover:text-red-300 hover:bg-red-500/20 border border-red-500/30 font-medium"
+                type="button"
+                onClick={() => setSelectedPill("all")}
+                className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-all duration-200 tracking-[-0.01em] shrink-0 cursor-pointer ${
+                  selectedPill === "all"
+                    ? "bg-white text-zinc-950 font-bold shadow-sm"
+                    : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
                 }`}
               >
-                <span className="text-sm select-none">🔴</span>
-                <span>Offline</span>
-                <span className="text-[10.5px] font-mono font-medium px-1.5 rounded-full bg-red-950/60 text-red-300 border border-red-500/30">
-                  {offlineCount}
-                </span>
+                All ({cleanTypedBoxes.length})
               </button>
+              {cleanTypedBoxes.map((box) => {
+                const ac = ACCENT_MAP[box.accent] || ACCENT_MAP.sky;
+                const isActive = selectedPill === box.slug;
+                return (
+                  <button
+                    key={box.id}
+                    type="button"
+                    onClick={() => setSelectedPill(box.slug)}
+                    className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer ${
+                      isActive
+                        ? `${ac.pillActive} font-bold shadow-sm`
+                        : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
+                    }`}
+                  >
+                    <span className="text-sm select-none">{box.emoji}</span>
+                    <span>{box.title}</span>
+                    <span className={`text-[10.5px] font-mono font-medium px-1.5 rounded-full ${isActive ? "bg-black/20 text-white/90" : "bg-[#1a2233] text-zinc-500"}`}>
+                      {box.websites.length}
+                    </span>
+                  </button>
+                );
+              })}
+              {offlineCount > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedPill("offline-sites")}
+                  className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer ${
+                    selectedPill === "offline-sites"
+                      ? "bg-red-500 text-white font-bold shadow-sm"
+                      : "bg-red-500/10 text-red-400 hover:text-red-300 hover:bg-red-500/20 border border-red-500/30 font-medium"
+                  }`}
+                >
+                  <span className="text-sm select-none">🔴</span>
+                  <span>Offline</span>
+                  <span className="text-[10.5px] font-mono font-medium px-1.5 rounded-full bg-red-950/60 text-red-300 border border-red-500/30">
+                    {offlineCount}
+                  </span>
+                </button>
+              )}
+            </div>
+
+            {/* Right slide button with gradient fade */}
+            {canScrollRight && (
+              <div className="absolute right-0 top-0 bottom-0 z-20 flex items-center pl-5 bg-gradient-to-l from-[#0B0C0E] via-[#0B0C0E]/95 to-transparent">
+                <button
+                  type="button"
+                  onClick={() => slidePills("right")}
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#161c28] hover:bg-[#20283a] border border-white/15 text-white flex items-center justify-center shadow-xl transition-all hover:scale-110 active:scale-95 cursor-pointer"
+                  aria-label="Slide subcategories right"
+                  title="Slide right"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
             )}
           </div>
 
