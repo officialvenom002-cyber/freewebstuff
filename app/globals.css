@@ -87,7 +87,7 @@ body {
 #bg-canvas .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(110px);
+  filter: blur(40px);
   will-change: transform;
   transform: translate3d(0, 0, 0);
   opacity: 0.16;

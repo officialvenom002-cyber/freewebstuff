@@ -346,47 +346,31 @@ const CATEGORIES: CategoryMeta[] = [
   },
 ];
 
-function CategoryCard({ cat }: { cat: CategoryMeta }) {
-  const [hovered, setHovered] = React.useState(false);
+const CategoryCard = React.memo(function CategoryCard({ cat }: { cat: CategoryMeta }) {
   const IconComponent = cat.icon;
 
   return (
     <Link
       href={cat.href}
       prefetch={true}
-      className="group relative flex flex-col justify-between p-4.5 sm:p-5 rounded-2xl border transition-all duration-300 overflow-hidden min-h-[190px] h-full cursor-pointer select-none active:scale-[0.985]"
+      className="group relative flex flex-col justify-between p-4.5 sm:p-5 rounded-2xl border transition-all duration-150 overflow-hidden min-h-[190px] h-full cursor-pointer select-none bg-[linear-gradient(165deg,rgba(16,20,27,0.72)_0%,rgba(10,12,17,0.85)_100%)] hover:bg-[linear-gradient(165deg,rgba(20,25,34,0.95)_0%,rgba(12,15,21,0.98)_100%)] border-white/[0.065] hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] will-change-transform"
       style={{
-        background: hovered 
-          ? "linear-gradient(165deg, rgba(20, 25, 34, 0.95) 0%, rgba(12, 15, 21, 0.98) 100%)" 
-          : "linear-gradient(165deg, rgba(16, 20, 27, 0.72) 0%, rgba(10, 12, 17, 0.85) 100%)",
-        borderColor: hovered ? cat.accentBorder : "rgba(255, 255, 255, 0.065)",
-        transform: hovered ? "translateY(-3px)" : "translateY(0)",
-        boxShadow: hovered 
-          ? `0 14px 28px -6px rgba(0, 0, 0, 0.55), 0 0 0 1px ${cat.accentBorder}`
-          : "0 4px 16px -2px rgba(0, 0, 0, 0.38), inset 0 1px 0 0 rgba(255, 255, 255, 0.04)",
+        ["--accent-color" as string]: cat.accent,
+        ["--accent-border" as string]: cat.accentBorder,
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
       {/* Matte ambient background aura on hover */}
       <div
-        className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl pointer-events-none transition-opacity duration-500"
-        style={{
-          background: cat.accent,
-          opacity: hovered ? 0.15 : 0,
-        }}
+        className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl pointer-events-none opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+        style={{ background: cat.accent }}
       />
 
       {/* Top row: Icon and Clean Counter Badge */}
       <div className="flex items-center justify-between gap-2 relative z-10 pointer-events-none">
         <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center border transition-all duration-300 group-hover:scale-105 shrink-0"
-          style={{
-            background: hovered ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0.03)",
-            borderColor: hovered ? cat.accentBorder : "rgba(255, 255, 255, 0.08)",
-          }}
+          className="w-11 h-11 rounded-xl flex items-center justify-center border border-white/[0.08] bg-white/[0.03] group-hover:bg-white/[0.06] group-hover:scale-105 transition-all duration-150 shrink-0"
         >
-          <IconComponent className="w-5 h-5 transition-transform duration-200" style={{ color: cat.accent }} />
+          <IconComponent className="w-5 h-5 transition-transform duration-150" style={{ color: cat.accent }} />
         </div>
 
         {/* Minimalist count badge */}
@@ -423,20 +407,14 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
         </div>
 
         <div
-          className="w-6 h-6 rounded-full shrink-0 flex items-center justify-center border transition-all duration-200"
-          style={{
-            background: hovered ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.03)",
-            borderColor: hovered ? "rgba(255, 255, 255, 0.18)" : "rgba(255, 255, 255, 0.07)",
-            color: hovered ? "#ffffff" : "#94a3b8",
-            transform: hovered ? "translate(1px, -1px)" : "translate(0, 0)",
-          }}
+          className="w-6 h-6 rounded-full shrink-0 flex items-center justify-center border border-white/[0.07] bg-white/[0.03] group-hover:bg-white/[0.08] group-hover:border-white/[0.2] text-slate-400 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-150"
         >
           <ArrowUpRight className="w-3.5 h-3.5" />
         </div>
       </div>
     </Link>
   );
-}
+});
 
 export default function CategoryGrid() {
   return (

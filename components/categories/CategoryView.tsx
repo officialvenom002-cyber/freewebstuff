@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, useEffect, useRef, useTransition } from "react";
 import Link from "next/link";
 import { 
   ArrowLeft, 
@@ -128,6 +128,14 @@ export default function CategoryView({
   }, [activeCategory.slug, activeBoxes.length]);
 
   const [selectedPill, setSelectedPill] = useState<string>("all");
+  const [isPending, startTransition] = useTransition();
+
+  const handlePillClick = (slug: string) => {
+    startTransition(() => {
+      setSelectedPill(slug);
+    });
+  };
+
   const [searchQuery, setSearchQuery]   = useState("");
   const [filterStarredOnly, setFilterStarredOnly] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -276,6 +284,7 @@ export default function CategoryView({
     // Filter through live clean boxes
     const filtered = cleanTypedBoxes.map((box) => {
       if (selectedPill !== "all" && box.slug !== selectedPill) return null;
+      if (!filterStarredOnly && !q) return box;
       let websites = box.websites;
       if (filterStarredOnly) websites = websites.filter((w) => w.isStarred);
       if (q) websites = websites.filter((w) => w.name.toLowerCase().includes(q) || box.title.toLowerCase().includes(q));
@@ -452,8 +461,8 @@ export default function CategoryView({
             >
               <button
                 type="button"
-                onClick={() => setSelectedPill("all")}
-                className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-all duration-200 tracking-[-0.01em] shrink-0 cursor-pointer ${
+                onClick={() => handlePillClick("all")}
+                className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${
                   selectedPill === "all"
                     ? "bg-white text-zinc-950 font-bold shadow-sm"
                     : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
@@ -468,8 +477,8 @@ export default function CategoryView({
                   <button
                     key={box.id}
                     type="button"
-                    onClick={() => setSelectedPill(box.slug)}
-                    className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer ${
+                    onClick={() => handlePillClick(box.slug)}
+                    className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${
                       isActive
                         ? `${ac.pillActive} font-bold shadow-sm`
                         : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
@@ -486,8 +495,8 @@ export default function CategoryView({
               {offlineCount > 0 && (
                 <button
                   type="button"
-                  onClick={() => setSelectedPill("offline-sites")}
-                  className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer ${
+                  onClick={() => handlePillClick("offline-sites")}
+                  className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${
                     selectedPill === "offline-sites"
                       ? "bg-red-500 text-white font-bold shadow-sm"
                       : "bg-red-500/10 text-red-400 hover:text-red-300 hover:bg-red-500/20 border border-red-500/30 font-medium"
