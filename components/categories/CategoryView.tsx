@@ -80,8 +80,10 @@ let globalDeletedSet: Set<string> | null = null;
 
 function useColumnCount() {
   const [cols, setCols] = useState(3);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const update = () => {
       const w = window.innerWidth;
       if (w < 768) setCols(1);
@@ -93,7 +95,7 @@ function useColumnCount() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  return cols;
+  return mounted ? cols : 3;
 }
 
 export default function CategoryView({
@@ -147,6 +149,11 @@ export default function CategoryView({
 
   const [selectedPill, setSelectedPill] = useState<string>("all");
   const [isPending, startTransition] = useTransition();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handlePillClick = (slug: string) => {
     startTransition(() => {
@@ -164,7 +171,7 @@ export default function CategoryView({
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStarredOnly, setFilterStarredOnly] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [deletedSet, setDeletedSet] = useState<Set<string>>(() => globalDeletedSet || new Set());
+  const [deletedSet, setDeletedSet] = useState<Set<string>>(() => new Set());
 
   // Sync if prop category changes from external navigation
   useEffect(() => {
@@ -179,7 +186,10 @@ export default function CategoryView({
 
   // Fetch site-config deleted websites once
   useEffect(() => {
-    if (globalDeletedSet) return;
+    if (globalDeletedSet) {
+      setDeletedSet(globalDeletedSet);
+      return;
+    }
     fetch("/api/site-config")
       .then((r) => r.json())
       .then((cfg) => {
@@ -250,7 +260,7 @@ export default function CategoryView({
   // Automatically separate live websites and non-live (offline/down) websites
   const { cleanTypedBoxes, offlineBox, offlineCount } = useMemo(() => {
     const offlineSites: (WebsiteEntry & { originalBoxTitle?: string })[] = [];
-    const map = uptimeMap || {};
+    const map = mounted ? (uptimeMap || {}) : {};
 
     const liveOnlyBoxes: TypedBox[] = [];
 
@@ -743,14 +753,21 @@ function OfflineBoxWebsiteItem({ site }: { site: WebsiteEntry & { originalBoxTit
 
 const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }: BoxWebsiteListProps) {
   const [downOpen, setDownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // If this is the dedicated offline box, render the offline list directly
   if (box.slug === "offline-sites") {
     return (
-      <div className="p-3 flex flex-col gap-1.5">
-        {box.websites.map((site) => (
-          <OfflineBoxWebsiteItem key={site.id + site.url} site={site as any} />
-        ))}
+      <div className="flex flex-col">
+        <div className="p-3 flex flex-col gap-1.5">
+          {box.websites.map((site) => (
+            <OfflineBoxWebsiteItem key={site.id + site.url} site={site as any} />
+          ))}
+        </div>
       </div>
     );
   }
@@ -758,7 +775,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
   const { liveSites, downSites } = useMemo(() => {
     const live: typeof box.websites = [];
     const down: typeof box.websites = [];
-    const map = uptimeMap || {};
+    const map = mounted ? (uptimeMap || {}) : {};
     const list = box?.websites || [];
     for (const site of list) {
       if (!site || !site.url) continue;
@@ -766,14 +783,14 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
       else live.push(site);
     }
     return { liveSites: live, downSites: down };
-  }, [box?.websites, uptimeMap]);
+  }, [box?.websites, uptimeMap, mounted]);
 
   const checkingCount = useMemo(
-    () => box.websites.filter((s) => uptimeMap[s.url]?.status === "checking").length,
-    [box.websites, uptimeMap]
+    () => (mounted ? box.websites.filter((s) => uptimeMap[s.url]?.status === "checking").length : 0),
+    [box.websites, uptimeMap, mounted]
   );
 
-  const allChecked = checkingCount === 0 && liveSites.some((s) => uptimeMap[s.url]?.status === "up");
+  const allChecked = mounted && checkingCount === 0 && liveSites.some((s) => uptimeMap[s.url]?.status === "up");
 
   return (
     <div className="flex flex-col">
