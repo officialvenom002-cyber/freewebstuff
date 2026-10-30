@@ -77,6 +77,8 @@ interface CategoryCacheData {
 }
 
 let globalDeletedSet: Set<string> | null = null;
+import { fetchLiveVaultBoxes } from "@/lib/vault/vaultLoader";
+
 let globalAllCategoriesCache: Record<string, CategoryCacheData> | null = null;
 let globalFetchPromise: Promise<Record<string, CategoryCacheData>> | null = null;
 
@@ -84,11 +86,10 @@ function loadAllCategoriesCache(): Promise<Record<string, CategoryCacheData>> {
   if (globalAllCategoriesCache) return Promise.resolve(globalAllCategoriesCache);
   if (globalFetchPromise) return globalFetchPromise;
 
-  globalFetchPromise = fetch("/data/all-categories-boxes.json", { cache: "default" })
-    .then((r) => r.json())
-    .then((data: Record<string, CategoryCacheData>) => {
-      globalAllCategoriesCache = data;
-      return data;
+  globalFetchPromise = fetchLiveVaultBoxes()
+    .then((data: Record<string, any>) => {
+      globalAllCategoriesCache = data as Record<string, CategoryCacheData>;
+      return globalAllCategoriesCache;
     })
     .catch(() => ({}));
 

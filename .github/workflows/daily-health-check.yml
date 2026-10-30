@@ -1,15 +1,15 @@
-name: Daily Website Health & Domain Shift Checker
+name: Autonomous Vault Sync & Dead-Site Pruner
 
 on:
   schedule:
-    # Runs daily at 03:00 UTC (08:30 AM IST)
+    # Runs automatically everyday at 03:00 UTC (08:30 AM IST)
     - cron: '0 3 * * *'
-  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+  workflow_dispatch: # Allows 1-click manual trigger anytime from GitHub Actions tab
 
 jobs:
-  check-sites:
+  vault-engine:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -24,12 +24,12 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline
 
-      - name: Run daily site health & domain migration check
-        run: node scripts/daily-health-check.mjs --update-sources
+      - name: Run Full Auto-Sync & Dead-Site Pruning Pipeline
+        run: node scripts/auto-sync-and-prune.mjs --all
 
-      - name: Commit and push changes if updated
+      - name: Commit and push verified updates (Zero Vercel Load)
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "FreeWebStuff Health Bot"
-          git add public/data/site-health.json lib/db/allCategorySections.json components/categories/CategoryView.tsx
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: auto-update website health & domain shifts [skip ci]" && git push)
+          git config --local user.email "bot@freewebstuff.site"
+          git config --local user.name "FreeWebStuff Vault Engine"
+          git add public/data/ lib/db/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(vault): auto-sync verified tools & prune dead links [skip ci]" && git push)

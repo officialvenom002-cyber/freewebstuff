@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Film,
   Gamepad2,
@@ -19,6 +20,14 @@ import {
   Cpu,
   Code2,
   FolderArchive,
+  GraduationCap,
+  Terminal,
+  HardDrive,
+  FileText,
+  Crosshair,
+  Languages,
+  Boxes,
+  WifiOff,
   ArrowUpRight,
 } from "lucide-react";
 
@@ -36,7 +45,7 @@ interface CategoryMeta {
 }
 
 const CATEGORIES: CategoryMeta[] = [
-  // ── Row 1: Core Entertainment & AI Pillars (High Demand) ──────────────────
+  // ── Row 1: Core Entertainment & AI Pillars ─────────────────────────────────
   {
     id: "video",
     name: "Streaming & Movies",
@@ -86,7 +95,7 @@ const CATEGORIES: CategoryMeta[] = [
     desc: "Frontier LLMs, image generators, AI chatbots, and code assistants",
   },
 
-  // ── Row 2: Downloads, P2P & Security (High Demand) ────────────────────────
+  // ── Row 2: Downloads, P2P & Security ──────────────────────────────────────
   {
     id: "downloading",
     name: "Downloading & Direct",
@@ -136,7 +145,7 @@ const CATEGORIES: CategoryMeta[] = [
     desc: "ReVanced patches, modded APKs, iOS sideloading, and F-Droid apps",
   },
 
-  // ── Row 3: Trending Media & Web Utilities (High Demand) ───────────────────
+  // ── Row 3: Trending Media & Web Utilities ─────────────────────────────────
   {
     id: "social-media-tools",
     name: "Social Media Tools",
@@ -186,7 +195,7 @@ const CATEGORIES: CategoryMeta[] = [
     desc: "Paywall bypassers, user scripts, web scrapers, and browser extensions",
   },
 
-  // ── Row 4: Reading, OS & Developer Toolkits (High Demand) ─────────────────
+  // ── Row 4: Reading, OS & Developer Toolkits ───────────────────────────────
   {
     id: "reading",
     name: "Books, Comics & Manga",
@@ -235,16 +244,126 @@ const CATEGORIES: CategoryMeta[] = [
     accentBorder: "rgba(148,163,184,0.25)",
     desc: "File archivers, batch rename utilities, format converters, and unpackers",
   },
+
+  // ── Row 5: Education, OS & Cloud Ecosystems ───────────────────────────────
+  {
+    id: "educational",
+    name: "Educational & Courses",
+    count: "1,500+",
+    label: "Free Courses & Docs",
+    href: "/categories/educational",
+    icon: GraduationCap,
+    accent: "#10b981",
+    accentBg: "rgba(16,185,129,0.08)",
+    accentBorder: "rgba(16,185,129,0.25)",
+    desc: "University courses, free certifications, textbooks, and interactive coding labs",
+  },
+  {
+    id: "linux-macos",
+    name: "Linux & macOS",
+    count: "490+",
+    label: "Distros & Apps",
+    href: "/categories/linux-macos",
+    icon: Terminal,
+    accent: "#a3e635",
+    accentBg: "rgba(163,230,53,0.08)",
+    accentBorder: "rgba(163,230,53,0.25)",
+    desc: "Linux distributions, macOS apps, package managers, dotfiles, and terminal tools",
+  },
+  {
+    id: "storage",
+    name: "Cloud Storage & Sync",
+    count: "380+",
+    label: "Decentralized & Drives",
+    href: "/categories/storage",
+    icon: HardDrive,
+    accent: "#0ea5e9",
+    accentBg: "rgba(14,165,233,0.08)",
+    accentBorder: "rgba(14,165,233,0.25)",
+    desc: "Encrypted cloud drives, free backup storage, WebDAV hosts, and file sync apps",
+  },
+  {
+    id: "text-tools",
+    name: "Text & Document Tools",
+    count: "410+",
+    label: "Markdown & OCR",
+    href: "/categories/text-tools",
+    icon: FileText,
+    accent: "#f472b6",
+    accentBg: "rgba(244,114,182,0.08)",
+    accentBorder: "rgba(244,114,182,0.25)",
+    desc: "Markdown editors, private pastebins, PDF toolkits, diff checkers, and OCR utilities",
+  },
+
+  // ── Row 6: Gaming Mods, Global & Community Vaults ─────────────────────────
+  {
+    id: "gaming-tools",
+    name: "Gaming Tools & Mods",
+    count: "560+",
+    label: "Launchers & Mods",
+    href: "/categories/gaming-tools",
+    icon: Crosshair,
+    accent: "#fb7185",
+    accentBg: "rgba(251,113,133,0.08)",
+    accentBorder: "rgba(251,113,133,0.25)",
+    desc: "Game trainers, FPS boosters, mod managers, cross-platform launchers, and cheat tables",
+  },
+  {
+    id: "non-english",
+    name: "Non-English Vaults",
+    count: "920+",
+    label: "Global Communities",
+    href: "/categories/non-english",
+    icon: Languages,
+    accent: "#2dd4bf",
+    accentBg: "rgba(45,212,191,0.08)",
+    accentBorder: "rgba(45,212,191,0.25)",
+    desc: "Foreign language torrent trackers, localized streaming hubs, and international archives",
+  },
+  {
+    id: "misc",
+    name: "Miscellaneous & Vaults",
+    count: "640+",
+    label: "Web Artifacts & Fun",
+    href: "/categories/misc",
+    icon: Boxes,
+    accent: "#e879f9",
+    accentBg: "rgba(232,121,249,0.08)",
+    accentBorder: "rgba(232,121,249,0.25)",
+    desc: "Internet museums, weird web projects, interactive simulations, and quirky web vaults",
+  },
+  {
+    id: "offline",
+    name: "Offline Archives & Mirrors",
+    count: "250+",
+    label: "Survival & Kiwix",
+    href: "/categories/offline",
+    icon: WifiOff,
+    accent: "#ef4444",
+    accentBg: "rgba(239,68,68,0.08)",
+    accentBorder: "rgba(239,68,68,0.25)",
+    desc: "Kiwix ZIM archives, Wikipedia offline dumps, emergency medical guides, and survival vaults",
+  },
 ];
 
 function CategoryCard({ cat }: { cat: CategoryMeta }) {
+  const router = useRouter();
   const [hovered, setHovered] = React.useState(false);
   const IconComponent = cat.icon;
+
+  const handleClick = (e: React.MouseEvent) => {
+    // If middle click or Cmd/Ctrl/Shift click, allow browser default new tab
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    router.push(cat.href);
+  };
 
   return (
     <Link
       href={cat.href}
-      className="group relative flex flex-col justify-between p-4.5 sm:p-5 rounded-2xl border transition-all duration-300 overflow-hidden min-h-[190px] h-full"
+      prefetch={false}
+      onClick={handleClick}
+      className="group relative flex flex-col justify-between p-4.5 sm:p-5 rounded-2xl border transition-all duration-300 overflow-hidden min-h-[190px] h-full cursor-pointer select-none active:scale-[0.985]"
       style={{
         background: hovered 
           ? "linear-gradient(165deg, rgba(20, 25, 34, 0.95) 0%, rgba(12, 15, 21, 0.98) 100%)" 
@@ -268,7 +387,7 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
       />
 
       {/* Top row: Icon and Clean Counter Badge */}
-      <div className="flex items-center justify-between gap-2 relative z-10">
+      <div className="flex items-center justify-between gap-2 relative z-10 pointer-events-none">
         <div
           className="w-11 h-11 rounded-xl flex items-center justify-center border transition-all duration-300 group-hover:scale-105 shrink-0"
           style={{
@@ -279,7 +398,7 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
           <IconComponent className="w-5 h-5 transition-transform duration-200" style={{ color: cat.accent }} />
         </div>
 
-        {/* Minimalist count badge - no tacky viral tags */}
+        {/* Minimalist count badge */}
         <span
           className="text-[11px] font-mono text-slate-400 bg-white/[0.03] px-2.5 py-1 rounded-full border border-white/[0.06] tracking-tight group-hover:border-white/10 transition-colors shrink-0"
         >
@@ -288,7 +407,7 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
       </div>
 
       {/* Middle row: Title & Description */}
-      <div className="my-2.5 relative z-10 min-w-0">
+      <div className="my-2.5 relative z-10 min-w-0 pointer-events-none">
         <h3 
           className="font-heading font-bold text-[15px] sm:text-[15.5px] text-slate-100 leading-snug group-hover:text-white transition-colors truncate"
           title={cat.name}
@@ -301,7 +420,7 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
       </div>
 
       {/* Bottom row: Verified category label & smooth arrow button */}
-      <div className="flex items-center justify-between pt-2.5 border-t border-white/[0.05] relative z-10 gap-2">
+      <div className="flex items-center justify-between pt-2.5 border-t border-white/[0.05] relative z-10 gap-2 pointer-events-none">
         <div className="flex items-center gap-1.5 min-w-0 pr-1">
           <span
             className="w-1.5 h-1.5 rounded-full shrink-0"
@@ -330,24 +449,10 @@ function CategoryCard({ cat }: { cat: CategoryMeta }) {
 
 export default function CategoryGrid() {
   return (
-    <>
-      {/* 4 Cards per column/row layout (4x4 matrix = 16 high-demand categories) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {CATEGORIES.map((cat) => (
-          <CategoryCard key={cat.id} cat={cat} />
-        ))}
-      </div>
-
-      {/* "All categories" directory link */}
-      <div className="flex justify-center mt-10">
-        <Link
-          href="/categories"
-          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-300 bg-white/[0.03] border border-white/[0.08] hover:border-white/20 hover:text-white px-6 py-3 rounded-xl hover:bg-white/[0.06] transition-all duration-200 shadow-sm"
-        >
-          <span>Explore all 24+ full category archives</span>
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </Link>
-      </div>
-    </>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {CATEGORIES.map((cat) => (
+        <CategoryCard key={cat.id} cat={cat} />
+      ))}
+    </div>
   );
 }

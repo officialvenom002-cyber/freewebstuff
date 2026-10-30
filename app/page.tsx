@@ -8,7 +8,6 @@ import SearchToggle from "@/components/search/SearchToggle";
 import ThemeSelector from "@/components/ui/ThemeSelector";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import Footer from "@/components/layout/Footer";
-import AdsterraBanner from "@/components/ads/AdsterraBanner";
 import { 
   ChevronDown,
   Search,
@@ -337,8 +336,6 @@ export default function HomePage() {
 
       </main>
 
-      {/* Sponsored Banner */}
-      <AdsterraBanner />
 
       {/* Global Clean Professional Footer */}
       <Footer />

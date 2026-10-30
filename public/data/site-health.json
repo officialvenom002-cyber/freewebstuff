@@ -1,312 +1,102 @@
 {
-  "generatedAt": "2026-09-25T05:48:49.698Z",
-  "timestamp": 1790315329701,
-  "totalChecked": 50,
+  "generatedAt": "2026-10-30T06:45:33.833Z",
+  "timestamp": 1793342733837,
+  "totalChecked": 15,
   "stats": {
-    "up": 39,
-    "down": 11,
-    "shifted": 0
+    "up": 15,
+    "dead": 0,
+    "shifted": 1
   },
   "sites": {
-    "https://www.reddit.com/r/FREEMEDIAHECKYEAH/wiki/internet-tools/#wiki_.25B7_redirect_bypass": {
+    "https://www.reddit.com/r/SponsorBlock": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 368,
-      "checkedAt": 1790315322932
-    },
-    "https://www.reddit.com/r/FREEMEDIAHECKYEAH/wiki/audio/#wiki_.25BA_spotify_tools": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 364,
-      "checkedAt": 1790315322937
-    },
-    "https://www.reddit.com/r/FREEMEDIAHECKYEAH/wiki/social-media#wiki_.25B7_twitch_adblockers": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 605,
-      "checkedAt": 1790315323154
-    },
-    "https://www.reddit.com/r/FREEMEDIAHECKYEAH/wiki/internet-tools#wiki_.25B7_paywall_bypass": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 543,
-      "checkedAt": 1790315323156
-    },
-    "https://codeberg.org/AllPurposeMat/Disblock-Origin": {
-      "status": "up",
-      "httpStatus": 403,
-      "latency": 739,
-      "checkedAt": 1790315323345
-    },
-    "https://sponsor.ajay.app/": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 972,
-      "checkedAt": 1790315323503
-    },
-    "https://www.bsbsb.top/": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 517,
-      "checkedAt": 1790315323113
-    },
-    "https://github.com/mchangrh/sb.js": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 781,
-      "checkedAt": 1790315323319
-    },
-    "https://raw.githubusercontent.com/DandelionSprout/adfilt/refs/heads/master/LegitimateURLShortener.txt": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 308,
-      "checkedAt": 1790315322941
-    },
-    "https://github.com/gorhill/uBlock": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 851,
-      "checkedAt": 1790315323394
-    },
-    "https://github.com/schomery/popup-blocker": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 766,
-      "checkedAt": 1790315323324
-    },
-    "https://github.com/NicolaeNMV/BehindTheOverlay": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 782,
-      "checkedAt": 1790315323364
-    },
-    "https://github.com/fmhy/FMHYFilterlist": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 1095,
-      "checkedAt": 1790315323724
+      "latency": 1212,
+      "updatedUrl": null
     },
     "https://github.com/uBlockOrigin/uAssets/issues": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 1137,
-      "checkedAt": 1790315323462
+      "latency": 1645,
+      "updatedUrl": null
     },
-    "https://github.com/laylavish/uBlockOrigin-HUGE-AI-Blocklist": {
+    "https://sponsor.ajay.app/": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 778,
-      "checkedAt": 1790315323398
+      "latency": 1396,
+      "updatedUrl": null
     },
-    "https://github.com/hagezi/dns-blocklists": {
+    "https://github.com/easylist/easylist/issues": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 830,
-      "checkedAt": 1790315323457
+      "latency": 1432,
+      "updatedUrl": null
     },
-    "https://github.com/alvi-se/ai-ublock-blacklist": {
+    "https://x.com/SponsorBlock": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 765,
-      "checkedAt": 1790315323406
+      "latency": 1595,
+      "updatedUrl": null
     },
-    "https://hblock.molinero.dev/": {
+    "https://github.com/ajayyy/SponsorBlock": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 606,
-      "checkedAt": 1790315323222
+      "latency": 1589,
+      "updatedUrl": null
     },
-    "https://filterlists.com/": {
+    "https://sb.ltn.fi/": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 778,
-      "checkedAt": 1790315323414
+      "latency": 1606,
+      "updatedUrl": null
     },
-    "https://github.com/anudeepND/blacklist": {
+    "https://github.com/mchangrh/sb.js": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 830,
-      "checkedAt": 1790315323453
+      "latency": 1639,
+      "updatedUrl": null
     },
-    "https://libredns.gr/": {
+    "https://github.com/gorhill/uBlock": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 2651,
-      "checkedAt": 1790315326381
+      "latency": 1638,
+      "updatedUrl": null
     },
-    "https://pi-hole.net/": {
+    "https://github.com/gabe565/CastSponsorSkip": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 3665,
-      "checkedAt": 1790315327400
+      "latency": 1702,
+      "updatedUrl": null
     },
-    "https://www.reddit.com/r/FREEMEDIAHECKYEAH/wiki/storage#wiki_free_dns_resolvers": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4011,
-      "checkedAt": 1790315327756
-    },
-    "https://doh.tiar.app/": {
+    "https://github.com/ajayyy/SponsorBlock/wiki/3rd-Party-Ports": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 1902,
-      "checkedAt": 1790315325651
+      "latency": 1770,
+      "updatedUrl": null
     },
-    "https://diversion.ch/": {
+    "https://discord.gg/SponsorBlock": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 2674,
-      "checkedAt": 1790315326399
+      "latency": 1863,
+      "updatedUrl": "https://discord.com/invite/SponsorBlock"
     },
-    "https://yogadns.com/": {
+    "https://greasyfork.org/en/scripts/453320": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 3525,
-      "checkedAt": 1790315327264
+      "latency": 2022,
+      "updatedUrl": null
     },
-    "https://nextdns.io": {
+    "https://reports.adguard.com/new_issue.html": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 3325,
-      "checkedAt": 1790315327080
+      "latency": 2086,
+      "updatedUrl": null
     },
-    "https://adguard.com/en/adguard-home/overview.html": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4011,
-      "checkedAt": 1790315327754
-    },
-    "https://dnsspeedtest.online/": {
+    "https://github.com/uBlockOrigin/uAssets/discussions/27472": {
       "status": "up",
       "httpStatus": 200,
-      "latency": 3049,
-      "checkedAt": 1790315326801
-    },
-    "https://dnswarden.com/": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 3121,
-      "checkedAt": 1790315326881
-    },
-    "https://firebog.net/": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 2547,
-      "checkedAt": 1790315326318
-    },
-    "https://nxfilter.org/": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4004,
-      "checkedAt": 1790315327768
-    },
-    "https://technitium.com/dns": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4002,
-      "checkedAt": 1790315327770
-    },
-    "https://tblock.me/": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4008,
-      "checkedAt": 1790315327781
-    },
-    "https://mullvad.net/en/help/dns-over-https-and-dns-over-tls/": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4004,
-      "checkedAt": 1790315327782
-    },
-    "https://rethinkdns.com/configure": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4010,
-      "checkedAt": 1790315327791
-    },
-    "https://adguard-dns.io/": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4008,
-      "checkedAt": 1790315327791
-    },
-    "https://adguard-dns.io/kb/general/dns-providers/": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4006,
-      "checkedAt": 1790315327792
-    },
-    "https://0xerr0r.github.io/blocky/latest/": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4004,
-      "checkedAt": 1790315327793
-    },
-    "https://phishing.army/": {
-      "status": "down",
-      "httpStatus": 0,
-      "latency": 4000,
-      "checkedAt": 1790315327793
-    },
-    "https://controld.com/free-dns": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 501,
-      "checkedAt": 1790315328294
-    },
-    "https://o0.pages.dev/": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 747,
-      "checkedAt": 1790315328568
-    },
-    "https://github.com/hectorm/hblock": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 1008,
-      "checkedAt": 1790315328831
-    },
-    "https://www.spamhaus.org/blocklists/": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 1044,
-      "checkedAt": 1790315328843
-    },
-    "https://github.com/StevenBlack/hosts": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 1033,
-      "checkedAt": 1790315328849
-    },
-    "https://github.com/neodevpro/neodevhost": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 1070,
-      "checkedAt": 1790315328896
-    },
-    "https://github.com/T145/black-mirror": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 1138,
-      "checkedAt": 1790315328948
-    },
-    "https://github.com/durablenapkin/scamblocklist": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 1224,
-      "checkedAt": 1790315329057
-    },
-    "https://oisd.nl/": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 1591,
-      "checkedAt": 1790315329396
-    },
-    "https://www.bleepingcomputer.com/forums/f/22/virus-trojan-spyware-and-malware-removal-help/": {
-      "status": "up",
-      "httpStatus": 200,
-      "latency": 1861,
-      "checkedAt": 1790315329696
+      "latency": 2235,
+      "updatedUrl": null
     }
   }
 }

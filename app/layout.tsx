@@ -110,6 +110,9 @@ export const metadata: Metadata = {
     icon: "/favicon.png",
     apple: "/logo.png",
   },
+  other: {
+    "profiton-domain-verification": "dafcd0cc567b32a5c2edfa4c4ca9c91a4322c37c2ef03b6cb1545adbb8a5921f",
+  },
 };
 
 export default function RootLayout({
@@ -126,6 +129,7 @@ export default function RootLayout({
       className={`dark ${jakarta.variable} ${mono.variable}`}
     >
       <head>
+        <meta name="profiton-domain-verification" content="dafcd0cc567b32a5c2edfa4c4ca9c91a4322c37c2ef03b6cb1545adbb8a5921f" />
         {/* High-speed CDN preconnect for maximum fill rate & low latency CPM */}
         <Script
           strategy="afterInteractive"
