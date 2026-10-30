@@ -13,7 +13,6 @@ const NAV_LINKS = [
   { label: "Explore", href: "/search" },
   { label: "Categories", href: "/categories" },
   { label: "Trending", href: "/trending" },
-  { label: "Collections", href: "/collections" },
 ];
 
 export default function Header() {
