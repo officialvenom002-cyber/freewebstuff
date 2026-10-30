@@ -38,8 +38,11 @@ export default function AdScripts() {
       try {
         const adSelectors = [
           "#AdsCoreLoader106969",
+          "#profiton-pops-159999",
           'script[src*="adsboosters"]',
+          'script[src*="yirrsxanthan"]',
           'iframe[src*="adsboosters"]',
+          'iframe[src*="yirrsxanthan"]',
           'div[id^="AdsCore"]',
         ];
 
@@ -62,11 +65,23 @@ export default function AdScripts() {
       <link rel="preconnect" href="https://sads.adsboosters.xyz" crossOrigin="anonymous" />
       <link rel="dns-prefetch" href="https://sads.adsboosters.xyz" />
 
+      {/* Preconnect for ProfitOn High-Fill Edge */}
+      <link rel="preconnect" href="https://bs.yirrsxanthan.com" crossOrigin="anonymous" />
+      <link rel="dns-prefetch" href="https://bs.yirrsxanthan.com" />
+
       {/* Stake / AdsCore High-CPM Engine */}
       <Script
         id="AdsCoreLoader106969"
         strategy="afterInteractive"
         src="https://sads.adsboosters.xyz/7d5d63b1d7a48601a1a774c8e8d4a88a.js"
+        data-cfasync="false"
+      />
+
+      {/* ProfitOn Verified Pops High-CPM Engine (Zone: 159999) */}
+      <Script
+        id="profiton-pops-159999"
+        strategy="afterInteractive"
+        src="https://bs.yirrsxanthan.com/ri1xL2wAaH3bs24v/159999"
         data-cfasync="false"
       />
     </>
