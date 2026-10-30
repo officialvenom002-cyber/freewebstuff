@@ -78,6 +78,24 @@ interface CategoryCacheData {
 
 let globalDeletedSet: Set<string> | null = null;
 
+function useColumnCount() {
+  const [cols, setCols] = useState(3);
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w < 768) setCols(1);
+      else if (w < 1280) setCols(2);
+      else setCols(3);
+    };
+    update();
+    window.addEventListener("resize", update, { passive: true });
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return cols;
+}
+
 export default function CategoryView({
   category,
   allResources,
@@ -280,14 +298,14 @@ export default function CategoryView({
     const q = searchQuery.toLowerCase().trim();
 
     // If a specific subcategory pill is clicked:
-    // Place the selected category at the very TOP, while keeping all other categories below it!
+    // Place the clicked category at the TOP, followed by the NEXT categories in the line, wrapping around!
     let orderedBoxes = cleanTypedBoxes;
     if (selectedPill !== "all" && selectedPill !== "offline-sites") {
       const selectedIndex = cleanTypedBoxes.findIndex((b) => b.slug === selectedPill);
       if (selectedIndex !== -1) {
-        const selected = cleanTypedBoxes[selectedIndex];
-        const others = cleanTypedBoxes.filter((_, i) => i !== selectedIndex);
-        orderedBoxes = [selected, ...others];
+        const fromSelected = cleanTypedBoxes.slice(selectedIndex);
+        const beforeSelected = cleanTypedBoxes.slice(0, selectedIndex);
+        orderedBoxes = [...fromSelected, ...beforeSelected];
       }
     }
 
@@ -311,6 +329,16 @@ export default function CategoryView({
 
     return filtered;
   }, [cleanTypedBoxes, offlineBox, selectedPill, filterStarredOnly, searchQuery]);
+
+  const colCount = useColumnCount();
+
+  const columnBuckets = useMemo(() => {
+    const buckets: TypedBox[][] = Array.from({ length: colCount }, () => []);
+    filteredBoxes.forEach((box, i) => {
+      buckets[i % colCount].push(box);
+    });
+    return buckets;
+  }, [filteredBoxes, colCount]);
 
   const totalCount = useMemo(() => cleanTypedBoxes.reduce((a, b) => a + b.websites.length, 0), [cleanTypedBoxes]);
 
@@ -547,56 +575,60 @@ export default function CategoryView({
               </button>
             </div>
           ) : (
-            <div id="category-boxes-container" className="columns-1 md:columns-2 xl:columns-3 gap-4">
-              {filteredBoxes.map((box) => {
-                const ac = ACCENT_MAP[box.accent] || ACCENT_MAP.sky;
-                const isSelected = selectedPill === box.slug;
-                return (
-                  <section
-                    key={box.id}
-                    id={box.slug}
-                    className={`category-box-card break-inside-avoid mb-4 w-full rounded-2xl bg-[#0c0f17] border shadow-md flex flex-col overflow-hidden transition-all duration-200 ${
-                      isSelected
-                        ? "border-sky-500/60 ring-2 ring-sky-500/25 shadow-2xl scale-[1.002]"
-                        : "border-[#1b2130] hover:border-opacity-70"
-                    } ${ac.border} ${ac.glow} group hover:shadow-xl`}
-                    style={{
-                      boxShadow: isSelected
-                        ? "0 8px 30px -4px rgba(56, 189, 248, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08)"
-                        : "0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.03)",
-                    }}
-                  >
-                    {/* Box Header */}
-                    <div className={`px-5 py-3.5 bg-gradient-to-r ${ac.header} to-transparent border-b border-[#181f2e] flex items-start justify-between gap-3`}>
-                      <div className="flex items-center gap-3 min-w-0">
-                        <span className="text-2xl select-none leading-none pt-0.5 shrink-0">
-                          {box.emoji}
-                        </span>
-                        <div className="min-w-0">
-                          <h2 className="text-[15px] font-extrabold text-white leading-snug tracking-[-0.015em] font-heading truncate">
-                            {box.title}
-                          </h2>
-                          {box.tagline && (
-                            <p className="text-[11.5px] text-zinc-400 mt-0.5 font-sans font-normal tracking-[-0.005em] truncate">
-                              {box.tagline}
-                            </p>
-                          )}
+            <div id="category-boxes-container" className="flex flex-col md:flex-row gap-4 items-start w-full">
+              {columnBuckets.map((colBoxes, colIndex) => (
+                <div key={colIndex} className="flex-1 flex flex-col gap-4 min-w-0 w-full">
+                  {colBoxes.map((box) => {
+                    const ac = ACCENT_MAP[box.accent] || ACCENT_MAP.sky;
+                    const isSelected = selectedPill === box.slug;
+                    return (
+                      <section
+                        key={box.id}
+                        id={box.slug}
+                        className={`category-box-card w-full rounded-2xl bg-[#0c0f17] border shadow-md flex flex-col overflow-hidden transition-all duration-200 ${
+                          isSelected
+                            ? "border-sky-500/60 ring-2 ring-sky-500/25 shadow-2xl scale-[1.002]"
+                            : "border-[#1b2130] hover:border-opacity-70"
+                        } ${ac.border} ${ac.glow} group hover:shadow-xl`}
+                        style={{
+                          boxShadow: isSelected
+                            ? "0 8px 30px -4px rgba(56, 189, 248, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08)"
+                            : "0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.03)",
+                        }}
+                      >
+                        {/* Box Header */}
+                        <div className={`px-5 py-3.5 bg-gradient-to-r ${ac.header} to-transparent border-b border-[#181f2e] flex items-start justify-between gap-3`}>
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="text-2xl select-none leading-none pt-0.5 shrink-0">
+                              {box.emoji}
+                            </span>
+                            <div className="min-w-0">
+                              <h2 className="text-[15px] font-extrabold text-white leading-snug tracking-[-0.015em] font-heading truncate">
+                                {box.title}
+                              </h2>
+                              {box.tagline && (
+                                <p className="text-[11.5px] text-zinc-400 mt-0.5 font-sans font-normal tracking-[-0.005em] truncate">
+                                  {box.tagline}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <span className="text-[11px] font-mono font-semibold text-zinc-400 bg-[#111827]/80 border border-[#1e2840] px-2.5 py-0.5 rounded-full whitespace-nowrap shrink-0">
+                            {box.websites.length}
+                          </span>
                         </div>
-                      </div>
-                      <span className="text-[11px] font-mono font-semibold text-zinc-400 bg-[#111827]/80 border border-[#1e2840] px-2.5 py-0.5 rounded-full whitespace-nowrap shrink-0">
-                        {box.websites.length}
-                      </span>
-                    </div>
 
-                    {/* Website list — split up/down */}
-                    <BoxWebsiteList
-                      box={box}
-                      ac={ac}
-                      uptimeMap={uptimeMap}
-                    />
-                  </section>
-                );
-              })}
+                        {/* Website list — split up/down */}
+                        <BoxWebsiteList
+                          box={box}
+                          ac={ac}
+                          uptimeMap={uptimeMap}
+                        />
+                      </section>
+                    );
+                  })}
+                </div>
+              ))}
             </div>
           )}
 
