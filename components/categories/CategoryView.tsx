@@ -2,10 +2,10 @@
 
 import React, { useState, useMemo, useEffect, useRef, useTransition } from "react";
 import Link from "next/link";
-import { 
-  ArrowLeft, 
-  ArrowUp, 
-  Search, 
+import {
+  ArrowLeft,
+  ArrowUp,
+  Search,
   X,
   ChevronLeft,
   ChevronRight,
@@ -18,45 +18,45 @@ import { useUptimeChecker, SiteResult, setSiteHealthOverride } from "@/hooks/use
 import { Category, Resource } from "@/lib/types";
 
 const FMHY_SIDEBAR_WIKI = [
-  { slug: "beginners-guide", name: "Quick Start",             emoji: "📖", isPage: true,     href: "/beginners-guide" },
-  { slug: "privacy",         name: "Adblocking / Privacy",    emoji: "🛡️", isCategory: true, href: "/categories/privacy" },
-  { slug: "ai",              name: "Artificial Intelligence",  emoji: "🤖", isCategory: true, href: "/categories/ai" },
-  { slug: "video",           name: "Movies / TV / Anime",     emoji: "🎬", isCategory: true, href: "/categories/video" },
-  { slug: "audio",           name: "Music / Podcasts / Radio",emoji: "🎵", isCategory: true, href: "/categories/audio" },
-  { slug: "gaming",          name: "Gaming / Emulation",      emoji: "🎮", isCategory: true, href: "/categories/gaming" },
-  { slug: "reading",         name: "Books / Comics / Manga",  emoji: "📚", isCategory: true, href: "/categories/reading" },
-  { slug: "downloading",     name: "Downloading",             emoji: "💾", isCategory: true, href: "/categories/downloading" },
-  { slug: "torrenting",      name: "Torrenting",              emoji: "🌊", isCategory: true, href: "/categories/torrenting" },
-  { slug: "educational",     name: "Educational",             emoji: "🎓", isCategory: true, href: "/categories/educational" },
-  { slug: "mobile",          name: "Android / iOS",           emoji: "📱", isCategory: true, href: "/categories/mobile" },
-  { slug: "linux-macos",     name: "Linux / macOS",           emoji: "🐧", isCategory: true, href: "/categories/linux-macos" },
-  { slug: "non-english",     name: "Non-English",             emoji: "🌐", isCategory: true, href: "/categories/non-english" },
-  { slug: "misc",            name: "Miscellaneous",           emoji: "✨", isCategory: true, href: "/categories/misc" },
-  { slug: "offline",         name: "Offline Websites",        emoji: "🔴", isPage: true,     href: "/categories/offline" },
+  { slug: "beginners-guide", name: "Quick Start", emoji: "📖", isPage: true, href: "/beginners-guide" },
+  { slug: "privacy", name: "Adblocking / Privacy", emoji: "🛡️", isCategory: true, href: "/categories/privacy" },
+  { slug: "ai", name: "Artificial Intelligence", emoji: "🤖", isCategory: true, href: "/categories/ai" },
+  { slug: "video", name: "Movies / TV / Anime", emoji: "🎬", isCategory: true, href: "/categories/video" },
+  { slug: "audio", name: "Music / Podcasts / Radio", emoji: "🎵", isCategory: true, href: "/categories/audio" },
+  { slug: "gaming", name: "Gaming / Emulation", emoji: "🎮", isCategory: true, href: "/categories/gaming" },
+  { slug: "reading", name: "Books / Comics / Manga", emoji: "📚", isCategory: true, href: "/categories/reading" },
+  { slug: "downloading", name: "Downloading", emoji: "💾", isCategory: true, href: "/categories/downloading" },
+  { slug: "torrenting", name: "Torrenting", emoji: "🌊", isCategory: true, href: "/categories/torrenting" },
+  { slug: "educational", name: "Educational", emoji: "🎓", isCategory: true, href: "/categories/educational" },
+  { slug: "mobile", name: "Android / iOS", emoji: "📱", isCategory: true, href: "/categories/mobile" },
+  { slug: "linux-macos", name: "Linux / macOS", emoji: "🐧", isCategory: true, href: "/categories/linux-macos" },
+  { slug: "non-english", name: "Non-English", emoji: "🌐", isCategory: true, href: "/categories/non-english" },
+  { slug: "misc", name: "Miscellaneous", emoji: "✨", isCategory: true, href: "/categories/misc" },
+  { slug: "offline", name: "Offline Websites", emoji: "🔴", isPage: true, href: "/categories/offline" },
 ];
 
 const FMHY_SIDEBAR_TOOLS = [
-  { slug: "system-tools",       name: "System Tools",       emoji: "🛠️", href: "/categories/system-tools" },
-  { slug: "file-tools",         name: "File Tools",         emoji: "📁", href: "/categories/file-tools" },
-  { slug: "internet-tools",     name: "Internet Tools",     emoji: "🌐", href: "/categories/internet-tools" },
+  { slug: "system-tools", name: "System Tools", emoji: "🛠️", href: "/categories/system-tools" },
+  { slug: "file-tools", name: "File Tools", emoji: "📁", href: "/categories/file-tools" },
+  { slug: "internet-tools", name: "Internet Tools", emoji: "🌐", href: "/categories/internet-tools" },
   { slug: "social-media-tools", name: "Social Media Tools", emoji: "💬", href: "/categories/social-media-tools" },
-  { slug: "text-tools",         name: "Text Tools",         emoji: "📝", href: "/categories/text-tools" },
-  { slug: "gaming-tools",       name: "Gaming Tools",       emoji: "🕹️", href: "/categories/gaming-tools" },
-  { slug: "image-tools",        name: "Image Tools",        emoji: "🖼️", href: "/categories/image-tools" },
-  { slug: "video-tools",        name: "Video Tools",        emoji: "🎥", href: "/categories/video-tools" },
-  { slug: "developer-tools",    name: "Developer Tools",    emoji: "💻", href: "/categories/developer-tools" },
-  { slug: "storage",            name: "Storage",            emoji: "☁️", href: "/categories/storage" },
+  { slug: "text-tools", name: "Text Tools", emoji: "📝", href: "/categories/text-tools" },
+  { slug: "gaming-tools", name: "Gaming Tools", emoji: "🕹️", href: "/categories/gaming-tools" },
+  { slug: "image-tools", name: "Image Tools", emoji: "🖼️", href: "/categories/image-tools" },
+  { slug: "video-tools", name: "Video Tools", emoji: "🎥", href: "/categories/video-tools" },
+  { slug: "developer-tools", name: "Developer Tools", emoji: "💻", href: "/categories/developer-tools" },
+  { slug: "storage", name: "Storage", emoji: "☁️", href: "/categories/storage" },
 ];
 
 export type { PrivacySectionItem, PrivacySection, WebsiteEntry, TypedBox } from "@/lib/categories/boxExtractor";
-import { 
-  PrivacySectionItem, 
-  PrivacySection, 
-  WebsiteEntry, 
-  TypedBox, 
-  ACCENT_MAP, 
-  ACCENT_CYCLE, 
-  buildTypedBoxes 
+import {
+  PrivacySectionItem,
+  PrivacySection,
+  WebsiteEntry,
+  TypedBox,
+  ACCENT_MAP,
+  ACCENT_CYCLE,
+  buildTypedBoxes
 } from "@/lib/categories/boxExtractor";
 
 interface CategoryViewProps {
@@ -136,7 +136,7 @@ export default function CategoryView({
     });
   };
 
-  const [searchQuery, setSearchQuery]   = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [filterStarredOnly, setFilterStarredOnly] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [deletedSet, setDeletedSet] = useState<Set<string>>(() => globalDeletedSet || new Set());
@@ -169,7 +169,7 @@ export default function CategoryView({
           setDeletedSet(s);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const initialSections: PrivacySection[] = useMemo(() => {
@@ -308,7 +308,7 @@ export default function CategoryView({
 
         {/* ── LEFT SIDEBAR ── */}
         <aside className="w-60 xl:w-68 shrink-0 hidden lg:flex flex-col gap-3.5 sticky top-20 z-10 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar pb-4">
-          
+
           <div className="bg-[#0b0e15] border border-[#1c2132] rounded-2xl p-3.5 shadow-lg">
             <p className="text-[10.5px] font-bold text-zinc-500 uppercase tracking-[0.12em] px-1 pb-2.5 mb-1.5 border-b border-[#1a2030] font-mono">
               📋 Wiki Directory
@@ -317,15 +317,14 @@ export default function CategoryView({
               {FMHY_SIDEBAR_WIKI.map((item) => {
                 const isActive = item.isCategory && activeCategory.slug === item.slug;
                 return (
-                  <Link 
-                    key={item.slug} 
-                    href={item.href} 
+                  <Link
+                    key={item.slug}
+                    href={item.href}
                     prefetch={true}
-                    className={`flex items-center gap-2.5 py-2 px-3 rounded-xl text-[13.5px] font-sans tracking-tight transition-all duration-150 truncate cursor-pointer ${
-                      isActive
+                    className={`flex items-center gap-2.5 py-2 px-3 rounded-xl text-[13.5px] font-sans tracking-tight transition-all duration-150 truncate cursor-pointer ${isActive
                         ? "bg-sky-500/12 text-sky-300 font-semibold border border-sky-500/25 shadow-sm"
                         : "text-zinc-400 hover:text-zinc-100 hover:bg-white/5 font-medium"
-                    }`}
+                      }`}
                   >
                     <span className="text-sm select-none">{item.emoji}</span>
                     <span className="truncate">{item.name}</span>
@@ -343,15 +342,14 @@ export default function CategoryView({
               {FMHY_SIDEBAR_TOOLS.map((item) => {
                 const isActive = activeCategory.slug === item.slug;
                 return (
-                  <Link 
-                    key={item.slug} 
-                    href={item.href} 
+                  <Link
+                    key={item.slug}
+                    href={item.href}
                     prefetch={true}
-                    className={`flex items-center gap-2.5 py-2 px-3 rounded-xl text-[13.5px] font-sans tracking-tight transition-all duration-150 truncate cursor-pointer ${
-                      isActive
+                    className={`flex items-center gap-2.5 py-2 px-3 rounded-xl text-[13.5px] font-sans tracking-tight transition-all duration-150 truncate cursor-pointer ${isActive
                         ? "bg-sky-500/12 text-sky-300 font-semibold border border-sky-500/25 shadow-sm"
                         : "text-zinc-400 hover:text-zinc-100 hover:bg-white/5 font-medium"
-                    }`}
+                      }`}
                   >
                     <span className="text-sm select-none">{item.emoji}</span>
                     <span className="truncate">{item.name}</span>
@@ -368,11 +366,11 @@ export default function CategoryView({
             </p>
             <label className="flex items-center justify-between text-zinc-300 cursor-pointer hover:text-white transition-colors py-1 px-1 text-[13.5px] font-sans font-medium">
               <span className="flex items-center gap-2"><span>⭐</span><span>Top Picks Only</span></span>
-              <input 
-                type="checkbox" 
-                checked={filterStarredOnly} 
-                onChange={(e) => setFilterStarredOnly(e.target.checked)} 
-                className="rounded-md accent-sky-400 w-4 h-4 cursor-pointer" 
+              <input
+                type="checkbox"
+                checked={filterStarredOnly}
+                onChange={(e) => setFilterStarredOnly(e.target.checked)}
+                className="rounded-md accent-sky-400 w-4 h-4 cursor-pointer"
               />
             </label>
           </div>
@@ -418,9 +416,9 @@ export default function CategoryView({
                 className="w-full pl-9 pr-8 py-2 rounded-xl bg-[#0f1420] border border-[#1e2637] text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-sky-500/60 focus:bg-[#101624] transition-all font-sans font-normal"
               />
               {searchQuery && (
-                <button 
+                <button
                   type="button"
-                  onClick={() => setSearchQuery("")} 
+                  onClick={() => setSearchQuery("")}
                   aria-label="Clear search"
                   title="Clear search"
                   className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-white/10 transition-colors cursor-pointer"
@@ -462,11 +460,10 @@ export default function CategoryView({
               <button
                 type="button"
                 onClick={() => handlePillClick("all")}
-                className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${
-                  selectedPill === "all"
+                className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${selectedPill === "all"
                     ? "bg-white text-zinc-950 font-bold shadow-sm"
                     : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
-                }`}
+                  }`}
               >
                 All ({cleanTypedBoxes.length})
               </button>
@@ -478,11 +475,10 @@ export default function CategoryView({
                     key={box.id}
                     type="button"
                     onClick={() => handlePillClick(box.slug)}
-                    className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${
-                      isActive
+                    className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${isActive
                         ? `${ac.pillActive} font-bold shadow-sm`
                         : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
-                    }`}
+                      }`}
                   >
                     <span className="text-sm select-none">{box.emoji}</span>
                     <span>{box.title}</span>
@@ -496,11 +492,10 @@ export default function CategoryView({
                 <button
                   type="button"
                   onClick={() => handlePillClick("offline-sites")}
-                  className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${
-                    selectedPill === "offline-sites"
+                  className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${selectedPill === "offline-sites"
                       ? "bg-red-500 text-white font-bold shadow-sm"
                       : "bg-red-500/10 text-red-400 hover:text-red-300 hover:bg-red-500/20 border border-red-500/30 font-medium"
-                  }`}
+                    }`}
                 >
                   <span className="text-sm select-none">🔴</span>
                   <span>Offline</span>
@@ -531,15 +526,15 @@ export default function CategoryView({
           {filteredBoxes.length === 0 ? (
             <div className="p-16 text-center rounded-3xl bg-[#0c0f16] border border-[#1b212f] text-zinc-500 space-y-3 shadow-lg">
               <p className="text-sm font-heading font-semibold text-zinc-300">No websites found matching your filter.</p>
-              <button 
-                onClick={() => { setSearchQuery(""); setSelectedPill("all"); setFilterStarredOnly(false); }} 
+              <button
+                onClick={() => { setSearchQuery(""); setSelectedPill("all"); setFilterStarredOnly(false); }}
                 className="text-xs font-sans text-sky-400 hover:text-sky-300 hover:underline"
               >
                 Clear all filters
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-start">
+            <div className="columns-1 md:columns-2 xl:columns-3 gap-4">
               {filteredBoxes.map((box) => {
                 const ac = ACCENT_MAP[box.accent] || ACCENT_MAP.sky;
                 return (
@@ -827,8 +822,8 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
                       {!r?.httpStatus || r.httpStatus === 0
                         ? "offline"
                         : r.httpStatus === 408
-                        ? "timeout"
-                        : `${r.httpStatus}`}
+                          ? "timeout"
+                          : `${r.httpStatus}`}
                     </span>
                   </a>
                 );
