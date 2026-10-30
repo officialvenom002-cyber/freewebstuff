@@ -50,22 +50,39 @@ const nextConfig = {
   // ─── HTTP Headers ────────────────────────────────────────────────────────────
   async headers() {
     return [
-      // Root homepage: cached aggressively at Cloudflare edge with stale-while-revalidate
-      // Zero origin calls to Vercel for repeat visitors
+      // Verification files & TXT roots: instant delivery, zero cache
+      {
+        source: "/:path(pftn.*\\.txt|0a15.*\\.txt|profiton.*\\.txt)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate, max-age=0, s-maxage=0",
+          },
+          {
+            key: "CDN-Cache-Control",
+            value: "no-store",
+          },
+          {
+            key: "Cloudflare-CDN-Cache-Control",
+            value: "no-store",
+          },
+        ],
+      },
+      // Root homepage: no-store for verification and instant updates
       {
         source: "/",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800",
+            value: "no-cache, no-store, max-age=0, must-revalidate",
           },
           {
             key: "CDN-Cache-Control",
-            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+            value: "no-store",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+            value: "no-store",
           },
         ],
       },
