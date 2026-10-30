@@ -1,40 +1,10 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { getCategoryBySlug, filterResources, getAllCategories } from "@/lib/db/store";
-import ResourceCard from "@/components/resources/ResourceCard";
-import ResourceGrid from "@/components/resources/ResourceGrid";
-import { 
-  ArrowLeft, 
-  Sparkles, 
-  Filter, 
-  Bot, 
-  ShieldCheck, 
-  Code2, 
-  AppWindow, 
-  Palette, 
-  Video, 
-  Gamepad2, 
-  GraduationCap, 
-  CheckSquare,
-  Headphones,
-  BookOpen,
-  Download,
-  Share2,
-  Smartphone,
-  Terminal,
-  Globe,
-  Boxes,
-  Cpu,
-  FolderArchive,
-  Compass,
-  MessageSquare,
-  FileText,
-  Crosshair,
-  Film,
-  HardDrive
-} from "lucide-react";
-
+import { getCategoryBySlug, getAllCategories } from "@/lib/db/store";
+import { CATEGORY_KEYWORDS_MAP, generateCategorySchema } from "@/lib/seo/schema";
+import CategoryView from "@/components/categories/CategoryView";
+import { buildTypedBoxes, TypedBox, PrivacySection } from "@/lib/categories/boxExtractor";
+import { getPrecomputedBoxesForCategory } from "@/lib/categories/serverBoxLoader";
 
 interface CategoryPageProps {
   params: { slug: string };
@@ -45,40 +15,6 @@ export async function generateStaticParams() {
   const { getAllCategories } = await import("@/lib/db/store");
   return getAllCategories().map((c) => ({ slug: c.slug }));
 }
-
-const iconMap: Record<string, React.ElementType> = {
-  Bot,
-  ShieldCheck,
-  Code2,
-  AppWindow,
-  Palette,
-  Video,
-  Gamepad2,
-  GraduationCap,
-  CheckSquare,
-  Headphones,
-  BookOpen,
-  Download,
-  Share2,
-  Smartphone,
-  Terminal,
-  Globe,
-  Boxes,
-  Cpu,
-  FolderArchive,
-  Compass,
-  MessageSquare,
-  FileText,
-  Crosshair,
-  Film,
-  HardDrive,
-  Sparkles
-};
-
-import { CATEGORY_KEYWORDS_MAP, generateCategorySchema } from "@/lib/seo/schema";
-import CategoryView from "@/components/categories/CategoryView";
-import { buildTypedBoxes, TypedBox, PrivacySection } from "@/lib/categories/boxExtractor";
-import { getPrecomputedBoxesForCategory } from "@/lib/categories/serverBoxLoader";
 
 export async function generateMetadata({ params }: CategoryPageProps) {
   const category = getCategoryBySlug(params.slug);
