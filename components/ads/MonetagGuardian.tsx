@@ -52,7 +52,7 @@ export default function MonetagGuardian() {
       // One-time cleanup of active ad elements on support/admin pages
       try {
         const adNodes = document.querySelectorAll(
-          'iframe[src*="adsboosters"], iframe[src*="yirrsxanthan"], div[id^="AdsCore"], #profiton-pops-159999'
+          'iframe[src*="adsboosters"], iframe[src*="yirrsxanthan"], div[id^="AdsCore"], #profiton-pops-159999, #stake-adscore-106969'
         );
         adNodes.forEach((node) => node.remove());
       } catch {}
