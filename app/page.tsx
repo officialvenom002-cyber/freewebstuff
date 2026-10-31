@@ -262,13 +262,22 @@ export default function HomePage() {
           <div className="hero-content">
 
 
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/25 text-sky-400 text-xs sm:text-sm font-semibold mb-3 hero-action-anim">
+              <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+              <span>FreeWebStuff (freewebstuff.site) — Official Free Directory</span>
+            </div>
+
             <h1 className="hero-title hero-title-anim">
-              Everything Free.
+              FreeWebStuff.
               <br />
               <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">
-                All in One Place.
+                Everything Free, All in One Place.
               </span>
             </h1>
+
+            <p className="hero-description hero-desc-anim">
+              The official <strong>FreeWebStuff</strong> directory (freewebstuff.site). Curating 20,000+ verified free web tools, open-source software, streaming platforms, AI assistants, and developer vaults. Inspired by FMHY.
+            </p>
 
             <div className="hero-actions hero-action-anim flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
               <Link href="/support" className="btn btn-secondary flex items-center gap-1.5 border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8]">
@@ -332,7 +341,58 @@ export default function HomePage() {
 
         </section>
 
+        {/* BRAND AUTHORITY & FAQ SECTION (Crucial for Google SERP Top-1 Ranking) */}
+        <section className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-14 border-t border-[#22252C]" id="about-faq">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold mb-3">
+              <span>FAQ &amp; About</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+              About FreeWebStuff (freewebstuff.site)
+            </h2>
+            <p className="text-sm text-slate-400 mt-2 max-w-2xl mx-auto">
+              Everything you need to know about the internet&apos;s largest free software and verified tools directory.
+            </p>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="p-5 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-sky-500/40 transition-colors">
+              <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
+                <span className="text-sky-400">⚡</span> What is FreeWebStuff (freewebstuff.site)?
+              </h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                FreeWebStuff is a free, community-curated directory indexing over 20,000+ verified free web tools, open-source software, streaming platforms, AI assistants, and developer resources inspired by FMHY.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-sky-500/40 transition-colors">
+              <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
+                <span className="text-emerald-400">🛡️</span> Is everything completely free to use?
+              </h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Yes! Every link, app, and resource on FreeWebStuff is verified as 100% free to use, open-source (FOSS), or offers a genuine free tier with no hidden paywalls or surprise charges.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-sky-500/40 transition-colors">
+              <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
+                <span className="text-purple-400">🔒</span> Do I need to create an account?
+              </h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                No sign-up or credit card is ever required. FreeWebStuff is an open directory designed for instant discovery. All links are direct and clean.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-sky-500/40 transition-colors">
+              <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
+                <span className="text-amber-400">🔄</span> How often is the directory updated?
+              </h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Our database is updated daily with fresh community discoveries, and automated health checks run continuously to detect and flag dead links or mirrors.
+              </p>
+            </div>
+          </div>
+        </section>
 
       </main>
 
