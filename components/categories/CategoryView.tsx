@@ -61,7 +61,7 @@ import {
 
 interface CategoryViewProps {
   category: Category;
-  allResources: Resource[];
+  allResources?: Resource[];
   initialBoxesProp?: TypedBox[];
   initialSectionsProp?: PrivacySection[];
   initialSub?: string;
