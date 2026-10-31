@@ -12,7 +12,8 @@
     "check:sites:update": "node scripts/daily-health-check.mjs --update-sources",
     "vault:sync": "node scripts/auto-sync-and-prune.mjs --sync",
     "vault:prune": "node scripts/auto-sync-and-prune.mjs --prune",
-    "vault:all": "node scripts/auto-sync-and-prune.mjs --all"
+    "vault:all": "node scripts/auto-sync-and-prune.mjs --all",
+    "cf:purge": "node scripts/purge-cloudflare.mjs"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
