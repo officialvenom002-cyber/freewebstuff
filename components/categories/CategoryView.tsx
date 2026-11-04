@@ -32,7 +32,6 @@ const FMHY_SIDEBAR_WIKI = [
   { slug: "linux-macos", name: "Linux / macOS", emoji: "🐧", isCategory: true, href: "/categories/linux-macos" },
   { slug: "non-english", name: "Non-English", emoji: "🌐", isCategory: true, href: "/categories/non-english" },
   { slug: "misc", name: "Miscellaneous", emoji: "✨", isCategory: true, href: "/categories/misc" },
-  { slug: "offline", name: "Offline Websites", emoji: "🔴", isPage: true, href: "/categories/offline" },
 ];
 
 const FMHY_SIDEBAR_TOOLS = [
@@ -49,6 +48,7 @@ const FMHY_SIDEBAR_TOOLS = [
 ];
 
 export type { PrivacySectionItem, PrivacySection, WebsiteEntry, TypedBox } from "@/lib/categories/boxExtractor";
+import { filterCategoryWebsites } from "@/lib/categories/categoryMatcher";
 import {
   PrivacySectionItem,
   PrivacySection,
@@ -87,8 +87,9 @@ function useColumnCount() {
     const update = () => {
       const w = window.innerWidth;
       if (w < 768) setCols(1);
-      else if (w < 1280) setCols(2);
-      else setCols(3);
+      else if (w < 1120) setCols(2);
+      else if (w < 1650) setCols(3);
+      else setCols(4);
     };
     update();
     window.addEventListener("resize", update, { passive: true });
@@ -258,52 +259,8 @@ export default function CategoryView({
   }, [typedBoxes]);
   const uptimeMap = useUptimeChecker(allUrls);
 
-  // Automatically separate live websites and non-live (offline/down) websites
-  const { cleanTypedBoxes, offlineBox, offlineCount } = useMemo(() => {
-    const offlineSites: (WebsiteEntry & { originalBoxTitle?: string })[] = [];
-    const map = mounted ? (uptimeMap || {}) : {};
-
-    const liveOnlyBoxes: TypedBox[] = [];
-
-    for (const box of typedBoxes) {
-      const liveList: WebsiteEntry[] = [];
-      for (const site of box.websites) {
-        if (map[site.url]?.status === "down") {
-          offlineSites.push({
-            ...site,
-            originalBoxTitle: box.title,
-          });
-        } else {
-          liveList.push(site);
-        }
-      }
-      if (liveList.length > 0) {
-        liveOnlyBoxes.push({
-          ...box,
-          websites: liveList,
-        });
-      }
-    }
-
-    let offBox: TypedBox | null = null;
-    if (offlineSites.length > 0) {
-      offBox = {
-        id: "offline-category-box",
-        slug: "offline-sites",
-        title: "Offline & Inactive Sites",
-        emoji: "🔴",
-        accent: "rose",
-        tagline: "Websites in this category automatically moved here due to downtime or failed health checks",
-        websites: offlineSites,
-      };
-    }
-
-    return {
-      cleanTypedBoxes: liveOnlyBoxes,
-      offlineBox: offBox,
-      offlineCount: offlineSites.length,
-    };
-  }, [typedBoxes, uptimeMap]);
+  // Clean typed boxes directly
+  const cleanTypedBoxes = typedBoxes;
 
   const filteredBoxes = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
@@ -311,7 +268,7 @@ export default function CategoryView({
     // If a specific subcategory pill is clicked:
     // Place the clicked category at the TOP, followed by the NEXT categories in the line, wrapping around!
     let orderedBoxes = cleanTypedBoxes;
-    if (selectedPill !== "all" && selectedPill !== "offline-sites") {
+    if (selectedPill !== "all") {
       const selectedIndex = cleanTypedBoxes.findIndex((b) => b.slug === selectedPill);
       if (selectedIndex !== -1) {
         const fromSelected = cleanTypedBoxes.slice(selectedIndex);
@@ -320,7 +277,7 @@ export default function CategoryView({
       }
     }
 
-    const filtered = orderedBoxes
+    return orderedBoxes
       .map((box) => {
         if (!filterStarredOnly && !q) return box;
         let websites = box.websites;
@@ -329,17 +286,7 @@ export default function CategoryView({
         return { ...box, websites };
       })
       .filter((box): box is TypedBox => box !== null && (box.websites.length > 0 || (!filterStarredOnly && !q)));
-
-    // Include offline box
-    if (offlineBox && !filterStarredOnly && !q) {
-      if (selectedPill === "offline-sites") {
-        return [offlineBox, ...filtered];
-      }
-      filtered.push(offlineBox);
-    }
-
-    return filtered;
-  }, [cleanTypedBoxes, offlineBox, selectedPill, filterStarredOnly, searchQuery]);
+  }, [cleanTypedBoxes, selectedPill, filterStarredOnly, searchQuery]);
 
   const colCount = useColumnCount();
 
@@ -356,10 +303,10 @@ export default function CategoryView({
   return (
     <div className="flex flex-col min-h-screen">
 
-      <div className="flex gap-0 xl:gap-6 flex-1 max-w-[1760px] mx-auto w-full px-3 sm:px-5 xl:px-8 py-5">
+      <div className="flex gap-3 xl:gap-4 flex-1 max-w-[1880px] mx-auto w-full px-2.5 sm:px-4 xl:px-5 py-4">
 
         {/* ── LEFT SIDEBAR ── */}
-        <aside className="w-60 xl:w-68 shrink-0 hidden lg:flex flex-col gap-3.5 sticky top-20 z-10 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar pb-4">
+        <aside className="w-52 xl:w-56 shrink-0 hidden lg:flex flex-col gap-3 sticky top-20 z-10 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar pb-4">
 
           <div className="bg-[#0b0e15] border border-[#1c2132] rounded-2xl p-3.5 shadow-lg">
             <p className="text-[10.5px] font-bold text-zinc-500 uppercase tracking-[0.12em] px-1 pb-2.5 mb-1.5 border-b border-[#1a2030] font-mono">
@@ -430,90 +377,117 @@ export default function CategoryView({
         </aside>
 
         {/* ── MAIN CONTENT ── */}
-        <div className="flex-1 min-w-0 space-y-5 page-smooth-enter" ref={mainRef}>
+        <div className="flex-1 min-w-0 space-y-3 sm:space-y-4 page-smooth-enter" ref={mainRef}>
 
-          {/* Top Bar with Breadcrumb and Search */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
-            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap min-w-0">
-              <Link href="/" prefetch={true} className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors text-xs sm:text-sm font-sans font-medium group py-1">
-                <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+          {/* Mobile Breadcrumb (scrolls away cleanly to give maximum screen space) */}
+          <div className="flex sm:hidden items-center justify-between gap-2 px-1 pt-0.5 pb-1">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <Link href="/" prefetch={true} className="inline-flex items-center gap-1 text-zinc-400 hover:text-zinc-100 text-xs font-medium py-1">
+                <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Home</span>
               </Link>
               <ChevronRight className="w-3 h-3 text-zinc-600 shrink-0" />
-              <span className="text-white font-extrabold text-xs sm:text-sm font-heading tracking-[-0.015em] truncate">
+              <span className="text-white font-bold text-xs truncate">
                 {activeCategory.name}
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10.5px] sm:text-[11px] font-mono font-semibold bg-[#131824] text-zinc-400 border border-[#1e2637] shrink-0">
-                {totalCount} sites
-              </span>
-              {offlineCount > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setSelectedPill("offline-sites")}
-                  className="px-2 py-0.5 rounded-full text-[10.5px] sm:text-[11px] font-mono font-semibold bg-red-500/10 text-red-400 border border-red-500/25 hover:bg-red-500/20 transition-colors cursor-pointer shrink-0"
-                  title="View sites in this category automatically moved to offline"
-                >
-                  {offlineCount} offline
-                </button>
-              )}
             </div>
-
-            <div className="relative w-full sm:w-72">
-              <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
-              <input
-                type="text"
-                inputMode="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search websites in this category..."
-                className="w-full pl-9 pr-8 py-2.5 sm:py-2 rounded-xl bg-[#0f1420] border border-[#1e2637] text-base sm:text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-sky-500/60 focus:bg-[#101624] transition-all font-sans font-normal"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  aria-label="Clear search"
-                  title="Clear search"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-white/10 transition-colors cursor-pointer"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
+            <span className="px-2 py-0.5 rounded-full text-[10.5px] font-mono font-semibold bg-[#131824] text-zinc-400 border border-[#1e2637] shrink-0">
+              {totalCount} sites
+            </span>
           </div>
 
-          {/* Mobile Category Switcher & Filter Pills Bar (visible only on mobile lg:hidden) */}
-          <div className="flex lg:hidden items-center justify-between gap-2 pt-0.5">
-            <button
-              type="button"
-              onClick={() => setMobileDrawerOpen(true)}
-              className="flex-1 flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#0e121d] border border-[#1c2438] text-xs font-semibold text-zinc-200 active:scale-98 transition-all cursor-pointer shadow-sm min-h-[42px]"
-            >
-              <span className="flex items-center gap-2 truncate">
-                <span className="text-sm">📂</span>
-                <span className="truncate">{activeCategory.name}</span>
-              </span>
-              <span className="text-[11px] text-sky-400 font-mono bg-sky-500/10 px-2 py-0.5 rounded-full border border-sky-500/20 shrink-0">
-                Switch ▾
-              </span>
-            </button>
+          {/* ── STICKY TOP CATEGORY CONTROLS & FILTER PILLS BAR ── */}
+          <div className="sticky top-[60px] z-30 bg-[#0B0C0E]/95 backdrop-blur-xl border-b border-[#1b2130]/80 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.85)] -mx-2.5 px-2.5 sm:-mx-4 sm:px-4 xl:-mx-5 xl:px-5 pt-2 pb-2 space-y-2">
+            {/* Desktop Top Bar with Breadcrumb and Search */}
+            <div className="hidden sm:flex sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-2 flex-wrap min-w-0">
+                <Link href="/" prefetch={true} className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors text-xs sm:text-sm font-sans font-medium group py-1">
+                  <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+                  <span>Home</span>
+                </Link>
+                <ChevronRight className="w-3 h-3 text-zinc-600 shrink-0" />
+                <span className="text-white font-extrabold text-sm font-heading tracking-[-0.015em] truncate">
+                  {activeCategory.name}
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-[#131824] text-zinc-400 border border-[#1e2637] shrink-0">
+                  {totalCount} sites
+                </span>
 
-            <button
-              type="button"
-              onClick={() => setFilterStarredOnly(!filterStarredOnly)}
-              className={`px-3 py-2.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all shrink-0 min-h-[42px] cursor-pointer ${
-                filterStarredOnly
-                  ? "bg-amber-400/15 border-amber-400/40 text-amber-300"
-                  : "bg-[#0e121d] border-[#1c2438] text-zinc-400 hover:text-zinc-200"
-              }`}
-            >
-              <span>⭐</span>
-              <span>Top Picks</span>
-            </button>
-          </div>
+              </div>
 
-          {/* Type Filter Pills Slider Bar */}
-          <div className="relative group/pills mb-3 sm:mb-4 flex items-center">
+              <div className="relative w-72">
+                <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
+                <input
+                  type="text"
+                  inputMode="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search websites in this category..."
+                  className="w-full pl-9 pr-8 py-2 rounded-xl bg-[#0f1420] border border-[#1e2637] text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-sky-500/60 focus:bg-[#101624] transition-all font-sans font-normal"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    aria-label="Clear search"
+                    title="Clear search"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-white/10 transition-colors cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile Compact Controls Row (Search + Category Switcher + Top Picks in 1 Row) */}
+            <div className="flex sm:hidden items-center gap-1.5">
+              <div className="relative flex-1 min-w-0">
+                <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
+                <input
+                  type="text"
+                  inputMode="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search in category..."
+                  className="w-full pl-7 pr-6 py-1.5 rounded-lg bg-[#0f1420] border border-[#1e2637] text-[13px] text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-sky-500/60 transition-all font-sans h-[36px]"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-zinc-400"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setMobileDrawerOpen(true)}
+                className="h-[36px] px-2.5 rounded-lg bg-[#0e121d] border border-[#1c2438] text-[11.5px] font-semibold text-zinc-200 flex items-center gap-1 shrink-0 active:scale-95 shadow-sm"
+              >
+                <span>📂</span>
+                <span className="truncate max-w-[85px]">{activeCategory.name}</span>
+                <span className="text-[10px] text-sky-400">▾</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setFilterStarredOnly(!filterStarredOnly)}
+                className={`h-[36px] px-2 rounded-lg border text-[11.5px] font-semibold flex items-center gap-1 shrink-0 active:scale-95 ${
+                  filterStarredOnly
+                    ? "bg-amber-400/20 border-amber-400/40 text-amber-300"
+                    : "bg-[#0e121d] border-[#1c2438] text-zinc-400"
+                }`}
+                title="Filter Top Picks"
+              >
+                <span>⭐</span>
+              </button>
+            </div>
+
+            {/* Type Filter Pills Slider Bar */}
+            <div className="relative group/pills flex items-center">
             {/* Left slide button with gradient fade (desktop only) */}
             {canScrollLeft && (
               <div className="hidden sm:flex absolute left-0 top-0 bottom-0 z-20 items-center pr-5 bg-gradient-to-r from-[#0B0C0E] via-[#0B0C0E]/95 to-transparent">
@@ -572,22 +546,7 @@ export default function CategoryView({
                   </button>
                 );
               })}
-              {offlineCount > 0 && (
-                <button
-                  type="button"
-                  onClick={() => handlePillClick("offline-sites")}
-                  className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11.5px] sm:text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${selectedPill === "offline-sites"
-                      ? "bg-red-500 text-white font-bold shadow-sm"
-                      : "bg-red-500/10 text-red-400 hover:text-red-300 hover:bg-red-500/20 border border-red-500/30 font-medium"
-                    }`}
-                >
-                  <span className="text-sm select-none">🔴</span>
-                  <span>Offline</span>
-                  <span className="text-[10.5px] font-mono font-medium px-1.5 rounded-full bg-red-950/60 text-red-300 border border-red-500/30">
-                    {offlineCount}
-                  </span>
-                </button>
-              )}
+
             </div>
 
             {/* Right slide button with gradient fade (desktop only) */}
@@ -605,6 +564,7 @@ export default function CategoryView({
               </div>
             )}
           </div>
+          </div>
 
           {/* ── BOXES MASONRY COLUMNS ── */}
           {filteredBoxes.length === 0 ? (
@@ -618,9 +578,9 @@ export default function CategoryView({
               </button>
             </div>
           ) : (
-            <div id="category-boxes-container" className="flex flex-col md:flex-row gap-4 items-start w-full">
+            <div id="category-boxes-container" className="flex flex-col md:flex-row gap-3 items-start w-full">
               {columnBuckets.map((colBoxes, colIndex) => (
-                <div key={colIndex} className="flex-1 flex flex-col gap-4 min-w-0 w-full">
+                <div key={colIndex} className="flex-1 flex flex-col gap-3 min-w-0 w-full">
                   {colBoxes.map((box) => {
                     const ac = ACCENT_MAP[box.accent] || ACCENT_MAP.sky;
                     const isSelected = selectedPill === box.slug;
@@ -942,7 +902,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
   return (
     <div className="flex flex-col">
       {/* Live / unchecked sites */}
-      <div className="p-2 sm:p-2.5">
+      <div className="p-1.5 sm:p-2">
         <div className="flex flex-col gap-0.5">
           {liveSites.map((site) => {
             const r = uptimeMap[site.url];
@@ -955,13 +915,13 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
                 href={targetUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/link flex items-center gap-2 py-1.5 px-2.5 rounded-lg text-[13px] sm:text-[13px] font-sans font-medium text-zinc-300 hover:text-white transition-all duration-150 hover:bg-white/[0.06] active:bg-white/[0.1] active:scale-[0.99] cursor-pointer tracking-[-0.005em]"
+                className="group/link flex items-center gap-2 py-2 sm:py-1.5 px-2.5 sm:px-2 rounded-lg text-[15px] sm:text-[14.5px] font-sans font-medium text-zinc-100 hover:text-white transition-all duration-150 hover:bg-white/[0.07] active:bg-white/[0.12] active:scale-[0.99] cursor-pointer tracking-[-0.01em]"
               >
                 <StatusDot status={r?.status ?? "up"} />
                 {site.isStarred && (
-                  <span className="text-amber-400 text-[10px] select-none shrink-0" title="Top Pick">⭐</span>
+                  <span className="text-amber-400 text-[11px] select-none shrink-0" title="Top Pick">⭐</span>
                 )}
-                <span className="truncate leading-none flex-1">{site.name}</span>
+                <span className="truncate leading-normal flex-1 font-medium text-[15px] sm:text-[14.5px] text-zinc-100 group-hover/link:text-white">{site.name}</span>
                 {isRedirected && (
                   <span
                     className="text-[9.5px] font-mono px-1.5 py-0.5 rounded bg-sky-500/15 text-sky-300 border border-sky-500/25 shrink-0"
@@ -987,13 +947,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
         </div>
       </div>
 
-      {/* All online badge */}
-      {downSites.length === 0 && allChecked && (
-        <div className="flex items-center gap-1.5 mx-3 mb-2.5 px-3 py-1.5 rounded-lg bg-emerald-500/[0.08] border border-emerald-500/15">
-          <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
-          <span className="text-[11px] text-emerald-400 font-medium font-sans">All sites online</span>
-        </div>
-      )}
+
 
       {/* Down sites collapsible */}
       {downSites.length > 0 && (

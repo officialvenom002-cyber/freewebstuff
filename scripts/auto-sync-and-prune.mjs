@@ -57,6 +57,46 @@ const CATEGORY_MAP = [
 
 const ACCENT_CYCLE = ["sky", "violet", "emerald", "amber", "rose", "indigo", "cyan", "fuchsia"];
 
+const AUXILIARY_JUNK_NAMES = new Set([
+  "discord", "github", "reddit", "twitter", "x", "telegram", "wiki", "guide", "docs",
+  "documentation", "mirror", "mirrors", "backup", "apk", "ios", "android", "grading",
+  "status", "web", "app", "source", "client", "code", "script", "userscript", "addon",
+  "extension", "firefox", "chrome", "changelog", "discussion", "discussions", "issues",
+  "faq", "support", "download", "download guide", "ratings", "fix", "tutorial", "video guide",
+  "demo", "subreddit", "presets", "themes", "redirect bypass", "translator", "gitlab",
+  "ports", "bookmarklet", "cli", "uploader", "lite version", "note", "whitelist note",
+  "plugins", "config", "telegram bot", "bot", "proxy", "basement",
+  "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+]);
+
+const AUXILIARY_URL_PATTERNS = [
+  /^https?:\/\/(?:www\.)?discord\.(?:gg|com\/invite)\//i,
+  /^https?:\/\/(?:www\.)?t\.me\/(?:\+|joinchat\/|[a-zA-Z0-9_]+(?:\?start=)?)/i,
+  /^https?:\/\/(?:www\.)?twitter\.com\//i,
+  /^https?:\/\/(?:www\.)?x\.com\//i,
+  /^https?:\/\/(?:www\.)?reddit\.com\/r\/[^\/]+\/?$/i,
+  /^https?:\/\/(?:www\.)?github\.com\/[^\/]+\/[^\/]+\/(?:issues|discussions|wiki|pulls|releases\/tag)/i,
+];
+
+function isValidCategoryWebsite(name, rawUrl) {
+  if (!name || !rawUrl) return false;
+  const rawName = String(name).trim();
+  const lowerName = rawName.toLowerCase();
+  const urlStr = String(rawUrl).trim();
+
+  if (!urlStr.startsWith("http://") && !urlStr.startsWith("https://")) return false;
+  if (AUXILIARY_JUNK_NAMES.has(lowerName)) return false;
+  if (rawName.length < 2 || rawName.length > 55) return false;
+  if (/^(https?:\/\/|\/|#|www\.)/i.test(rawName)) return false;
+  if (/^(guide|how to|tutorial|installation|note|notice|whitelist):/i.test(lowerName)) return false;
+
+  for (const pat of AUXILIARY_URL_PATTERNS) {
+    if (pat.test(urlStr)) return false;
+  }
+  return true;
+}
+
+
 // Clean & sanitize URLs
 function sanitizeUrl(rawUrl) {
   try {
@@ -434,8 +474,8 @@ function rebuildPrecomputedBoxes(deadSet = new Set()) {
           const rawUrl = (m[2] || m[4] || "").trim();
           const clean = sanitizeUrl(rawUrl);
 
-          // Exclude dead links
-          if (clean && !deadSet.has(clean)) {
+          // Exclude dead links and non-matching/auxiliary junk
+          if (clean && !deadSet.has(clean) && isValidCategoryWebsite(name, clean)) {
             websites.push({
               id: `${sec.id}-${websites.length}`,
               name,

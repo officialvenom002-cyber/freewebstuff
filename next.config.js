@@ -86,59 +86,58 @@ const nextConfig = {
           },
         ],
       },
-      // JSON data vaults (e.g. 2.17MB all-categories-boxes.json): high-efficiency CDN caching
-      // Browser caches for 24h, Cloudflare caches for 7 days
+      // JSON data vaults: Smart background auto-revalidation (zero manual Cloudflare purge)
+      // Edge caches for 5 min, instantly serves stale while background-refreshing latest FMHY data
       {
         source: "/data/:path*",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=86400, s-maxage=604800, stale-while-revalidate=604800",
+            value: "public, max-age=0, s-maxage=300, stale-while-revalidate=86400",
           },
           {
             key: "CDN-Cache-Control",
-            value: "public, s-maxage=604800, stale-while-revalidate=604800",
+            value: "public, s-maxage=300, stale-while-revalidate=86400",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "public, s-maxage=604800, stale-while-revalidate=604800",
+            value: "public, s-maxage=300, stale-while-revalidate=86400",
           },
         ],
       },
-      // Content pages: cache at edge for 24 hours with stale-while-revalidate (7 days)
-      // Absorbs 99.9% of traffic at Cloudflare edge, near-zero Vercel origin invocations
+      // Content pages: Smart background auto-revalidation (5 min edge cache + 24h stale revalidate)
       {
         source: "/((?!api/|data/|_next/static|_next/image|favicon|logo|images|shobhitadmin|adminshobhit|support|donate|sw\\.js|service-worker\\.js).*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800",
+            value: "public, max-age=0, s-maxage=300, stale-while-revalidate=86400",
           },
           {
             key: "CDN-Cache-Control",
-            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+            value: "public, s-maxage=300, stale-while-revalidate=86400",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+            value: "public, s-maxage=300, stale-while-revalidate=86400",
           },
         ],
       },
-      // Cache-friendly APIs (eliminates serverless function invocations on Vercel)
+      // Cache-friendly APIs with automatic background revalidation
       {
         source: "/api/(site-config|categories|settings)",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+            value: "public, max-age=0, s-maxage=300, stale-while-revalidate=86400",
           },
           {
             key: "CDN-Cache-Control",
-            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+            value: "public, s-maxage=300, stale-while-revalidate=86400",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+            value: "public, s-maxage=300, stale-while-revalidate=86400",
           },
         ],
       },
