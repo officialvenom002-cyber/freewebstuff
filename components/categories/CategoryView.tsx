@@ -857,7 +857,7 @@ function OfflineBoxWebsiteItem({ site }: { site: WebsiteEntry & { originalBoxTit
   };
 
   return (
-    <div className="flex items-center justify-between gap-2.5 py-2.5 sm:py-2 px-3 rounded-xl bg-red-950/20 border border-red-500/15 hover:border-red-500/30 transition-all duration-150 min-h-[44px]">
+    <div className="flex items-center justify-between gap-2 py-1.5 px-2.5 rounded-lg bg-red-950/20 border border-red-500/15 hover:border-red-500/30 transition-all duration-150">
       <div className="flex items-center gap-2.5 min-w-0 flex-1">
         <span className={`w-2 h-2 rounded-full shrink-0 ${restored ? "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" : "bg-red-500 shadow-[0_0_4px_rgba(239,68,68,0.7)]"}`} />
         <div className="min-w-0 flex-1 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2">
@@ -910,7 +910,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
   if (box.slug === "offline-sites") {
     return (
       <div className="flex flex-col">
-        <div className="p-3 flex flex-col gap-1.5">
+        <div className="p-2 sm:p-2.5 flex flex-col gap-1">
           {box.websites.map((site) => (
             <OfflineBoxWebsiteItem key={site.id + site.url} site={site as any} />
           ))}
@@ -942,7 +942,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
   return (
     <div className="flex flex-col">
       {/* Live / unchecked sites */}
-      <div className="p-3">
+      <div className="p-2 sm:p-2.5">
         <div className="flex flex-col gap-0.5">
           {liveSites.map((site) => {
             const r = uptimeMap[site.url];
@@ -955,7 +955,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
                 href={targetUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/link flex items-center gap-2.5 py-2.5 sm:py-2 px-3 rounded-xl text-[14px] sm:text-[13.5px] min-h-[44px] font-sans font-medium text-zinc-300 hover:text-white transition-all duration-150 hover:bg-white/[0.06] active:bg-white/[0.1] active:scale-[0.99] cursor-pointer tracking-[-0.005em]"
+                className="group/link flex items-center gap-2 py-1.5 px-2.5 rounded-lg text-[13px] sm:text-[13px] font-sans font-medium text-zinc-300 hover:text-white transition-all duration-150 hover:bg-white/[0.06] active:bg-white/[0.1] active:scale-[0.99] cursor-pointer tracking-[-0.005em]"
               >
                 <StatusDot status={r?.status ?? "up"} />
                 {site.isStarred && (
@@ -997,11 +997,11 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
 
       {/* Down sites collapsible */}
       {downSites.length > 0 && (
-        <div className="mx-3 mb-3 rounded-xl border border-red-500/20 bg-red-950/20 overflow-hidden">
+        <div className="mx-2.5 mb-2.5 rounded-xl border border-red-500/20 bg-red-950/20 overflow-hidden">
           <button
             type="button"
             onClick={() => setDownOpen((v) => !v)}
-            className="w-full flex items-center justify-between gap-2 px-3.5 py-3 sm:py-2.5 min-h-[44px] text-left cursor-pointer hover:bg-red-500/5 active:bg-red-500/10 transition-colors"
+            className="w-full flex items-center justify-between gap-2 px-3 py-2 text-left cursor-pointer hover:bg-red-500/5 active:bg-red-500/10 transition-colors"
           >
             <div className="flex items-center gap-2">
               <WifiOff className="w-3.5 h-3.5 text-red-400 shrink-0" />
@@ -1028,7 +1028,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
                     href={targetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2.5 py-2 sm:py-1.5 px-2.5 rounded-lg text-[13px] sm:text-[12.5px] min-h-[40px] font-sans font-medium text-zinc-500 hover:text-red-300 transition-all duration-150 hover:bg-red-500/[0.07] cursor-pointer"
+                    className="flex items-center gap-2 py-1 px-2 rounded-md text-[12px] font-sans font-medium text-zinc-500 hover:text-red-300 transition-all duration-150 hover:bg-red-500/[0.07] cursor-pointer"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0 opacity-70" />
                     <span className="truncate leading-none flex-1 line-through decoration-red-800/60">
