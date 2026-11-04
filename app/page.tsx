@@ -315,12 +315,10 @@ export default function HomePage() {
             </div>
 
             <h1 className="hero-title hero-title-anim">
-              FreeWebStuff.
-              <br />
               <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">
                 Everything Free,
-                <br className="sm:hidden" />
-                {" "}All in One Place.
+                <br />
+                All in One Place.
               </span>
             </h1>
 
