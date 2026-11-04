@@ -353,7 +353,7 @@ const CategoryCard = React.memo(function CategoryCard({ cat }: { cat: CategoryMe
     <Link
       href={cat.href}
       prefetch={true}
-      className="group relative flex flex-col justify-between p-4.5 sm:p-5 rounded-2xl border transition-all duration-150 overflow-hidden min-h-[190px] h-full cursor-pointer select-none bg-[linear-gradient(165deg,rgba(16,20,27,0.72)_0%,rgba(10,12,17,0.85)_100%)] hover:bg-[linear-gradient(165deg,rgba(20,25,34,0.95)_0%,rgba(12,15,21,0.98)_100%)] border-white/[0.065] hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] will-change-transform"
+      className="group relative flex flex-col justify-between p-4 sm:p-5 rounded-2xl border transition-all duration-150 overflow-hidden min-h-[155px] sm:min-h-[190px] h-full cursor-pointer select-none bg-[linear-gradient(165deg,rgba(16,20,27,0.72)_0%,rgba(10,12,17,0.85)_100%)] hover:bg-[linear-gradient(165deg,rgba(20,25,34,0.95)_0%,rgba(12,15,21,0.98)_100%)] border-white/[0.065] hover:-translate-y-1 hover:shadow-xl active:scale-[0.98] will-change-transform"
       style={{
         ["--accent-color" as string]: cat.accent,
         ["--accent-border" as string]: cat.accentBorder,
@@ -361,53 +361,53 @@ const CategoryCard = React.memo(function CategoryCard({ cat }: { cat: CategoryMe
     >
       {/* Matte ambient background aura on hover */}
       <div
-        className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl pointer-events-none opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+        className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl  opacity-0 group-hover:opacity-20 transition-opacity duration-300"
         style={{ background: cat.accent }}
       />
 
       {/* Top row: Icon and Clean Counter Badge */}
-      <div className="flex items-center justify-between gap-2 relative z-10 pointer-events-none">
+      <div className="flex items-center justify-between gap-2 relative z-10 ">
         <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center border border-white/[0.08] bg-white/[0.03] group-hover:bg-white/[0.06] group-hover:scale-105 transition-all duration-150 shrink-0"
+          className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center border border-white/[0.08] bg-white/[0.03] group-hover:bg-white/[0.06] group-hover:scale-105 transition-all duration-150 shrink-0"
         >
-          <IconComponent className="w-5 h-5 transition-transform duration-150" style={{ color: cat.accent }} />
+          <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-150" style={{ color: cat.accent }} />
         </div>
 
         {/* Minimalist count badge */}
         <span
-          className="text-[11px] font-mono text-slate-400 bg-white/[0.03] px-2.5 py-1 rounded-full border border-white/[0.06] tracking-tight group-hover:border-white/10 transition-colors shrink-0"
+          className="text-[10.5px] sm:text-[11px] font-mono text-slate-400 bg-white/[0.03] px-2.5 py-0.5 sm:py-1 rounded-full border border-white/[0.06] tracking-tight group-hover:border-white/10 transition-colors shrink-0"
         >
           {cat.count}
         </span>
       </div>
 
       {/* Middle row: Title & Description */}
-      <div className="my-2.5 relative z-10 min-w-0 pointer-events-none">
+      <div className="my-2 sm:my-2.5 relative z-10 min-w-0 ">
         <h3 
-          className="font-heading font-bold text-[15px] sm:text-[15.5px] text-slate-100 leading-snug group-hover:text-white transition-colors truncate"
+          className="font-heading font-bold text-[14.5px] sm:text-[15.5px] text-slate-100 leading-snug group-hover:text-white transition-colors truncate"
           title={cat.name}
         >
           {cat.name}
         </h3>
-        <p className="text-[12px] text-slate-400 group-hover:text-slate-300 leading-relaxed mt-1 line-clamp-2 transition-colors min-h-[36px]">
+        <p className="text-[11.5px] sm:text-[12px] text-slate-400 group-hover:text-slate-300 leading-relaxed mt-1 line-clamp-2 transition-colors min-h-[32px] sm:min-h-[36px]">
           {cat.desc}
         </p>
       </div>
 
       {/* Bottom row: Verified category label & smooth arrow button */}
-      <div className="flex items-center justify-between pt-2.5 border-t border-white/[0.05] relative z-10 gap-2 pointer-events-none">
+      <div className="flex items-center justify-between pt-2 sm:pt-2.5 border-t border-white/[0.05] relative z-10 gap-2 ">
         <div className="flex items-center gap-1.5 min-w-0 pr-1">
           <span
             className="w-1.5 h-1.5 rounded-full shrink-0"
             style={{ background: cat.accent }}
           />
-          <span className="text-[11px] font-medium text-slate-400 truncate">
+          <span className="text-[10.5px] sm:text-[11px] font-medium text-slate-400 truncate">
             {cat.label}
           </span>
         </div>
 
         <div
-          className="w-6 h-6 rounded-full shrink-0 flex items-center justify-center border border-white/[0.07] bg-white/[0.03] group-hover:bg-white/[0.08] group-hover:border-white/[0.2] text-slate-400 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-150"
+          className="hidden sm:flex w-6 h-6 rounded-full shrink-0 items-center justify-center border border-white/[0.07] bg-white/[0.03] group-hover:bg-white/[0.08] group-hover:border-white/[0.2] text-slate-400 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-150"
         >
           <ArrowUpRight className="w-3.5 h-3.5" />
         </div>
@@ -418,7 +418,7 @@ const CategoryCard = React.memo(function CategoryCard({ cat }: { cat: CategoryMe
 
 export default function CategoryGrid() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {CATEGORIES.map((cat) => (
         <CategoryCard key={cat.id} cat={cat} />
       ))}

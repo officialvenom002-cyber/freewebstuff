@@ -78,7 +78,7 @@ export default function HomePage() {
             <SearchToggle
               onClick={() => setIsSearchOpen(true)}
               placeholder="Search..."
-              className="w-28 xs:w-36 sm:w-44 md:w-52"
+              className="flex-1 max-w-[130px] xs:max-w-[175px] sm:max-w-[210px] md:w-52"
             />
           </div>
 
@@ -198,55 +198,102 @@ export default function HomePage() {
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="sm:hidden border-t border-white/10 bg-[#090e1c]/90 backdrop-blur-xl px-5 py-4 flex flex-col gap-3 animate-fade-in shadow-2xl">
-            <Link 
-              href="/donate" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-white hover:text-sky-400 py-1.5 flex items-center justify-between"
+          <div className="sm:hidden border-t border-white/10 bg-[#090e1c]/95 backdrop-blur-2xl px-4 py-3.5 flex flex-col gap-2.5 animate-fade-in shadow-2xl">
+            {/* Quick search button */}
+            <button
+              type="button"
+              onClick={() => { setIsSearchOpen(true); setMobileMenuOpen(false); }}
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium text-slate-300 bg-white/[0.05] border border-white/10 active:scale-98 transition-all min-h-[44px] cursor-pointer"
             >
-              <span>Support</span>
-            </Link>
-            <Link 
-              href="/beginners-guide" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
-            >
-              📖 Quick Start
-            </Link>
-            <Link 
-              href="/categories" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-white hover:text-sky-400 py-1.5 flex items-center justify-between"
-            >
-              <span>📂 Browse Categories</span>
-              <span className="text-xs text-slate-500">23+</span>
-            </Link>
-            <Link 
-              href="/trending" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
-            >
-              Trending Tools
-            </Link>
-            <Link 
-              href="/startpage" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
-            >
-              🚀 Minimal Startpage
-            </Link>
-            <Link 
-              href="/bookmarks" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-white hover:text-sky-400 py-1.5"
-            >
-              🔖 Saved Bookmarks
-            </Link>
+              <span className="flex items-center gap-2 text-slate-300">
+                <Search className="w-4 h-4 text-sky-400" />
+                <span>Search 20,000+ tools...</span>
+              </span>
+              <span className="text-[10px] font-mono bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded-md">Tap</span>
+            </button>
+
+            {/* Quick Categories Bar on Mobile */}
+            <div className="pt-1">
+              <p className="text-[10.5px] font-mono text-slate-400 font-bold uppercase tracking-wider mb-1.5 px-1">Top Categories</p>
+              <div className="grid grid-cols-3 gap-1.5">
+                {[
+                  { name: "Movies & TV", slug: "video", emoji: "🎬" },
+                  { name: "AI Tools", slug: "ai", emoji: "🤖" },
+                  { name: "Privacy", slug: "privacy", emoji: "🛡️" },
+                  { name: "Gaming", slug: "gaming", emoji: "🎮" },
+                  { name: "Downloads", slug: "downloading", emoji: "💾" },
+                  { name: "Books", slug: "reading", emoji: "📚" },
+                ].map((c) => (
+                  <Link
+                    key={c.slug}
+                    href={`/categories/${c.slug}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] active:bg-white/[0.1] border border-white/[0.06] text-center active:scale-95 transition-all min-h-[48px]"
+                  >
+                    <span className="text-base select-none">{c.emoji}</span>
+                    <span className="text-[11px] font-medium text-slate-200 mt-0.5 truncate w-full">{c.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 my-0.5" />
+
+            {/* Main Navigation Links */}
+            <div className="grid grid-cols-2 gap-1.5">
+              <Link 
+                href="/donate" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xs font-semibold text-rose-300 bg-rose-500/10 border border-rose-500/20 px-3 py-2.5 rounded-xl flex items-center gap-1.5 justify-center min-h-[42px] active:scale-98"
+              >
+                <span>❤️ Support Us</span>
+              </Link>
+              <Link 
+                href="/beginners-guide" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xs font-semibold text-sky-300 bg-sky-500/10 border border-sky-500/20 px-3 py-2.5 rounded-xl flex items-center gap-1.5 justify-center min-h-[42px] active:scale-98"
+              >
+                <span>📖 Quick Start</span>
+              </Link>
+              <Link 
+                href="/categories" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xs font-medium text-white bg-white/[0.04] px-3 py-2.5 rounded-xl flex items-center justify-between min-h-[42px] active:scale-98"
+              >
+                <span>📂 All Categories</span>
+                <span className="text-[10px] text-slate-400 font-mono bg-white/[0.06] px-1.5 py-0.5 rounded">24+</span>
+              </Link>
+              <Link 
+                href="/trending" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xs font-medium text-white bg-white/[0.04] px-3 py-2.5 rounded-xl flex items-center justify-center min-h-[42px] active:scale-98"
+              >
+                <span>🔥 Trending</span>
+              </Link>
+              <Link 
+                href="/startpage" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xs font-medium text-white bg-white/[0.04] px-3 py-2.5 rounded-xl flex items-center justify-center min-h-[42px] active:scale-98"
+              >
+                <span>🚀 Startpage</span>
+              </Link>
+              <Link 
+                href="/bookmarks" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xs font-medium text-white bg-white/[0.04] px-3 py-2.5 rounded-xl flex items-center justify-center min-h-[42px] active:scale-98"
+              >
+                <span>🔖 Bookmarks</span>
+              </Link>
+            </div>
 
             <div className="pt-2 border-t border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs">Discord</a>
-                <a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs">Telegram</a>
+                <a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs flex items-center gap-1 py-1">
+                  <span>🎮 Discord</span>
+                </a>
+                <a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs flex items-center gap-1 py-1">
+                  <span>✈️ Telegram</span>
+                </a>
               </div>
               <ThemeSelector />
             </div>
@@ -271,7 +318,9 @@ export default function HomePage() {
               FreeWebStuff.
               <br />
               <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">
-                Everything Free, All in One Place.
+                Everything Free,
+                <br className="sm:hidden" />
+                {" "}All in One Place.
               </span>
             </h1>
 

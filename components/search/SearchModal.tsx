@@ -149,17 +149,20 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-start justify-center pt-12 sm:pt-20 px-3 sm:px-4 bg-black/75 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-3 sm:pt-20 px-2.5 sm:px-4 bg-black/80 backdrop-blur-md animate-fade-in"
       onClick={onClose}
     >
       <div 
-        className="w-full max-w-2xl bg-[#111316] border border-[#262A30] rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_30px_rgba(139,124,255,0.1)] overflow-hidden flex flex-col max-h-[85vh] transition-all"
+        className="w-full max-w-2xl bg-[#111316] border border-[#262A30] rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_30px_rgba(139,124,255,0.1)] overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[85vh] transition-all"
         onClick={(e) => e.stopPropagation()}
+        style={{
+          paddingBottom: "env(safe-area-inset-bottom, 0px)",
+        }}
       >
         {/* Search Input Bar */}
-        <div className="relative p-3.5 sm:p-4 border-b border-[#262A30] flex items-center gap-3 bg-[#15181C]">
+        <div className="relative p-3 sm:p-4 border-b border-[#262A30] flex items-center gap-2.5 sm:gap-3 bg-[#15181C]">
           <div className="relative flex items-center justify-center shrink-0">
-            <Search className="w-5 h-5 text-[#8B7CFF]" />
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[#8B7CFF]" />
             {loading && (
               <span className="absolute -inset-1 rounded-full border border-[#8B7CFF]/50 animate-ping" />
             )}
@@ -168,11 +171,12 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           <input
             ref={inputRef}
             type="text"
+            inputMode="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Search 15,000+ resources..."
-            className="w-full bg-transparent text-[#F2F3F5] placeholder-[#9298A3] text-sm sm:text-base outline-none font-medium selection:bg-[#8B7CFF]/30 selection:text-[#F2F3F5]"
+            className="w-full bg-transparent text-[#F2F3F5] placeholder-[#9298A3] text-base outline-none font-medium selection:bg-[#8B7CFF]/30 selection:text-[#F2F3F5]"
           />
 
           {query && (
@@ -194,10 +198,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             type="button"
             onClick={onClose}
             aria-label="Close search"
-            title="Close (Esc)"
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#111316] border border-[#262A30] text-[#9298A3] hover:text-[#F2F3F5] hover:border-[#8B7CFF]/40 active:scale-95 transition-all cursor-pointer text-xs"
+            title="Close"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#111316] border border-[#262A30] text-[#9298A3] hover:text-[#F2F3F5] hover:border-[#8B7CFF]/40 active:scale-95 transition-all cursor-pointer text-xs shrink-0"
           >
-            <span className="font-mono text-[10px] font-medium">{mounted && isMac ? "⌘ ESC" : "ESC"}</span>
+            <X className="w-3.5 h-3.5 sm:hidden" />
+            <span className="hidden sm:inline font-mono text-[10px] font-medium">{mounted && isMac ? "⌘ ESC" : "ESC"}</span>
           </button>
         </div>
 
@@ -249,7 +254,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         router.push(`/resource/${res.slug}`);
                         onClose();
                       }}
-                      className={`relative p-3 rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-all duration-150 ${
+                      className={`relative p-3 rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-all duration-150 min-h-[48px] active:scale-[0.99] ${
                         isSelected 
                           ? "bg-[#1B1F24] border border-[#8B7CFF]/50 shadow-sm" 
                           : "bg-[#15181C] hover:bg-[#1B1F24] border border-[#262A30]"

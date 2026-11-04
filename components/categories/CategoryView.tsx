@@ -170,6 +170,7 @@ export default function CategoryView({
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStarredOnly, setFilterStarredOnly] = useState(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [deletedSet, setDeletedSet] = useState<Set<string>>(() => new Set());
 
@@ -432,24 +433,24 @@ export default function CategoryView({
         <div className="flex-1 min-w-0 space-y-5 page-smooth-enter" ref={mainRef}>
 
           {/* Top Bar with Breadcrumb and Search */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <Link href="/" prefetch={true} className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors text-sm font-sans font-medium group">
-                <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap min-w-0">
+              <Link href="/" prefetch={true} className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors text-xs sm:text-sm font-sans font-medium group py-1">
+                <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
                 <span>Home</span>
               </Link>
-              <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
-              <span className="text-white font-extrabold text-sm font-heading tracking-[-0.015em]">
+              <ChevronRight className="w-3 h-3 text-zinc-600 shrink-0" />
+              <span className="text-white font-extrabold text-xs sm:text-sm font-heading tracking-[-0.015em] truncate">
                 {activeCategory.name}
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-[#131824] text-zinc-400 border border-[#1e2637]">
+              <span className="px-2 py-0.5 rounded-full text-[10.5px] sm:text-[11px] font-mono font-semibold bg-[#131824] text-zinc-400 border border-[#1e2637] shrink-0">
                 {totalCount} sites
               </span>
               {offlineCount > 0 && (
                 <button
                   type="button"
                   onClick={() => setSelectedPill("offline-sites")}
-                  className="px-2 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-red-500/10 text-red-400 border border-red-500/25 hover:bg-red-500/20 transition-colors cursor-pointer"
+                  className="px-2 py-0.5 rounded-full text-[10.5px] sm:text-[11px] font-mono font-semibold bg-red-500/10 text-red-400 border border-red-500/25 hover:bg-red-500/20 transition-colors cursor-pointer shrink-0"
                   title="View sites in this category automatically moved to offline"
                 >
                   {offlineCount} offline
@@ -458,13 +459,14 @@ export default function CategoryView({
             </div>
 
             <div className="relative w-full sm:w-72">
-              <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500" />
+              <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
               <input
                 type="text"
+                inputMode="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search websites..."
-                className="w-full pl-9 pr-8 py-2 rounded-xl bg-[#0f1420] border border-[#1e2637] text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-sky-500/60 focus:bg-[#101624] transition-all font-sans font-normal"
+                placeholder="Search websites in this category..."
+                className="w-full pl-9 pr-8 py-2.5 sm:py-2 rounded-xl bg-[#0f1420] border border-[#1e2637] text-base sm:text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-sky-500/60 focus:bg-[#101624] transition-all font-sans font-normal"
               />
               {searchQuery && (
                 <button
@@ -472,7 +474,7 @@ export default function CategoryView({
                   onClick={() => setSearchQuery("")}
                   aria-label="Clear search"
                   title="Clear search"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-white/10 transition-colors cursor-pointer"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-white/10 transition-colors cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -480,11 +482,41 @@ export default function CategoryView({
             </div>
           </div>
 
+          {/* Mobile Category Switcher & Filter Pills Bar (visible only on mobile lg:hidden) */}
+          <div className="flex lg:hidden items-center justify-between gap-2 pt-0.5">
+            <button
+              type="button"
+              onClick={() => setMobileDrawerOpen(true)}
+              className="flex-1 flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#0e121d] border border-[#1c2438] text-xs font-semibold text-zinc-200 active:scale-98 transition-all cursor-pointer shadow-sm min-h-[42px]"
+            >
+              <span className="flex items-center gap-2 truncate">
+                <span className="text-sm">📂</span>
+                <span className="truncate">{activeCategory.name}</span>
+              </span>
+              <span className="text-[11px] text-sky-400 font-mono bg-sky-500/10 px-2 py-0.5 rounded-full border border-sky-500/20 shrink-0">
+                Switch ▾
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setFilterStarredOnly(!filterStarredOnly)}
+              className={`px-3 py-2.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all shrink-0 min-h-[42px] cursor-pointer ${
+                filterStarredOnly
+                  ? "bg-amber-400/15 border-amber-400/40 text-amber-300"
+                  : "bg-[#0e121d] border-[#1c2438] text-zinc-400 hover:text-zinc-200"
+              }`}
+            >
+              <span>⭐</span>
+              <span>Top Picks</span>
+            </button>
+          </div>
+
           {/* Type Filter Pills Slider Bar */}
-          <div className="relative group/pills mb-4 flex items-center">
-            {/* Left slide button with gradient fade */}
+          <div className="relative group/pills mb-3 sm:mb-4 flex items-center">
+            {/* Left slide button with gradient fade (desktop only) */}
             {canScrollLeft && (
-              <div className="absolute left-0 top-0 bottom-0 z-20 flex items-center pr-5 bg-gradient-to-r from-[#0B0C0E] via-[#0B0C0E]/95 to-transparent">
+              <div className="hidden sm:flex absolute left-0 top-0 bottom-0 z-20 items-center pr-5 bg-gradient-to-r from-[#0B0C0E] via-[#0B0C0E]/95 to-transparent">
                 <button
                   type="button"
                   onClick={() => slidePills("left")}
@@ -502,16 +534,17 @@ export default function CategoryView({
               ref={pillsRef}
               onScroll={checkPillsScroll}
               onWheel={handlePillsWheel}
-              className="flex items-center gap-1.5 overflow-x-auto pb-1.5 no-scrollbar scroll-smooth w-full select-none"
+              className="flex items-center gap-1.5 overflow-x-auto pb-1.5 no-scrollbar scroll-smooth w-full select-none px-1 sm:px-0"
               style={{
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
+                WebkitOverflowScrolling: "touch",
               }}
             >
               <button
                 type="button"
                 onClick={() => handlePillClick("all")}
-                className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${selectedPill === "all"
+                className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11.5px] sm:text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${selectedPill === "all"
                     ? "bg-white text-zinc-950 font-bold shadow-sm"
                     : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
                   }`}
@@ -526,7 +559,7 @@ export default function CategoryView({
                     key={box.id}
                     type="button"
                     onClick={() => handlePillClick(box.slug)}
-                    className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${isActive
+                    className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11.5px] sm:text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${isActive
                         ? `${ac.pillActive} font-bold shadow-sm`
                         : "bg-[#0f1420] text-zinc-400 hover:text-zinc-200 hover:bg-[#141c2c] border border-[#1e2637] font-medium"
                       }`}
@@ -543,7 +576,7 @@ export default function CategoryView({
                 <button
                   type="button"
                   onClick={() => handlePillClick("offline-sites")}
-                  className={`px-3.5 py-1.5 rounded-full text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${selectedPill === "offline-sites"
+                  className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11.5px] sm:text-[12px] font-heading whitespace-nowrap transition-colors duration-75 flex items-center gap-1.5 tracking-[-0.01em] shrink-0 cursor-pointer active:scale-95 ${selectedPill === "offline-sites"
                       ? "bg-red-500 text-white font-bold shadow-sm"
                       : "bg-red-500/10 text-red-400 hover:text-red-300 hover:bg-red-500/20 border border-red-500/30 font-medium"
                     }`}
@@ -557,9 +590,9 @@ export default function CategoryView({
               )}
             </div>
 
-            {/* Right slide button with gradient fade */}
+            {/* Right slide button with gradient fade (desktop only) */}
             {canScrollRight && (
-              <div className="absolute right-0 top-0 bottom-0 z-20 flex items-center pl-5 bg-gradient-to-l from-[#0B0C0E] via-[#0B0C0E]/95 to-transparent">
+              <div className="hidden sm:flex absolute right-0 top-0 bottom-0 z-20 items-center pl-5 bg-gradient-to-l from-[#0B0C0E] via-[#0B0C0E]/95 to-transparent">
                 <button
                   type="button"
                   onClick={() => slidePills("right")}
@@ -645,14 +678,128 @@ export default function CategoryView({
         </div>
       </div>
 
+      {/* ── MOBILE CATEGORIES & FILTERS BOTTOM SHEET / DRAWER ── */}
+      {mobileDrawerOpen && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col justify-end lg:hidden bg-black/80 backdrop-blur-md animate-fade-in"
+          onClick={() => setMobileDrawerOpen(false)}
+        >
+          <div
+            className="w-full bg-[#0D0F14] border-t border-[#1E2638] rounded-t-3xl shadow-2xl max-h-[85vh] flex flex-col overflow-hidden animate-slide-up"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              paddingBottom: "max(1.25rem, env(safe-area-inset-bottom, 1rem))",
+            }}
+          >
+            {/* Drawer Drag Pill & Header */}
+            <div className="pt-3 pb-2.5 px-4 sm:px-5 flex flex-col items-center border-b border-[#1A2030] relative shrink-0">
+              <div className="w-12 h-1.5 rounded-full bg-zinc-700/80 mb-3" />
+              <div className="w-full flex items-center justify-between">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-base shrink-0">📂</span>
+                  <span className="font-heading font-extrabold text-white text-[15px] truncate">Browse Categories</span>
+                  <span className="text-[11px] font-mono text-zinc-400 bg-[#141A28] px-2 py-0.5 rounded-full border border-[#1E2638] shrink-0">
+                    24 Categories
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setMobileDrawerOpen(false)}
+                  className="p-1.5 rounded-xl text-zinc-400 hover:text-white hover:bg-white/10 transition-colors shrink-0"
+                  aria-label="Close drawer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Quick Top Picks toggle inside Drawer */}
+            <div className="px-4 sm:px-5 py-2.5 bg-[#121622] border-b border-[#1A2030] flex items-center justify-between shrink-0">
+              <span className="text-xs font-semibold text-zinc-300 flex items-center gap-2">
+                <span>⭐</span> Show Top Picks Only
+              </span>
+              <button
+                type="button"
+                onClick={() => setFilterStarredOnly(!filterStarredOnly)}
+                className={`w-11 h-6 rounded-full transition-colors p-0.5 flex items-center cursor-pointer ${
+                  filterStarredOnly ? "bg-amber-400 justify-end" : "bg-zinc-700 justify-start"
+                }`}
+              >
+                <div className="w-5 h-5 rounded-full bg-white shadow-md" />
+              </button>
+            </div>
+
+            {/* Scrollable Category Lists */}
+            <div className="overflow-y-auto px-3.5 sm:px-4 py-3 space-y-4 no-scrollbar">
+              {/* Wiki Directory */}
+              <div>
+                <p className="text-[10.5px] font-bold text-zinc-500 uppercase tracking-wider px-1.5 mb-2 font-mono">
+                  📋 Wiki Directory
+                </p>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {FMHY_SIDEBAR_WIKI.map((item) => {
+                    const isActive = item.isCategory && activeCategory.slug === item.slug;
+                    return (
+                      <Link
+                        key={item.slug}
+                        href={item.href}
+                        prefetch={true}
+                        onClick={() => setMobileDrawerOpen(false)}
+                        className={`flex items-center gap-2 py-2 px-2.5 rounded-xl text-[12.5px] font-sans transition-all truncate min-h-[42px] ${
+                          isActive
+                            ? "bg-sky-500/20 text-sky-300 font-bold border border-sky-500/35 shadow-sm"
+                            : "bg-[#141824] text-zinc-300 hover:text-white hover:bg-[#1a2030] border border-[#1E2638]"
+                        }`}
+                      >
+                        <span className="text-sm shrink-0 select-none">{item.emoji}</span>
+                        <span className="truncate">{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Tools Directory */}
+              <div>
+                <p className="text-[10.5px] font-bold text-zinc-500 uppercase tracking-wider px-1.5 mb-2 font-mono">
+                  🔧 Tools Directory
+                </p>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {FMHY_SIDEBAR_TOOLS.map((item) => {
+                    const isActive = activeCategory.slug === item.slug;
+                    return (
+                      <Link
+                        key={item.slug}
+                        href={item.href}
+                        prefetch={true}
+                        onClick={() => setMobileDrawerOpen(false)}
+                        className={`flex items-center gap-2 py-2 px-2.5 rounded-xl text-[12.5px] font-sans transition-all truncate min-h-[42px] ${
+                          isActive
+                            ? "bg-sky-500/20 text-sky-300 font-bold border border-sky-500/35 shadow-sm"
+                            : "bg-[#141824] text-zinc-300 hover:text-white hover:bg-[#1a2030] border border-[#1E2638]"
+                        }`}
+                      >
+                        <span className="text-sm shrink-0 select-none">{item.emoji}</span>
+                        <span className="truncate">{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Back to Top */}
       {showBackToTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 p-3 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/10 shadow-xl active:scale-95 transition-all duration-150 z-40 cursor-pointer"
+          className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] right-4 sm:right-6 p-3 sm:p-3.5 rounded-2xl bg-[#141824]/90 hover:bg-[#1E2436] backdrop-blur-md text-white border border-white/15 shadow-2xl active:scale-90 transition-all duration-150 z-40 cursor-pointer"
           title="Back to Top"
+          aria-label="Back to Top"
         >
-          <ArrowUp className="w-4 h-4" />
+          <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5 text-sky-400" />
         </button>
       )}
 
@@ -710,7 +857,7 @@ function OfflineBoxWebsiteItem({ site }: { site: WebsiteEntry & { originalBoxTit
   };
 
   return (
-    <div className="flex items-center justify-between gap-2.5 py-2 px-3 rounded-xl bg-red-950/20 border border-red-500/15 hover:border-red-500/30 transition-all duration-150">
+    <div className="flex items-center justify-between gap-2.5 py-2.5 sm:py-2 px-3 rounded-xl bg-red-950/20 border border-red-500/15 hover:border-red-500/30 transition-all duration-150 min-h-[44px]">
       <div className="flex items-center gap-2.5 min-w-0 flex-1">
         <span className={`w-2 h-2 rounded-full shrink-0 ${restored ? "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" : "bg-red-500 shadow-[0_0_4px_rgba(239,68,68,0.7)]"}`} />
         <div className="min-w-0 flex-1 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2">
@@ -718,7 +865,7 @@ function OfflineBoxWebsiteItem({ site }: { site: WebsiteEntry & { originalBoxTit
             href={site.url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`text-[13px] font-sans font-medium truncate transition-colors ${restored ? "text-emerald-300" : "text-zinc-400 hover:text-white line-through hover:no-underline"}`}
+            className={`text-[13.5px] sm:text-[13px] font-sans font-medium truncate transition-colors ${restored ? "text-emerald-300" : "text-zinc-400 hover:text-white line-through hover:no-underline"}`}
             title="Attempt to open offline website in new tab"
           >
             {site.name}
@@ -739,7 +886,7 @@ function OfflineBoxWebsiteItem({ site }: { site: WebsiteEntry & { originalBoxTit
             type="button"
             onClick={handleRetest}
             disabled={testing}
-            className="p-1 rounded-md text-zinc-400 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50 cursor-pointer flex items-center gap-1 text-[11px] font-sans"
+            className="p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50 cursor-pointer flex items-center gap-1 text-[11px] font-sans"
             title="Re-test if site has come back online"
           >
             <RefreshCw className={`w-3 h-3 ${testing ? "animate-spin text-sky-400" : ""}`} />
@@ -808,7 +955,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
                 href={targetUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/link flex items-center gap-2.5 py-2 px-3 rounded-xl text-[13.5px] font-sans font-medium text-zinc-300 hover:text-white transition-all duration-150 hover:bg-white/[0.06] cursor-pointer tracking-[-0.005em]"
+                className="group/link flex items-center gap-2.5 py-2.5 sm:py-2 px-3 rounded-xl text-[14px] sm:text-[13.5px] min-h-[44px] font-sans font-medium text-zinc-300 hover:text-white transition-all duration-150 hover:bg-white/[0.06] active:bg-white/[0.1] active:scale-[0.99] cursor-pointer tracking-[-0.005em]"
               >
                 <StatusDot status={r?.status ?? "up"} />
                 {site.isStarred && (
@@ -854,7 +1001,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
           <button
             type="button"
             onClick={() => setDownOpen((v) => !v)}
-            className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 text-left cursor-pointer hover:bg-red-500/5 transition-colors"
+            className="w-full flex items-center justify-between gap-2 px-3.5 py-3 sm:py-2.5 min-h-[44px] text-left cursor-pointer hover:bg-red-500/5 active:bg-red-500/10 transition-colors"
           >
             <div className="flex items-center gap-2">
               <WifiOff className="w-3.5 h-3.5 text-red-400 shrink-0" />
@@ -881,7 +1028,7 @@ const BoxWebsiteList = React.memo(function BoxWebsiteList({ box, ac, uptimeMap }
                     href={targetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2.5 py-1.5 px-2.5 rounded-lg text-[12.5px] font-sans font-medium text-zinc-500 hover:text-red-300 transition-all duration-150 hover:bg-red-500/[0.07] cursor-pointer"
+                    className="flex items-center gap-2.5 py-2 sm:py-1.5 px-2.5 rounded-lg text-[13px] sm:text-[12.5px] min-h-[40px] font-sans font-medium text-zinc-500 hover:text-red-300 transition-all duration-150 hover:bg-red-500/[0.07] cursor-pointer"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0 opacity-70" />
                     <span className="truncate leading-none flex-1 line-through decoration-red-800/60">

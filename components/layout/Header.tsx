@@ -153,42 +153,73 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg text-[#9298A3] hover:text-[#F2F3F5] border border-[#262A30] bg-[#111316] transition-colors"
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-xl text-[#9298A3] hover:text-[#F2F3F5] border border-[#262A30] bg-[#111316] active:scale-95 transition-all cursor-pointer"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              {mobileMenuOpen ? <X className="w-4 h-4 text-white" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>
 
         {/* ── Mobile drawer ── */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-[#1E2228] bg-[#0D0F11] px-5 py-4 space-y-1 animate-fade-in">
+          <div className="md:hidden border-t border-[#1E2228] bg-[#0D0F11]/95 backdrop-blur-2xl px-4 py-3.5 space-y-2 animate-fade-in shadow-2xl">
             {/* Mobile search */}
             <button
               type="button"
               onClick={() => { setIsSearchOpen(true); setMobileMenuOpen(false); }}
-              className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[14px] font-medium text-[#9298A3] hover:text-[#F2F3F5] hover:bg-[#15181C] transition-colors"
+              className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium text-[#9298A3] hover:text-[#F2F3F5] bg-[#141820] border border-[#222838] active:scale-98 transition-all min-h-[44px] cursor-pointer"
             >
-              <Search className="w-4 h-4" />
-              Search 15,000+ resources...
+              <Search className="w-4 h-4 text-sky-400 shrink-0" />
+              <span>Search 20,000+ resources...</span>
             </button>
-            <div className="border-t border-[#1E2228] my-2" />
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[14px] font-medium text-[#F2F3F5] hover:bg-[#15181C] transition-colors"
-              >
-                <span>{link.label}</span>
-              </Link>
-            ))}
-            <div className="border-t border-[#1E2228] my-2" />
+
+            {/* Quick Categories Bar */}
+            <div className="pt-0.5">
+              <p className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider mb-1 px-1">Top Categories</p>
+              <div className="grid grid-cols-3 gap-1">
+                {[
+                  { name: "Movies & TV", slug: "video", emoji: "🎬" },
+                  { name: "AI Tools", slug: "ai", emoji: "🤖" },
+                  { name: "Privacy", slug: "privacy", emoji: "🛡️" },
+                  { name: "Gaming", slug: "gaming", emoji: "🎮" },
+                  { name: "Downloads", slug: "downloading", emoji: "💾" },
+                  { name: "Books", slug: "reading", emoji: "📚" },
+                ].map((c) => (
+                  <Link
+                    key={c.slug}
+                    href={`/categories/${c.slug}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex flex-col items-center justify-center p-1.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] active:bg-white/[0.1] border border-white/[0.06] text-center active:scale-95 transition-all min-h-[44px]"
+                  >
+                    <span className="text-sm select-none">{c.emoji}</span>
+                    <span className="text-[10.5px] font-medium text-zinc-200 mt-0.5 truncate w-full">{c.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="border-t border-[#1E2228] my-1" />
+
+            <div className="grid grid-cols-2 gap-1.5">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3 py-2.5 rounded-xl text-[13px] font-medium text-[#F2F3F5] bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.05] transition-colors min-h-[42px]"
+                >
+                  <span>{link.label}</span>
+                </Link>
+              ))}
+            </div>
+
+            <div className="border-t border-[#1E2228] my-1" />
+
             <Link
               href="/submit"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-[14px] font-bold text-[#0B0C0E] bg-[#8B7CFF] hover:bg-[#9d90ff] transition-colors"
+              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13.5px] font-bold text-[#0B0C0E] bg-[#8B7CFF] hover:bg-[#9d90ff] active:scale-98 transition-all min-h-[42px]"
             >
               + Submit a Resource
             </Link>

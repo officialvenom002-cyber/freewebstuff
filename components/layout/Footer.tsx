@@ -5,12 +5,12 @@ import { Sparkles, Shield, Heart, ExternalLink, Github, Terminal } from "lucide-
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[#262A30] bg-[#111316] pt-16 pb-10 mt-20">
+    <footer className="border-t border-[#262A30] bg-[#111316] pt-12 sm:pt-16 pb-10 mt-12 sm:mt-20">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-12 pb-12 border-b border-[#262A30]/80">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 lg:gap-12 pb-10 sm:pb-12 border-b border-[#262A30]/80">
           
           {/* Brand Col */}
-          <div className="md:col-span-2 space-y-4">
+          <div className="col-span-2 md:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2.5 group">
               <Logo className="w-8 h-8" />
               <div className="flex items-baseline gap-1.5">
@@ -25,7 +25,7 @@ export default function Footer() {
             <p className="text-sm text-content-muted leading-relaxed max-w-sm">
               A curated, privacy-first directory and search engine for useful websites, software, developer utilities, AI models, and community tools.
             </p>
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center gap-2.5 sm:gap-3 pt-1 flex-wrap">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-surface-secondary text-content-secondary border border-surface-border">
                 <Shield className="w-3.5 h-3.5 text-emerald-400" />
                 Community Verified
@@ -40,38 +40,37 @@ export default function Footer() {
           {/* Directory Links */}
           <div className="space-y-3.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary font-mono">Directory</h4>
-            <ul className="space-y-2.5 text-sm text-content-muted">
-              <li><Link href="/search" className="hover:text-brand-400 transition-colors">Explore All Tools</Link></li>
-              <li><Link href="/categories" className="hover:text-brand-400 transition-colors">Categories</Link></li>
-              <li><Link href="/collections" className="hover:text-brand-400 transition-colors">Curated Collections</Link></li>
-              <li><Link href="/trending" className="hover:text-brand-400 transition-colors">Trending Tools</Link></li>
-              <li><Link href="/new" className="hover:text-brand-400 transition-colors">Recently Added</Link></li>
-              <li><Link href="/categories/offline" className="hover:text-red-400 transition-colors flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-red-400"></span><span>Offline Directory</span></Link></li>
+            <ul className="space-y-2 text-sm text-content-muted">
+              <li><Link href="/search" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Explore All Tools</Link></li>
+              <li><Link href="/categories" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Categories</Link></li>
+              <li><Link href="/collections" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Collections</Link></li>
+              <li><Link href="/trending" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Trending Tools</Link></li>
+              <li><Link href="/new" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Recently Added</Link></li>
+              <li><Link href="/categories/offline" className="hover:text-red-400 transition-colors py-0.5 flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-red-400"></span><span>Offline Directory</span></Link></li>
             </ul>
           </div>
 
           {/* Community & Moderation */}
           <div className="space-y-3.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary font-mono">Community</h4>
-            <ul className="space-y-2.5 text-sm text-content-muted">
-              <li><a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Telegram</a></li>
-              <li><a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors flex items-center gap-1">Join Discord</a></li>
-              <li><Link href="/donate" className="hover:text-pink-400 transition-colors flex items-center gap-1.5"><Heart className="w-3.5 h-3.5 fill-pink-500/30 text-pink-400" /><span>Donate &amp; Support</span></Link></li>
-              <li><Link href="/submit" className="hover:text-brand-400 transition-colors">Submit a Resource</Link></li>
-              <li><Link href="/report" className="hover:text-brand-400 transition-colors">Report Broken Link</Link></li>
-              <li><Link href="/guidelines" className="hover:text-brand-400 transition-colors">Inclusion Guidelines</Link></li>
-              <li><Link href="/adminshobhit" className="hover:text-brand-400 transition-colors flex items-center gap-1">Admin Panel</Link></li>
+            <ul className="space-y-2 text-sm text-content-muted">
+              <li><a href="https://t.me/+N7tYaUKT2q44NGU1" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors py-0.5 flex items-center gap-1">Join Telegram</a></li>
+              <li><a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="hover:text-brand-400 transition-colors py-0.5 flex items-center gap-1">Join Discord</a></li>
+              <li><Link href="/donate" className="hover:text-pink-400 transition-colors py-0.5 flex items-center gap-1.5"><Heart className="w-3.5 h-3.5 fill-pink-500/30 text-pink-400" /><span>Donate</span></Link></li>
+              <li><Link href="/submit" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Submit Link</Link></li>
+              <li><Link href="/report" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Report Link</Link></li>
+              <li><Link href="/guidelines" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Guidelines</Link></li>
             </ul>
           </div>
 
           {/* Legal & Policy */}
-          <div className="space-y-3.5">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary font-mono">Legal & Safety</h4>
-            <ul className="space-y-2.5 text-sm text-content-muted">
-              <li><Link href="/terms" className="hover:text-brand-400 transition-colors">Terms of Service</Link></li>
-              <li><Link href="/privacy" className="hover:text-brand-400 transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms#indexing-disclaimer" className="hover:text-brand-400 transition-colors">Indexing Disclaimer</Link></li>
-              <li><Link href="/report" className="hover:text-brand-400 transition-colors">Takedown Requests</Link></li>
+          <div className="col-span-2 sm:col-span-1 space-y-3.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-content-secondary font-mono">Legal</h4>
+            <ul className="space-y-2 text-sm text-content-muted">
+              <li><Link href="/terms" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Privacy Policy</Link></li>
+              <li><Link href="/terms#indexing-disclaimer" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Disclaimer</Link></li>
+              <li><Link href="/report" className="hover:text-brand-400 transition-colors py-0.5 inline-block">Takedown</Link></li>
             </ul>
           </div>
 

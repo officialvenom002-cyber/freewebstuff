@@ -915,40 +915,43 @@ button {
   }
 
   .brand-name {
-    display: none;
+    display: inline-block;
+    font-size: 13.5px;
+    letter-spacing: 0.04em;
   }
 
   .logo {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
   }
 
   .search {
     flex: 1;
     width: auto;
-    min-width: 90px;
-    max-width: 180px;
+    min-width: 80px;
+    max-width: 170px;
   }
 
   .nav-inner {
     gap: 8px;
-    width: calc(100% - 20px);
+    width: calc(100% - 16px);
   }
 
   .hero {
-    width: calc(100% - 20px);
-    padding: 14px 0 6px;
+    width: calc(100% - 16px);
+    padding: 12px 0 6px;
     gap: 10px;
   }
 
   .hero-title {
-    font-size: clamp(26px, 7.5vw, 34px);
+    font-size: clamp(24px, 7vw, 32px);
     letter-spacing: -0.02em;
   }
 
   .hero-description {
     font-size: 13.5px;
     margin-top: 4px;
+    padding: 0 4px;
   }
 
   .hero-actions {
@@ -957,25 +960,27 @@ button {
   }
 
   .btn {
-    height: 36px;
+    height: 38px;
     padding: 0 14px;
     font-size: 12.5px;
     border-radius: 9px;
   }
 
   .hero-visual {
-    min-height: 140px;
-    transform: scale(0.72);
+    min-height: 130px;
+    max-width: 100vw;
+    overflow: hidden;
+    transform: scale(0.68);
     margin: -25px 0 -15px;
   }
 
   .categories {
-    width: calc(100% - 20px);
-    padding-bottom: 40px;
+    width: calc(100% - 16px);
+    padding-bottom: 30px;
   }
 
   .section-heading {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .section-heading h2 {
@@ -984,13 +989,52 @@ button {
 
   .category-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .category-card {
-    min-height: 150px;
-    padding: 18px 18px;
+    min-height: 140px;
+    padding: 14px 14px;
   }
+}
+
+@media (max-width: 380px) {
+  .brand-name {
+    display: none;
+  }
+}
+
+/* iOS Safari prevent auto-zoom on input focus */
+@media (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+/* Safe area insets for mobile edge-to-edge screens */
+@supports (padding: max(0px)) {
+  .navbar, header {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+  footer {
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ─────────────── SMOOTH ANIMATION KEYFRAMES & UTILITIES ─────────────── */
