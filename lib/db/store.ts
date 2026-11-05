@@ -105,7 +105,7 @@ export function getCategoriesWithCounts(): (Category & { resourceCount: number }
 }
 
 export function getAllResources(): Resource[] {
-  return [...resources];
+  return resources;
 }
 
 export function getResourceBySlug(slug: string): Resource | undefined {

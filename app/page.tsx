@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Logo from "@/components/ui/Logo";
 import SearchModal from "@/components/search/SearchModal";
 import SearchToggle from "@/components/search/SearchToggle";
@@ -19,6 +20,8 @@ import {
 } from "lucide-react";
 
 export default function HomePage() {
+  const router = useRouter();
+  const [heroQuery, setHeroQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [ecosystemOpen, setEcosystemOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -75,22 +78,22 @@ export default function HomePage() {
               </span>
             </Link>
 
-            <SearchToggle
-              onClick={() => setIsSearchOpen(true)}
-              placeholder="Search..."
-              className="flex-1 max-w-[130px] xs:max-w-[175px] sm:max-w-[210px] md:w-52"
-            />
+            {/* Search Bar on PC / Desktop Top Navigation */}
+            <div className="hidden md:flex items-center">
+              <SearchToggle
+                onClick={() => setIsSearchOpen(true)}
+                placeholder="Search anything..."
+                className="md:w-56 lg:w-64"
+              />
+            </div>
+
+            
           </div>
 
           <div className="nav-right">
 
             <nav className="nav-links flex items-center gap-6 sm:gap-7">
-              <Link 
-                href="/donate" 
-                className="text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap flex items-center gap-1.5"
-              >
-                <span>Support</span>
-              </Link>
+              
               <Link 
                 href="/beginners-guide" 
                 className="text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap flex items-center gap-1.5"
@@ -103,6 +106,14 @@ export default function HomePage() {
                 className="text-[13.5px] sm:text-[14px] font-medium tracking-[0.01em] text-slate-300 hover:text-white transition-colors duration-150 py-1 whitespace-nowrap"
               >
                 Trending
+              </Link>
+              <Link 
+                href="/support" 
+                className="text-[13px] sm:text-[13.5px] font-semibold tracking-[0.01em] text-rose-300 hover:text-white bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/25 px-2.5 py-1 rounded-lg transition-all duration-150 whitespace-nowrap flex items-center gap-1.5 group active:scale-95 shadow-sm"
+                title="Support FreeWebStuff"
+              >
+                <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400/30 group-hover:scale-110 transition-transform" />
+                <span>Support</span>
               </Link>
 
               {/* Explore More Dropdown */}
@@ -308,14 +319,8 @@ export default function HomePage() {
 
           <div className="hero-content">
 
-
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/25 text-sky-400 text-xs sm:text-sm font-semibold mb-3 hero-action-anim">
-              <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-              <span>FreeWebStuff (freewebstuff.site) — Official Free Directory</span>
-            </div>
-
             <h1 className="hero-title hero-title-anim">
-              <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">
+              <span className="hero-gradient-text">
                 Everything Free,
                 <br />
                 All in One Place.
@@ -327,7 +332,7 @@ export default function HomePage() {
             </p>
 
             <div className="hero-actions hero-action-anim flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
-              <Link href="/support" className="btn btn-secondary flex items-center gap-1.5 border-[#2D313A] hover:border-[#424856] bg-[#15171C] hover:bg-[#1C1F26] text-[#E2E4E8]">
+              <Link href="/support" className="btn btn-secondary flex items-center gap-1.5">
                 <Heart className="w-3.5 h-3.5 text-rose-500" />
                 <span>Support</span>
               </Link>
@@ -348,6 +353,40 @@ export default function HomePage() {
               <a href="https://discord.gg/mHpBcYJHM" target="_blank" rel="noopener noreferrer" className="btn btn-secondary flex items-center gap-1.5 border-[#5865F2]/40 hover:border-[#5865F2] hover:bg-[#5865F2]/10">
                 <span className="text-[#5865F2]">🎮</span> Join Discord
               </a>
+            </div>
+
+            {/* ── Full Length Centered Search Bar (Below Support & Discord actions) ── */}
+            <div className="w-full mt-5 md:hidden">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const trimmed = heroQuery.trim();
+                  if (trimmed) {
+                    router.push(`/search?q=${encodeURIComponent(trimmed)}`);
+                  } else {
+                    router.push('/search');
+                  }
+                }}
+                className="relative group rounded-2xl p-1 bg-gradient-to-r from-sky-500/25 via-indigo-500/25 to-purple-500/25 shadow-[0_10px_35px_rgba(0,0,0,0.5)] transition-all focus-within:from-sky-500/60 focus-within:to-indigo-500/60"
+              >
+                <div className="flex items-center gap-3 px-4 py-3 sm:py-3.5 rounded-xl bg-[#0F1420] border border-[#20293D] group-hover:border-sky-500/40 transition-colors hero-mobile-search-inner">
+                  <Search className="w-5 h-5 text-sky-400 shrink-0" />
+                  <input
+                    type="text"
+                    value={heroQuery}
+                    onChange={(e) => setHeroQuery(e.target.value)}
+                    placeholder="Search anything (e.g. 'movies dekhna hai', 'photoshop', 'video download')..."
+                    className="w-full bg-transparent text-white placeholder:text-zinc-500 text-sm sm:text-base font-medium outline-none font-sans hero-mobile-search-input"
+                  />
+                  <button
+                    type="submit"
+                    className="px-4 sm:px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-black font-bold text-xs sm:text-sm transition-all shadow-md shrink-0 cursor-pointer active:scale-95 flex items-center gap-1.5 font-sans"
+                  >
+                    <span>Search anything</span>
+                    <span>→</span>
+                  </button>
+                </div>
+              </form>
             </div>
 
           </div>
@@ -375,7 +414,7 @@ export default function HomePage() {
         <section className="categories max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-10" id="categories">
 
           <div className="section-heading text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-heading font-extrabold tracking-tight">
               Browse Curated Categories ✨
             </h2>
             <p className="text-xs sm:text-sm text-slate-400 mt-2 max-w-xl mx-auto">
@@ -386,59 +425,6 @@ export default function HomePage() {
           {/* Minimalist Card Grid with tool counts and accent styling */}
           <CategoryGrid />
 
-        </section>
-
-        {/* BRAND AUTHORITY & FAQ SECTION (Crucial for Google SERP Top-1 Ranking) */}
-        <section className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-14 border-t border-[#22252C]" id="about-faq">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold mb-3">
-              <span>FAQ &amp; About</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              About FreeWebStuff (freewebstuff.site)
-            </h2>
-            <p className="text-sm text-slate-400 mt-2 max-w-2xl mx-auto">
-              Everything you need to know about the internet&apos;s largest free software and verified tools directory.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="p-5 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-sky-500/40 transition-colors">
-              <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
-                <span className="text-sky-400">⚡</span> What is FreeWebStuff (freewebstuff.site)?
-              </h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                FreeWebStuff is a free, community-curated directory indexing over 20,000+ verified free web tools, open-source software, streaming platforms, AI assistants, and developer resources inspired by FMHY.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-sky-500/40 transition-colors">
-              <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
-                <span className="text-emerald-400">🛡️</span> Is everything completely free to use?
-              </h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Yes! Every link, app, and resource on FreeWebStuff is verified as 100% free to use, open-source (FOSS), or offers a genuine free tier with no hidden paywalls or surprise charges.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-sky-500/40 transition-colors">
-              <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
-                <span className="text-purple-400">🔒</span> Do I need to create an account?
-              </h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                No sign-up or credit card is ever required. FreeWebStuff is an open directory designed for instant discovery. All links are direct and clean.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-[#111317] border border-[#22252C] hover:border-sky-500/40 transition-colors">
-              <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
-                <span className="text-amber-400">🔄</span> How often is the directory updated?
-              </h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Our database is updated daily with fresh community discoveries, and automated health checks run continuously to detect and flag dead links or mirrors.
-              </p>
-            </div>
-          </div>
         </section>
 
       </main>

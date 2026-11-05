@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useUptimeChecker, SiteResult, setSiteHealthOverride } from "@/hooks/useUptimeChecker";
 import { Category, Resource } from "@/lib/types";
+import { analyzeSearchQuery } from "@/lib/search/intentMatcher";
 
 const FMHY_SIDEBAR_WIKI = [
   { slug: "beginners-guide", name: "Quick Start", emoji: "📖", isPage: true, href: "/beginners-guide" },
@@ -169,6 +170,16 @@ export default function CategoryView({
     }
   };
 
+  useEffect(() => {
+    const handleSelectBox = (e: any) => {
+      if (e?.detail?.slug) {
+        handlePillClick(e.detail.slug);
+      }
+    };
+    window.addEventListener("select-category-box", handleSelectBox as EventListener);
+    return () => window.removeEventListener("select-category-box", handleSelectBox as EventListener);
+  }, []);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStarredOnly, setFilterStarredOnly] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -277,12 +288,52 @@ export default function CategoryView({
       }
     }
 
+    const analysis = q ? analyzeSearchQuery(q) : null;
+
     return orderedBoxes
       .map((box) => {
         if (!filterStarredOnly && !q) return box;
         let websites = box.websites;
         if (filterStarredOnly) websites = websites.filter((w) => w.isStarred);
-        if (q) websites = websites.filter((w) => w.name.toLowerCase().includes(q) || box.title.toLowerCase().includes(q));
+        if (q && analysis) {
+          const boxTitleLower = box.title.toLowerCase();
+          const boxTaglineLower = (box.tagline || "").toLowerCase();
+
+          if (analysis.isSpecificKeyword) {
+            // Specific keyword search: Match strictly on website name, url, or box title
+            const kw = analysis.normalizedQuery;
+            websites = websites.filter(
+              (w) =>
+                w.name.toLowerCase().includes(kw) ||
+                w.url.toLowerCase().includes(kw) ||
+                boxTitleLower.includes(kw)
+            );
+          } else {
+            // Topic / Intent / Multilingual / "What it does" search
+            const tokens = q.split(/[\s,+/_-]+/).filter((t) => t.length > 1);
+            const boxMatchesIntent =
+              analysis.expandedTerms.some((term) => boxTitleLower.includes(term) || boxTaglineLower.includes(term)) ||
+              analysis.matchedIntents.some((intent) =>
+                intent.boxKeywords.some((bk) => boxTitleLower.includes(bk.toLowerCase()))
+              );
+
+            websites = websites.filter((w) => {
+              const nameLower = w.name.toLowerCase();
+              const urlLower = w.url.toLowerCase();
+
+              // Token direct match
+              if (tokens.some((t) => nameLower.includes(t) || urlLower.includes(t))) return true;
+
+              // Expanded intent terms match
+              if (analysis.expandedTerms.some((term) => nameLower.includes(term))) return true;
+
+              // If the box itself covers the searched topic/intent, keep its tools (prioritizing starred)
+              if (boxMatchesIntent) return true;
+
+              return false;
+            });
+          }
+        }
         return { ...box, websites };
       })
       .filter((box): box is TypedBox => box !== null && (box.websites.length > 0 || (!filterStarredOnly && !q)));
@@ -303,7 +354,7 @@ export default function CategoryView({
   return (
     <div className="flex flex-col min-h-screen">
 
-      <div className="flex gap-3 xl:gap-4 flex-1 max-w-[1880px] mx-auto w-full px-2.5 sm:px-4 xl:px-5 py-4">
+      <div className="flex gap-4 xl:gap-5 flex-1 max-w-[1880px] mx-auto w-full px-3 sm:px-5 xl:px-6 pt-5 sm:pt-6 pb-12">
 
         {/* ── LEFT SIDEBAR ── */}
         <aside className="w-52 xl:w-56 shrink-0 hidden lg:flex flex-col gap-3 sticky top-20 z-10 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar pb-4">
