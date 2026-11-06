@@ -104,6 +104,60 @@ const nextConfig = {
           },
         ],
       },
+      // SEO endpoints: cached at Cloudflare for 7 days (prevents bot crawl spikes)
+      {
+        source: "/:path(sitemap\\.xml|robots\\.txt|manifest\\.webmanifest)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, s-maxage=604800, stale-while-revalidate=604800",
+          },
+          {
+            key: "CDN-Cache-Control",
+            value: "public, s-maxage=604800, stale-while-revalidate=604800",
+          },
+          {
+            key: "Cloudflare-CDN-Cache-Control",
+            value: "public, s-maxage=604800, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      // Individual Resource Pages: Long-term cache (7d Vercel edge + 30d Cloudflare)
+      {
+        source: "/resource/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000",
+          },
+          {
+            key: "CDN-Cache-Control",
+            value: "public, s-maxage=604800, stale-while-revalidate=2592000",
+          },
+          {
+            key: "Cloudflare-CDN-Cache-Control",
+            value: "public, s-maxage=2592000, stale-while-revalidate=2592000",
+          },
+        ],
+      },
+      // Category pages: Long-term cache (7d Vercel edge + 30d Cloudflare)
+      {
+        source: "/categories/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, s-maxage=604800, stale-while-revalidate=2592000",
+          },
+          {
+            key: "CDN-Cache-Control",
+            value: "public, s-maxage=604800, stale-while-revalidate=2592000",
+          },
+          {
+            key: "Cloudflare-CDN-Cache-Control",
+            value: "public, s-maxage=2592000, stale-while-revalidate=2592000",
+          },
+        ],
+      },
       // Content pages: Long-lived edge cache (24h Vercel edge + 7d Cloudflare + 7d stale revalidate)
       {
         source: "/((?!api/|data/|_next/static|_next/image|favicon|logo|images|shobhitadmin|adminshobhit|support|donate|sw\\.js|service-worker\\.js).*)",

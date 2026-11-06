@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export const runtime = 'edge';
-export const revalidate = 86400;
+export const dynamic = 'force-static';
 
 export async function GET() {
   return NextResponse.json(

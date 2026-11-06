@@ -26,7 +26,8 @@ import {
 } from 'lucide-react';
 
 export const dynamic = 'force-static';
-export const revalidate = 86400;
+export const dynamic = 'force-static';
+export const revalidate = false;
 
 export const metadata: Metadata = {
   title: 'Support FreeWebStuff — Keep Free Knowledge & Tools Alive',

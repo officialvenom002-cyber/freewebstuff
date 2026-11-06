@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { getCategoriesWithCounts } from "@/lib/db/store";
 
 
-export const revalidate = 86400;
+export const dynamic = "force-static";
+export const revalidate = false;
 
 export async function GET() {
   const categories = getCategoriesWithCounts();

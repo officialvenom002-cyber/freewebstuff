@@ -1,6 +1,8 @@
 import { MetadataRoute } from "next";
 import { getAllCategories, getAllResources, getAllCollections } from "@/lib/db/store";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://freewebstuff.site";
   const now = new Date();

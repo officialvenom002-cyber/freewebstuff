@@ -24,10 +24,11 @@ import {
   MousePointerClick
 } from "lucide-react";
 
-// ISR: revalidate all resource pages every hour — no full rebuild needed
-export const revalidate = 86400;
+// Static generation: cache permanently — zero ISR revalidation writes
+export const dynamic = "force-static";
+export const revalidate = false;
 
-// Allow on-demand ISR for any slug not in generateStaticParams
+// Allow on-demand generation for any slug not in generateStaticParams
 export const dynamicParams = true;
 
 interface ResourcePageProps {

@@ -76,8 +76,9 @@ const iconMap: Record<string, React.ElementType> = {
   Sparkles
 };
 
-// ISR: revalidate category list + counts every hour
-export const revalidate = 86400;
+// Static generation: zero ISR writes
+export const dynamic = "force-static";
+export const revalidate = false;
 
 export const metadata = {
   title: "All Categories | FreeWebStuff Directory",

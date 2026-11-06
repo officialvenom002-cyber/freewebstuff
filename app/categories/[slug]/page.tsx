@@ -6,6 +6,9 @@ import CategoryView from "@/components/categories/CategoryView";
 import { buildTypedBoxes, TypedBox, PrivacySection } from "@/lib/categories/boxExtractor";
 import { getPrecomputedBoxesForCategory } from "@/lib/categories/serverBoxLoader";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 interface CategoryPageProps {
   params: { slug: string };
   searchParams?: { sub?: string; sort?: string };
@@ -72,10 +75,6 @@ export async function generateMetadata({ params }: CategoryPageProps) {
       },
     },
   };
-}
-
-interface CategoryPageProps {
-  params: { slug: string };
 }
 
 export default function CategoryPage({ params }: CategoryPageProps) {

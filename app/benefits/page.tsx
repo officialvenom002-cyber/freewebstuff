@@ -3,7 +3,7 @@ import Link from 'next/link';
 import JsonLd from '@/components/JsonLd';
 
 export const dynamic = 'force-static';
-export const revalidate = 86400;
+export const revalidate = false;
 
 export const metadata: Metadata = {
   title: 'Supporter Benefits & Website Listing Privileges — FreeWebStuff',

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getSiteCustomizations } from "@/lib/db/siteConfig";
 
-export const revalidate = 3600;
+export const dynamic = "force-static";
+export const revalidate = false;
 
 export async function GET() {
   const config = getSiteCustomizations();
