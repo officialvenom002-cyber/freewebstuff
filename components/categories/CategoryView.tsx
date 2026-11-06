@@ -163,7 +163,8 @@ export default function CategoryView({
     });
     const container = document.getElementById("category-boxes-container");
     if (container) {
-      const targetTop = container.getBoundingClientRect().top + window.scrollY - 120;
+      const isMobile = window.innerWidth < 768;
+      const targetTop = container.getBoundingClientRect().top + window.scrollY - (isMobile ? 180 : 130);
       if (window.scrollY > targetTop) {
         window.scrollTo({ top: targetTop, behavior: "smooth" });
       }
@@ -448,7 +449,7 @@ export default function CategoryView({
           </div>
 
           {/* ── STICKY TOP CATEGORY CONTROLS & FILTER PILLS BAR ── */}
-          <div className="sticky top-[60px] z-30 bg-[#0B0C0E]/95 backdrop-blur-xl border-b border-[#1b2130]/80 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.85)] -mx-2.5 px-2.5 sm:-mx-4 sm:px-4 xl:-mx-5 xl:px-5 pt-2 pb-2 space-y-2">
+          <div className="sticky top-[88px] md:top-[60px] z-30 bg-[#0B0C0E]/95 backdrop-blur-xl border-b border-[#1b2130]/80 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.85)] -mx-3 px-3 sm:-mx-4 sm:px-4 xl:-mx-5 xl:px-5 pt-2 pb-2 space-y-2">
             {/* Desktop Top Bar with Breadcrumb and Search */}
             <div className="hidden sm:flex sm:items-center justify-between gap-3">
               <div className="flex items-center gap-2 flex-wrap min-w-0">

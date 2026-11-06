@@ -76,7 +76,8 @@ export default function Header() {
     window.dispatchEvent(new CustomEvent("select-category-box", { detail: { slug } }));
     const el = document.getElementById(slug);
     if (el) {
-      const headerOffset = 80;
+      const isMobile = window.innerWidth < 768;
+      const headerOffset = isMobile ? 150 : 80;
       const elementPosition = el.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({
         top: Math.max(0, elementPosition - headerOffset),
@@ -88,14 +89,14 @@ export default function Header() {
   return (
     <>
       <header
-        className="sticky top-0 z-40 w-full transition-all duration-300"
+        className="sticky top-0 z-40 w-full transition-all duration-300 overflow-x-clip"
         style={{
           background: scrolled
-            ? "rgba(11,12,14,0.92)"
-            : "linear-gradient(180deg, rgba(11,12,14,0.88) 0%, rgba(11,12,14,0.70) 70%, rgba(11,12,14,0.50) 100%)",
+            ? "rgba(11,12,14,0.95)"
+            : "linear-gradient(180deg, rgba(11,12,14,0.92) 0%, rgba(11,12,14,0.78) 70%, rgba(11,12,14,0.55) 100%)",
           backdropFilter: scrolled ? "blur(20px) saturate(150%)" : "blur(16px) saturate(140%)",
           WebkitBackdropFilter: scrolled ? "blur(20px) saturate(150%)" : "blur(16px) saturate(140%)",
-          borderBottom: isCategoryPage ? "1px solid rgba(255,255,255,0.05)" : "none",
+          borderBottom: isCategoryPage ? "1px solid rgba(255,255,255,0.06)" : "none",
           boxShadow: scrolled
             ? "0 14px 38px -8px rgba(0,0,0,0.85), 0 6px 16px -2px rgba(0,0,0,0.5)"
             : "0 10px 30px -10px rgba(0,0,0,0.7), 0 4px 12px -2px rgba(0,0,0,0.4)",
@@ -104,39 +105,39 @@ export default function Header() {
         <div
           className={`${
             isCategoryPage
-              ? "w-full px-4 sm:px-6 lg:px-8"
-              : "max-w-[1160px] mx-auto px-5 sm:px-8"
-          } h-[60px] flex items-center justify-between gap-4`}
+              ? "w-full px-2.5 sm:px-6 lg:px-8"
+              : "max-w-[1160px] mx-auto px-3 sm:px-8"
+          } h-[52px] sm:h-[60px] flex items-center justify-between gap-1.5 sm:gap-4 max-w-full`}
         >
-          {/* ── Left Group: Brand Logo & Name + Space + Borderless Home Toggle ── */}
-          <div className="flex items-center gap-4 sm:gap-6 shrink-0">
+          {/* ── Left Group: Brand Logo & Name + Borderless Home Toggle ── */}
+          <div className="flex items-center gap-1.5 sm:gap-4 shrink-0 min-w-0">
             <Link
               href="/"
               prefetch={true}
-              className="flex items-center gap-2 group shrink-0"
+              className="flex items-center gap-1.5 group shrink-0"
               title="FreeWebStuff"
             >
-              <Logo className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="font-heading font-black text-[15px] sm:text-[16px] tracking-[-0.02em] text-[#F2F3F5] group-hover:text-[#8B7CFF] transition-colors duration-200">
+              <Logo className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
+              <span className="font-heading font-black text-[13.5px] sm:text-[15px] md:text-[16px] tracking-tight text-[#F2F3F5] group-hover:text-[#8B7CFF] transition-colors truncate">
                 FREEWEBSTUFF
               </span>
             </Link>
 
-            {/* Borderless Home button, blending smoothly with navigation bar */}
+            {/* Borderless Home button - compact & elegant on mobile */}
             <Link
               href="/"
               prefetch={true}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12.5px] font-medium text-zinc-300 hover:text-white bg-transparent hover:bg-white/[0.06] active:bg-white/[0.1] transition-all shrink-0 active:scale-95 cursor-pointer"
+              className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg sm:rounded-xl text-[11px] sm:text-[12.5px] font-medium text-zinc-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] active:bg-white/[0.12] transition-all shrink-0 active:scale-95 cursor-pointer"
               title="Back to Homepage"
             >
-              <Home className="w-3.5 h-3.5 text-sky-400" />
-              <span>Home</span>
+              <Home className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+              <span className="hidden xs:inline">Home</span>
             </Link>
           </div>
 
-          {/* ── Center: 4-5 Category Shortcuts (Completely borderless, blending with navbar color) ── */}
+          {/* ── Center: 4-5 Category Shortcuts (Desktop only) ── */}
           {isCategoryPage ? (
-            <div className="hidden md:flex flex-1 items-center justify-center gap-1.5 lg:gap-2 mx-auto max-w-3xl px-2">
+            <div className="hidden md:flex flex-1 items-center justify-center gap-1.5 lg:gap-2 mx-auto max-w-2xl px-2">
               {shortcuts.map((sc) => (
                 <button
                   key={sc.slug}
@@ -180,23 +181,19 @@ export default function Header() {
             </nav>
           )}
 
-          {/* ── Right Actions: Borderless Search Toggle + Menu ── */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Search anything toggle - borderless, blending seamlessly */}
+          {/* ── Right Actions: Search Toggle + Menu ── */}
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            {/* Search toggle - compact and responsive, zero horizontal overflow */}
             <button
               type="button"
               onClick={() => setIsSearchOpen(true)}
               aria-label="Open search"
-              className={`flex items-center justify-between gap-2.5 h-9 sm:h-10 px-3.5 rounded-xl text-zinc-400 hover:text-zinc-100 bg-white/[0.04] hover:bg-white/[0.08] active:bg-white/[0.1] transition-all ${
-                isCategoryPage
-                  ? "w-40 xs:w-48 sm:w-56 md:w-64"
-                  : "w-36 xs:w-44 sm:w-52 md:w-60"
-              } shrink-0 group cursor-pointer`}
+              className="flex items-center justify-between gap-1.5 h-8 sm:h-9 px-2 sm:px-3 rounded-lg sm:rounded-xl text-zinc-400 hover:text-zinc-100 bg-white/[0.04] hover:bg-white/[0.08] active:bg-white/[0.1] transition-all w-auto max-w-[100px] xs:max-w-[130px] sm:max-w-none sm:w-52 md:w-60 shrink-0 group cursor-pointer"
             >
-              <div className="flex items-center gap-2 min-w-0">
-                <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="text-[12.5px] font-medium text-zinc-300 group-hover:text-white truncate">
-                  Search anything
+              <div className="flex items-center gap-1.5 min-w-0">
+                <Search className="w-3.5 h-3.5 text-sky-400 shrink-0 group-hover:scale-110 transition-transform" />
+                <span className="text-[11.5px] sm:text-[12.5px] font-medium text-zinc-300 group-hover:text-white truncate">
+                  Search
                 </span>
               </div>
               <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono text-zinc-400 bg-white/[0.06] px-1.5 py-0.5 rounded-md shrink-0">
@@ -204,39 +201,50 @@ export default function Header() {
               </kbd>
             </button>
 
-            {/* Submit (shown on non-category pages) */}
+            {/* Submit (shown on non-category pages on tablet+) */}
             {!isCategoryPage && (
               <Link
                 href="/submit"
                 prefetch={true}
-                className="hidden xs:inline-flex items-center justify-center h-8 px-3 sm:px-4 rounded-lg text-[12px] sm:text-[12.5px] font-bold tracking-tight transition-all duration-150 active:scale-95 shrink-0"
+                className="hidden sm:inline-flex items-center justify-center h-8 px-3 rounded-lg text-[12px] font-bold tracking-tight transition-all duration-150 active:scale-95 shrink-0"
                 style={{
                   background: "#8B7CFF",
                   color: "#0B0C0E",
                   boxShadow: "0 1px 8px rgba(139,124,255,0.3)",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "#9d90ff";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "#8B7CFF";
                 }}
               >
                 Submit
               </Link>
             )}
 
-            {/* Mobile hamburger - borderless */}
+            {/* Mobile hamburger - borderless & compact */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden w-9 h-9 flex items-center justify-center rounded-xl text-[#9298A3] hover:text-[#F2F3F5] bg-transparent hover:bg-white/[0.06] active:scale-95 transition-all cursor-pointer"
+              className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white bg-transparent hover:bg-white/[0.06] active:bg-white/[0.1] active:scale-95 transition-all shrink-0 cursor-pointer"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-4 h-4 text-white" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>
+
+        {/* ── Category Quick Toggles Strip (Mobile category pages only) ── */}
+        {isCategoryPage && shortcuts.length > 0 && (
+          <div className="md:hidden w-full border-t border-white/[0.05] bg-[#0A0C10]/95 px-2 py-1.5 overflow-x-auto no-scrollbar flex items-center gap-1.5 select-none scroll-smooth">
+            {shortcuts.map((sc) => (
+              <button
+                key={sc.slug}
+                type="button"
+                onClick={() => handleShortcutClick(sc.slug, sc.href)}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium text-zinc-300 active:text-white bg-white/[0.04] active:bg-white/[0.1] border border-white/[0.05] whitespace-nowrap shrink-0 active:scale-95 transition-all"
+              >
+                {sc.emoji && <span className="text-[12px] leading-none select-none">{sc.emoji}</span>}
+                <span>{sc.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* ── Mobile drawer ── */}
         {mobileMenuOpen && (
