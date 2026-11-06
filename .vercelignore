@@ -1,0 +1,18 @@
+# Development scripts and CLI runners
+scripts/
+data/raw/
+*.tmp
+*.log
+*.tsbuildinfo
+
+# Documentation
+BRAIN.md
+AGENTS.md
+*.code-workspace
+
+# System / Git
+.git
+.github
+.vscode
+.gemini
+C:/Users/

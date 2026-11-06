@@ -10,7 +10,7 @@ export async function GET() {
     lastUpdated: config.lastUpdated,
   }, {
     headers: {
-      "Cache-Control": "public, s-maxage=10, stale-while-revalidate=30",
+      "Cache-Control": "public, max-age=300, s-maxage=1800, stale-while-revalidate=3600",
     },
   });
 }

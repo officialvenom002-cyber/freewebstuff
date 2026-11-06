@@ -29,7 +29,7 @@ export default function LiveUserPresence({ className = "", compact = false }: Li
     };
 
     pingLiveUser();
-    const interval = setInterval(pingLiveUser, 60000); // 60s heartbeat
+    const interval = setInterval(pingLiveUser, 180000); // 3-minute heartbeat (conserves requests)
 
     const handleVisibilityChange = () => {
       if (!document.hidden) {

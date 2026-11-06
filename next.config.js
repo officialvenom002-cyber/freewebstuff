@@ -68,58 +68,57 @@ const nextConfig = {
           },
         ],
       },
-      // Root homepage: no-store for verification and instant updates
+      // Root homepage: cached at edge for 24h, Cloudflare 7 days, browser 120s
       {
         source: "/",
         headers: [
           {
             key: "Cache-Control",
-            value: "no-cache, no-store, max-age=0, must-revalidate",
+            value: "public, max-age=120, s-maxage=86400, stale-while-revalidate=604800",
           },
           {
             key: "CDN-Cache-Control",
-            value: "no-store",
+            value: "public, s-maxage=86400, stale-while-revalidate=604800",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "no-store",
+            value: "public, s-maxage=604800, stale-while-revalidate=604800",
           },
         ],
       },
-      // JSON data vaults: Smart background auto-revalidation (zero manual Cloudflare purge)
-      // Edge caches for 5 min, instantly serves stale while background-refreshing latest FMHY data
+      // JSON data vaults: Cache at edge & Cloudflare for 7 days (saves gigabytes of Fast Origin Transfer)
       {
         source: "/data/:path*",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=300, stale-while-revalidate=86400",
+            value: "public, max-age=3600, s-maxage=604800, stale-while-revalidate=604800",
           },
           {
             key: "CDN-Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=86400",
+            value: "public, s-maxage=604800, stale-while-revalidate=604800",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=86400",
+            value: "public, s-maxage=604800, stale-while-revalidate=604800",
           },
         ],
       },
-      // Content pages: Smart background auto-revalidation (5 min edge cache + 24h stale revalidate)
+      // Content pages: Long-lived edge cache (24h Vercel edge + 7d Cloudflare + 7d stale revalidate)
       {
         source: "/((?!api/|data/|_next/static|_next/image|favicon|logo|images|shobhitadmin|adminshobhit|support|donate|sw\\.js|service-worker\\.js).*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=300, stale-while-revalidate=86400",
+            value: "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800",
           },
           {
             key: "CDN-Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=86400",
+            value: "public, s-maxage=86400, stale-while-revalidate=604800",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=86400",
+            value: "public, s-maxage=604800, stale-while-revalidate=604800",
           },
         ],
       },
@@ -129,15 +128,15 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=300, stale-while-revalidate=86400",
+            value: "public, max-age=60, s-maxage=86400, stale-while-revalidate=604800",
           },
           {
             key: "CDN-Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=86400",
+            value: "public, s-maxage=86400, stale-while-revalidate=604800",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=86400",
+            value: "public, s-maxage=604800, stale-while-revalidate=604800",
           },
         ],
       },

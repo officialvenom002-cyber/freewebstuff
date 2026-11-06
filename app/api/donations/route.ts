@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getDonations, saveDonation, updateDonation, type Donation } from '@/lib/donations';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8741338089:AAHTpVcV1teL3c-XUMSOLJPX1FoadkPSoAg';
 
@@ -11,7 +11,7 @@ export async function GET() {
     const donations = all.filter((d) => d.status === 'approved' || d.status === 'verified');
     return NextResponse.json({ donations }, {
       headers: {
-        'Cache-Control': 'public, max-age=60, s-maxage=300',
+        'Cache-Control': 'public, max-age=120, stale-while-revalidate=300',
       }
     });
   } catch (err) {

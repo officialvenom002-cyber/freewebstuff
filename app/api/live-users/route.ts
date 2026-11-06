@@ -43,9 +43,9 @@ export async function GET(req: NextRequest) {
     },
     {
       headers: {
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
-        "CDN-Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
-        "Cloudflare-CDN-Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+        "Cache-Control": "public, max-age=120, s-maxage=300, stale-while-revalidate=600",
+        "CDN-Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "Cloudflare-CDN-Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
       },
     }
   );
