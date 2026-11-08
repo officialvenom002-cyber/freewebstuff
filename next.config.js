@@ -50,21 +50,21 @@ const nextConfig = {
   // ─── HTTP Headers ────────────────────────────────────────────────────────────
   async headers() {
     return [
-      // Root homepage: cached at edge for 24h, Cloudflare 7 days, browser 120s
+      // Root homepage: fresh delivery, Cloudflare revalidates every 60s
       {
         source: "/",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=120, s-maxage=86400, stale-while-revalidate=604800",
+            value: "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=86400",
           },
           {
             key: "CDN-Cache-Control",
-            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+            value: "public, s-maxage=60, stale-while-revalidate=86400",
           },
           {
             key: "Cloudflare-CDN-Cache-Control",
-            value: "public, s-maxage=604800, stale-while-revalidate=604800",
+            value: "public, s-maxage=60, stale-while-revalidate=86400",
           },
         ],
       },
