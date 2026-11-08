@@ -328,7 +328,7 @@ export default function HomePage() {
             </h1>
 
             <p className="hero-description hero-desc-anim">
-              The official <strong>FreeWebStuff</strong> directory (freewebstuff.site). Curating 20,000+ verified free web tools, open-source software, streaming platforms, AI assistants, and developer vaults. Inspired by FMHY.
+              Curating 20,000+ verified free web tools, open-source software, and media vaults — inspired by FMHY.
             </p>
 
             <div className="hero-actions hero-action-anim flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
