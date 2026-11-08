@@ -2,6 +2,9 @@ import React from "react";
 import Link from "next/link";
 import { ShieldCheck, Check, X, AlertTriangle } from "lucide-react";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "Inclusion Guidelines & Safety Standards | FreeWebStuff",
   description: "Standards and policies for verifying, indexing, and moderating external software and website links.",

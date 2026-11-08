@@ -7,6 +7,10 @@ import ResourceCard from "@/components/resources/ResourceCard";
 import { ArrowLeft, Layers, Sparkles, Bot, Code2, ShieldCheck, CheckSquare } from "lucide-react";
 
 
+export const dynamic = "force-static";
+export const revalidate = false;
+export const dynamicParams = false;
+
 interface CollectionPageProps {
   params: { slug: string };
 }

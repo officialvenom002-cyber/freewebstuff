@@ -1,5 +1,8 @@
 import React from "react";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "Privacy Policy | FreeWebStuff",
   description: "Privacy-first architecture, zero tracking policies, and local data storage details.",

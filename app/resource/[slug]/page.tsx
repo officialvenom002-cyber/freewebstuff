@@ -24,22 +24,13 @@ import {
   MousePointerClick
 } from "lucide-react";
 
-// Static generation: cache permanently — zero ISR revalidation writes
-export const dynamic = "force-static";
-export const revalidate = false;
-
-// Allow on-demand generation for any slug not in generateStaticParams
-export const dynamicParams = true;
+// Render dynamically on demand as a standard serverless function — zero Vercel ISR writes.
+// Cloudflare edge caches the response for 30 days via headers in next.config.js.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 interface ResourcePageProps {
   params: { slug: string };
-}
-
-export async function generateStaticParams() {
-  const { getAllResources } = await import("@/lib/db/store");
-  // Pre-render top 50 resources at build time for instant deployment.
-  // dynamicParams=true generates all other 15,000+ resources on-demand with ISR cache.
-  return getAllResources().slice(0, 50).map((r) => ({ slug: r.slug }));
 }
 
 export async function generateMetadata({ params }: ResourcePageProps) {

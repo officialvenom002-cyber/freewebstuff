@@ -1,5 +1,8 @@
 import React from "react";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "Terms of Service & Indexing Disclaimer | FreeWebStuff",
   description: "Terms of service, directory indexing disclaimer, and copyright notices.",

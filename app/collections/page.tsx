@@ -3,6 +3,9 @@ import Link from "next/link";
 import { getAllCollections, getAllResources } from "@/lib/db/store";
 import { Layers, Sparkles, ArrowRight, Bot, Code2, ShieldCheck, CheckSquare } from "lucide-react";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "Curated Collections | FreeWebStuff Directory",
   description: "Thematic collections of the best free software, AI assistants, developer utilities, and privacy tools.",

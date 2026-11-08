@@ -3,6 +3,9 @@ import OfflineDirectoryClient from "./OfflineDirectoryClient";
 import fs from "fs";
 import path from "path";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "Offline & Inactive Websites Directory 2026 — FreeWebStuff",
   description: "Real-time automated registry of websites, tools, and resources that are currently offline, unreachable, or dead across all 23 categories.",

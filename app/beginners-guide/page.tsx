@@ -21,6 +21,9 @@ import {
   ExternalLink,
 } from "lucide-react";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "Quick Start — FreeWebStuff",
   description:

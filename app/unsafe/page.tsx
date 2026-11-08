@@ -2,6 +2,9 @@ import React from "react";
 import Link from "next/link";
 import { ShieldOff, AlertTriangle, Shield } from "lucide-react";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "Unsafe Sites — FreeWebStuff SafeGuard",
   description: "Sites flagged for malware, trackers, deceptive practices, or security issues.",

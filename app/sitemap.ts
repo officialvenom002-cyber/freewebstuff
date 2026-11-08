@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getAllCategories, getAllResources, getAllCollections } from "@/lib/db/store";
+import { getAllCategories, getAllCollections } from "@/lib/db/store";
 
 export const dynamic = "force-static";
 
@@ -28,13 +28,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  const resourcePages: MetadataRoute.Sitemap = getAllResources().map((res) => ({
-    url: `${baseUrl}/resource/${res.slug}`,
-    lastModified: new Date(res.updatedAt || res.createdAt),
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
-
   const collectionPages: MetadataRoute.Sitemap = getAllCollections().map((col) => ({
     url: `${baseUrl}/collections/${col.slug}`,
     lastModified: now,
@@ -42,5 +35,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  return [...staticPages, ...categoryPages, ...resourcePages, ...collectionPages];
+  return [...staticPages, ...categoryPages, ...collectionPages];
 }

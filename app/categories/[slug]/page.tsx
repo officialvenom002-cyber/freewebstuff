@@ -8,6 +8,7 @@ import { getPrecomputedBoxesForCategory } from "@/lib/categories/serverBoxLoader
 
 export const dynamic = "force-static";
 export const revalidate = false;
+export const dynamicParams = false;
 
 interface CategoryPageProps {
   params: { slug: string };

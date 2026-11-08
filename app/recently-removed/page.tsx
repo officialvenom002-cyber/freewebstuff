@@ -2,6 +2,9 @@ import React from "react";
 import Link from "next/link";
 import { Trash2, AlertTriangle, ExternalLink, Search } from "lucide-react";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "Recently Removed — FreeWebStuff",
   description: "Transparent log of resources removed from FreeWebStuff with reasons and alternatives.",

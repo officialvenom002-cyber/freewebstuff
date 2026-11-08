@@ -4,6 +4,9 @@ import ResourceCard from "@/components/resources/ResourceCard";
 import { Clock, PlusCircle, Sparkles } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "Recently Added Resources | FreeWebStuff",
   description: "Freshly approved and indexed websites, software, and tools submitted by the community.",
