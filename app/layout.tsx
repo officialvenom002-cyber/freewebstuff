@@ -5,7 +5,6 @@ import Script from "next/script";
 import ClientLayout from "@/components/layout/ClientLayout";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MonetagGuardian from "@/components/ads/MonetagGuardian";
-import AdScripts from "@/components/ads/AdScripts";
 import { generateWebSiteSchema } from "@/lib/seo/schema";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -110,9 +109,6 @@ export const metadata: Metadata = {
     icon: "/favicon.png",
     apple: "/logo.png",
   },
-  other: {
-    "profiton-domain-verification": "dafcd0cc567b32a5c2edfa4c4ca9c91a4322c37c2ef03b6cb1545adbb8a5921f",
-  },
 };
 
 export default function RootLayout({
@@ -129,8 +125,6 @@ export default function RootLayout({
       className={`dark ${jakarta.variable} ${mono.variable}`}
     >
       <head>
-        <meta name="profiton-domain-verification" content="dafcd0cc567b32a5c2edfa4c4ca9c91a4322c37c2ef03b6cb1545adbb8a5921f" />
-        {/* High-speed CDN preconnect for maximum fill rate & low latency CPM */}
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-3T4ZJ0VR0G"
@@ -174,7 +168,6 @@ export default function RootLayout({
           <div className="orb orb-3" />
         </div>
         <GoogleAnalytics />
-        <AdScripts />
         <MonetagGuardian />
         <ClientLayout>{children}</ClientLayout>
       </body>

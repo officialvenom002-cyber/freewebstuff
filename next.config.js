@@ -50,24 +50,6 @@ const nextConfig = {
   // ─── HTTP Headers ────────────────────────────────────────────────────────────
   async headers() {
     return [
-      // Verification files & TXT roots: instant delivery, zero cache
-      {
-        source: "/:path(pftn.*\\.txt|0a15.*\\.txt|profiton.*\\.txt)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "no-store, no-cache, must-revalidate, max-age=0, s-maxage=0",
-          },
-          {
-            key: "CDN-Cache-Control",
-            value: "no-store",
-          },
-          {
-            key: "Cloudflare-CDN-Cache-Control",
-            value: "no-store",
-          },
-        ],
-      },
       // Root homepage: cached at edge for 24h, Cloudflare 7 days, browser 120s
       {
         source: "/",
